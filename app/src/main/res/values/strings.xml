@@ -1,0 +1,15 @@
+<resources>
+    <string name="app_name">TomicsAndroidAppClone</string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="free_webtoon">나만무료</string>
+    <string name="serialize">연재</string>
+    <string name="top_hundred">TOP100</string>
+    <string name="ended_webtoon">완결</string>
+    <string name="one_cut">뜨는한컷</string>
+    <string name="hot">Hot!</string>
+    <string name="signup">회원가입</string>
+
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="signup_text">로그인하여 \n더 많은 정보를 확인해보세요</string>
+    <string name="login">로그인</string>
+</resources>

@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string-array name="news_frgament_array">
+        <item>종합</item>
+        <item>정치</item>
+        <item>경제</item>
+        <item>사회</item>
+        <item>문화</item>
+        <item>세계</item>
+        <item>IT/과학</item>
+    </string-array>
+</resources>
