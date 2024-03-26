@@ -2,6 +2,6 @@
 <resources>
     <color name="black">#FF000000</color>
     <color name="white">#FFFFFFFF</color>
-    <color name="tomics_red_color">#AF4032</color>
-    <color name="test">#18ABD8</color>
+    <color name="tomics_red">#AF4032</color>
+    <color name="tomics_gray">#F5F5F5</color>
 </resources>

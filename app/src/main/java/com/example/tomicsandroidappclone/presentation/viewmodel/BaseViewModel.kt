@@ -1,38 +1,29 @@
 package com.example.tomicsandroidappclone.presentation.viewmodel
 
-
-import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
+import com.example.tomicsandroidappclone.data.repository.WebtoonRepositoryImpl
+import com.example.tomicsandroidappclone.domain.entity.ToonResponse
+import com.example.tomicsandroidappclone.domain.entity.Webtoon
+import com.example.tomicsandroidappclone.domain.repository.WebtoonRepository
+import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.launch
+import javax.inject.Inject
 
+@HiltViewModel
+class BaseViewModel @Inject constructor(
+    private val webtoonRepository: WebtoonRepository
+): ViewModel() {
+    val webtoonInfo = MutableLiveData<ToonResponse>() // webtoon 전체 정보
+    val webtoonsAllInfo = MutableLiveData<ToonResponse>()
+    val webtoons = MutableLiveData<List<Webtoon>>()
+    fun fetchWebtoons() {
+        viewModelScope.launch {
+            val webtoonResult = webtoonRepository.getWebtoon(1, 3, "naver", "sun")
 
-class BaseViewModel :ViewModel(){
-    private var _height = MutableLiveData<Int>()
+            webtoonInfo.value = webtoonResult
 
-    val height: LiveData<Int>
-        get() = _height
-
-    init {
-        _height.value = 170
-    }
-
-    fun increase() {
-        _height.value = _height.value?.plus(1)
-    }
-
-
-    /*// 생성자에서 초기 아이콘 설정하기
-    fun MyViewModel() {
-        searchIcon.set(ContextCompat.getDrawable(context, R.drawable.search_icon))
-    }
-
-    // 검색 아이콘 변경 메서드 (예: 버튼 클릭 이벤트)
-    fun toggleSearch() {
-        isSearchEnabled.set(!isSearchEnabled.get())
-        if (isSearchEnabled.get()) {
-            searchIcon.set(ContextCompat.getDrawable(context, R.drawable.search_icon))
-        } else {
-            searchIcon.set(ContextCompat.getDrawable(context, R.drawable.search_disabled_icon))
         }
-    }*/
+    }
 }

@@ -47,7 +47,6 @@ dependencies {
     val paging_version = "3.2.1"
     val hilt_version = "2.51"
     val retrofit2_version = "2.9.0"
-
     // hilt
     implementation("com.google.dagger:hilt-android:$hilt_version")
     kapt("com.google.dagger:hilt-android-compiler:$hilt_version")
@@ -58,6 +57,9 @@ dependencies {
 
     // paging3
     implementation ("androidx.paging:paging-runtime:$paging_version")
+
+    // glide
+    implementation ("com.github.bumptech.glide:glide:4.12.0")
 
     // defalut
     implementation(libs.androidx.core.ktx)
