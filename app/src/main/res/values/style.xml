@@ -1,8 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-<style name="AppTheme" parent="Theme.AppCompat.NoActionBar">
-    <item name="android:windowDrawsSystemBarBackgrounds">true</item>
-    <item name="android:statusBarColor">#33000000</item>
-</style>
-
+    <style name="AppTheme" parent="Theme.AppCompat.NoActionBar">
+        <item name="android:windowDrawsSystemBarBackgrounds">true</item>
+        <item name="android:statusBarColor">#33000000</item>
+    </style>
+    <!-- Tab Layout Text Style Setting -->
+    <style name="tab_text" parent="TextAppearance.Design.Tab">
+        <item name="android:textSize">14sp</item>
+        <item name="android:textStyle">normal</item>
+    </style>
 </resources>

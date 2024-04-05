@@ -1,39 +1,46 @@
 package com.example.tomicsandroidappclone.presentation.Adapter
 
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.ViewGroup
-import androidx.core.net.toUri
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
-import com.example.tomicsandroidappclone.databinding.ViewpagerItemBinding
+import com.example.tomicsandroidappclone.R
+import com.example.tomicsandroidappclone.databinding.TopToonItemsBinding
 import com.example.tomicsandroidappclone.domain.entity.Webtoon
 
-class MainViewPagerAdapter : ListAdapter<Webtoon, MainViewPagerAdapter.ViewHolder>(ItemCallback()) {
-
+class TopSlideAdapter(
+    private val webtoonList: ArrayList<Webtoon>
+) : ListAdapter<Webtoon, TopSlideAdapter.ViewHolder>(ItemCallback()) {
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
-        val binding =
-            ViewpagerItemBinding.inflate(LayoutInflater.from(parent.context), parent, false)
+        val binding = TopToonItemsBinding.inflate(LayoutInflater.from(parent.context), parent, false)
         return ViewHolder(binding)
     }
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
-        // position에 따른 현재 설정된 리스트의 데이터 참조
-        holder.bind(currentList[position]) // LiveData 객체이며 데이터 목록이 변경되면 업데이트 됨.
+        holder.bind(webtoonList[position])
     }
 
-    inner class ViewHolder(private val binding: ViewpagerItemBinding) :
+    inner class ViewHolder(private val binding: TopToonItemsBinding) :
         RecyclerView.ViewHolder(binding.root) {
         fun bind(webtoon: Webtoon) {
-            Glide.with(binding.ivWebtoon.context).load(webtoon.img.toUri()).into(binding.ivWebtoon)
+            Log.d("TAG", "ViewPagerAdapter bind 실행")
+            Log.d("TAG", "ViewPagerAdapter bind 데이터 체크 : " + webtoon.img)
+
+            Glide.with(binding.root.context)
+                .load(webtoon.img)
+                .placeholder(R.drawable.ic_launcher_foreground) // image 로드를 못 했을 경우
+                .into(binding.ivWebtoon)
+            Log.d("TAG", "bind: 이미지")
         }
     }
 
     override fun getItemCount(): Int {
-        return super.getItemCount()
+        Log.d("Adapter getItem TAG", "ViewPage getItemCount 실행")
+        return 7
     }
-
     override fun onViewAttachedToWindow(holder: ViewHolder) {
         super.onViewAttachedToWindow(holder)
 
@@ -41,6 +48,7 @@ class MainViewPagerAdapter : ListAdapter<Webtoon, MainViewPagerAdapter.ViewHolde
 
     override fun onDetachedFromRecyclerView(recyclerView: RecyclerView) {
         super.onDetachedFromRecyclerView(recyclerView)
+
     }
 
     class ItemCallback : DiffUtil.ItemCallback<Webtoon>() {

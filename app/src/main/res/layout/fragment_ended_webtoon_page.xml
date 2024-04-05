@@ -4,10 +4,10 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".presentation.fragment.SerializePageFragment">
+    tools:context=".presentation.fragment.EndedWebtoonPageFragment">
 
     <com.google.android.material.tabs.TabLayout
-        android:id="@+id/tl_serialize_webtoon"
+        android:id="@+id/tl_ended_webtoon"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:elevation="1dp"
@@ -17,7 +17,7 @@
         app:tabMode="scrollable"
         app:tabSelectedTextColor="@color/tomics_red"
         app:tabTextAppearance="@style/tab_text"
-        app:tabTextColor="@color/black" >
+        app:tabTextColor="@color/black">
 
     </com.google.android.material.tabs.TabLayout>
 

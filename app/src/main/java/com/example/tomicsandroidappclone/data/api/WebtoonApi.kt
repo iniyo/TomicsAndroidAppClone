@@ -24,5 +24,4 @@ interface WebtoonApi {
         @Query("keyword") keyword: String
     ): ToonResponse
 
-
 }

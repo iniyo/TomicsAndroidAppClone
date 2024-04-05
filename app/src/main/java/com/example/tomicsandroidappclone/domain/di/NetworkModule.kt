@@ -1,15 +1,14 @@
 package com.example.tomicsandroidappclone.domain.di
 
+import com.example.tomicsandroidappclone.BuildConfig
 import com.example.tomicsandroidappclone.data.api.WebtoonApi
 import dagger.Module
 import dagger.Provides
-import dagger.hilt.EntryPoint
 import dagger.hilt.InstallIn
 import dagger.hilt.components.SingletonComponent
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 import javax.inject.Singleton
-
 // NetworkModule.kt
 // Binds랑 Provides 어노테이션은 같이 쓰면 안됨.
 @Module
@@ -24,7 +23,7 @@ object NetworkModule {
         // Retrofit 빌더를 사용하여 Retrofit 인스턴스를 생성
         // 빌더에 기본 URL, JSON 변환달아줌
         return Retrofit.Builder()
-            .baseUrl("https://korea-webtoon-api.herokuapp.com/")
+            .baseUrl(BuildConfig.WEBTOON_API_URL)
             .addConverterFactory(GsonConverterFactory.create())
             .build()
     }

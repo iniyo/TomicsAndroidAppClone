@@ -1,3 +1,9 @@
+// localProperties에서 값 읽어오기
+import java.util.Properties
+import java.io.FileInputStream
+var properties = Properties()
+properties.load(FileInputStream("local.properties"))
+
 plugins {
     alias(libs.plugins.androidApplication)
     alias(libs.plugins.jetbrainsKotlinAndroid)
@@ -6,12 +12,14 @@ plugins {
 }
 
 android {
+
     namespace = "com.example.tomicsandroidappclone"
     compileSdk = 34
 
     buildFeatures {
         dataBinding = true
         viewBinding = true
+        buildConfig = true
     }
 
     defaultConfig {
@@ -22,6 +30,8 @@ android {
         versionName = "1.0"
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
+
+        buildConfigField("String", "WEBTOON_API_URL", properties.getProperty("WEBTOON_API_URL"))
     }
 
     buildTypes {
@@ -47,6 +57,7 @@ dependencies {
     val paging_version = "3.2.1"
     val hilt_version = "2.51"
     val retrofit2_version = "2.9.0"
+
     // hilt
     implementation("com.google.dagger:hilt-android:$hilt_version")
     kapt("com.google.dagger:hilt-android-compiler:$hilt_version")
@@ -59,7 +70,19 @@ dependencies {
     implementation ("androidx.paging:paging-runtime:$paging_version")
 
     // glide
-    implementation ("com.github.bumptech.glide:glide:4.12.0")
+    implementation ("com.github.bumptech.glide:glide:4.16.0")
+
+    // coil
+    implementation("io.coil-kt:coil-compose:2.6.0")
+
+    // corutine
+    implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:1.7.1")
+
+    // picasso
+    implementation("com.squareup.picasso:picasso:2.71828")
+
+    // view model
+    implementation("androidx.lifecycle:lifecycle-viewmodel-ktx:2.7.0")
 
     // defalut
     implementation(libs.androidx.core.ktx)
@@ -74,3 +97,4 @@ dependencies {
 kapt {
     correctErrorTypes = true
 }
+

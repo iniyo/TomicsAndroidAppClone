@@ -4,7 +4,6 @@
     xmlns:tools="http://schemas.android.com/tools">
 
     <data>
-
         <variable
             name="viewModel"
             type="com.example.tomicsandroidappclone.presentation.viewmodel.BaseViewModel" />
@@ -27,7 +26,7 @@
             android:orientation="horizontal">
 
             <RelativeLayout
-                android:id="@+id/rl_add_container"
+                android:id="@+id/rl_ad_container"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content">
 
@@ -51,8 +50,9 @@
             <LinearLayout
                 android:id="@+id/ll_top_container"
                 android:layout_width="match_parent"
-                android:layout_below="@+id/rl_add_container"
                 android:layout_height="wrap_content"
+                android:layout_alignParentTop="true"
+                android:layout_marginTop="0dp"
                 android:background="@color/white"
                 android:orientation="vertical"
                 android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"
@@ -129,21 +129,23 @@
                             android:textSize="16sp" />
 
                         <View
+                            android:id="@+id/v_free_webtoon_under_color_bar"
                             android:layout_width="match_parent"
                             android:layout_height="3dp"
                             android:layout_alignParentBottom="true"
-                            android:background="@color/white" />
+                            android:background="@drawable/selector_tab_main_under" />
 
                     </RelativeLayout>
 
                     <Space
                         android:layout_width="30dp"
-                        android:layout_height="match_parent"/>
+                        android:layout_height="match_parent" />
+
                     <RelativeLayout
                         android:id="@+id/rl_serialize"
                         android:layout_width="30dp"
-                        android:layout_toEndOf="@+id/rl_free_webtoon"
-                        android:layout_height="match_parent">
+                        android:layout_height="match_parent"
+                        android:layout_toEndOf="@+id/rl_free_webtoon">
 
                         <TextView
                             android:id="@+id/tv_serialize"
@@ -155,6 +157,7 @@
                             android:textSize="16sp" />
 
                         <View
+                            android:id="@+id/v_serialize_under_color_bar"
                             android:layout_width="match_parent"
                             android:layout_height="3dp"
                             android:layout_alignParentBottom="true"
@@ -163,12 +166,13 @@
 
                     <Space
                         android:layout_width="30dp"
-                        android:layout_height="match_parent"/>
+                        android:layout_height="match_parent" />
+
                     <RelativeLayout
                         android:id="@+id/rl_top_hundred"
                         android:layout_width="60dp"
-                        android:layout_toEndOf="@+id/rl_serialize"
-                        android:layout_height="match_parent">
+                        android:layout_height="match_parent"
+                        android:layout_toEndOf="@+id/rl_serialize">
 
                         <TextView
                             android:id="@+id/tv_top_hundred"
@@ -178,15 +182,18 @@
                             android:text="@string/top_hundred"
                             android:textColor="@color/black"
                             android:textSize="16sp" />
+
                         <View
                             android:layout_width="match_parent"
-                            android:layout_alignParentBottom="true"
                             android:layout_height="3dp"
+                            android:layout_alignParentBottom="true"
                             android:background="@color/white" />
                     </RelativeLayout>
+
                     <Space
                         android:layout_width="30dp"
-                        android:layout_height="match_parent"/>
+                        android:layout_height="match_parent" />
+
                     <RelativeLayout
                         android:id="@+id/rl_ended_webtoon"
                         android:layout_width="30dp"
@@ -201,28 +208,31 @@
                             android:text="@string/ended_webtoon"
                             android:textColor="@color/black"
                             android:textSize="16sp" />
+
                         <View
                             android:layout_width="match_parent"
-                            android:layout_alignParentBottom="true"
                             android:layout_height="3dp"
+                            android:layout_alignParentBottom="true"
                             android:background="@color/white" />
                     </RelativeLayout>
+
                     <Space
                         android:layout_width="30dp"
-                        android:layout_height="match_parent"/>
+                        android:layout_height="match_parent" />
+
                     <RelativeLayout
-                        android:layout_toEndOf="@+id/rl_ended_webtoon"
+                        android:id="@+id/rl_hot_webtoon"
                         android:layout_width="60dp"
                         android:layout_height="match_parent"
-                        android:paddingTop="6dp"
-                        android:orientation="vertical">
+                        android:orientation="vertical"
+                        android:paddingTop="6dp">
 
                         <ImageView
                             android:id="@+id/iv_hot"
-                            android:paddingEnd="3dp"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_alignParentEnd="true"
+                            android:paddingEnd="3dp"
                             android:src="@drawable/icon_hot_27x16" />
 
                         <TextView
@@ -236,8 +246,8 @@
 
                         <View
                             android:layout_width="match_parent"
-                            android:layout_alignParentBottom="true"
                             android:layout_height="3dp"
+                            android:layout_alignParentBottom="true"
                             android:background="@color/white" />
                     </RelativeLayout>
 
@@ -249,15 +259,14 @@
             <androidx.fragment.app.FragmentContainerView
                 android:id="@+id/fcv_main"
                 android:layout_below="@+id/ll_top_container"
-                android:name="com.example.tomicsandroidappclone.presentation.fragment.MainPageFragment"
+                android:name="com.example.tomicsandroidappclone.presentation.fragment.MainWebtoonPageFragment"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_alignParentBottom="true" />
 
 
         </RelativeLayout>
-
-       <!-- <include android:id="@+id/activity_drawer" layout="@layout/activity_drawer"/>-->
+        <include android:id="@+id/activity_drawer" layout="@layout/activity_drawer"/>
 
     </androidx.drawerlayout.widget.DrawerLayout>
 

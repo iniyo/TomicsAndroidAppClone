@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string-array name="array_free_webtoon">
+    <string-array name="free_webtoon_tab_items">
         <item>전체</item>
         <item>학원/액션</item>
         <item>판타지</item>
@@ -12,7 +12,7 @@
         <item>공포/스릴러</item>
         <item>BL</item>
     </string-array>
-    <string-array name="array_serialize">
+    <string-array name="serialize_tab_items">
         <item>신작</item>
         <item>월</item>
         <item>화</item>
@@ -22,19 +22,19 @@
         <item>토</item>
         <item>일</item>
     </string-array>
-    <string-array name="array_top_hundred">
+    <string-array name="top_webtoon_items">
         <item>실시간</item>
         <item>신작</item>
         <item>주간</item>
         <item>월간</item>
         <item>장르</item>
     </string-array>
-    <string-array name="array_ended_webtoon">
+    <string-array name="ended_webtoon_items">
         <item>최고 인기순</item>
         <item>최신 완결순</item>
         <item>장르</item>
     </string-array>
-    <string-array name="array_one_cut">
+    <string-array name="hot_webtoon_items">
         <item>뜨는 한 컷</item>
         <item>뜨는 캐릭터</item>
     </string-array>
