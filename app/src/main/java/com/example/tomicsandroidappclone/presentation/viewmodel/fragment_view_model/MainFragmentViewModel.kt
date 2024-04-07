@@ -1,4 +1,4 @@
-package com.example.tomicsandroidappclone.presentation.viewmodel
+package com.example.tomicsandroidappclone.presentation.viewmodel.fragment_view_model
 
 import android.util.Log
 import androidx.lifecycle.LiveData

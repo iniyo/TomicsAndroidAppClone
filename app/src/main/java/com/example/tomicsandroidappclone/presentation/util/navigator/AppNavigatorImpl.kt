@@ -15,7 +15,7 @@
  */
 
 
-package com.example.tomicsandroidappclone.presentation.navigator
+package com.example.tomicsandroidappclone.presentation.util.navigator
 import androidx.fragment.app.FragmentActivity
 import com.example.tomicsandroidappclone.R
 import com.example.tomicsandroidappclone.presentation.fragment.*

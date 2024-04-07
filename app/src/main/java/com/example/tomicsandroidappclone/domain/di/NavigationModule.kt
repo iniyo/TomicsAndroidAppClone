@@ -1,7 +1,7 @@
 package com.example.tomicsandroidappclone.domain.di
 
-import com.example.tomicsandroidappclone.presentation.navigator.AppNavigator
-import com.example.tomicsandroidappclone.presentation.navigator.AppNavigatorImpl
+import com.example.tomicsandroidappclone.presentation.util.navigator.AppNavigator
+import com.example.tomicsandroidappclone.presentation.util.navigator.AppNavigatorImpl
 import dagger.Binds
 import dagger.Module
 import dagger.hilt.InstallIn

@@ -8,12 +8,15 @@ import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
+import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.tomicsandroidappclone.R
 import com.example.tomicsandroidappclone.databinding.FragmentMainPageBinding
-import com.example.tomicsandroidappclone.presentation.Adapter.MainPageAdapter
-import com.example.tomicsandroidappclone.presentation.viewmodel.MainFragmentViewModel
+import com.example.tomicsandroidappclone.presentation.adapter.MainPageAdapter
+import com.example.tomicsandroidappclone.presentation.viewmodel.fragment_view_model.MainFragmentViewModel
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.Job
+import kotlinx.coroutines.delay
 
 @AndroidEntryPoint
 class MainWebtoonPageFragment : Fragment() {

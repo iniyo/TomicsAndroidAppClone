@@ -1,4 +1,4 @@
-package com.example.tomicsandroidappclone.presentation.viewmodel
+package com.example.tomicsandroidappclone.presentation.viewmodel.activity_view_model
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData

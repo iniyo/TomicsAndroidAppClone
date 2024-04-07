@@ -1,18 +1,18 @@
-package com.example.tomicsandroidappclone.presentation.base
+package com.example.tomicsandroidappclone.presentation.activity
 
 
 import android.os.Bundle
+import android.util.Log
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.GravityCompat
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.ViewModelProvider
 import com.example.tomicsandroidappclone.R
 import com.example.tomicsandroidappclone.databinding.ActivityMainBinding
-import com.example.tomicsandroidappclone.presentation.navigator.AppNavigator
-import com.example.tomicsandroidappclone.presentation.navigator.MainFragments
-import com.example.tomicsandroidappclone.presentation.viewmodel.BaseViewModel
+import com.example.tomicsandroidappclone.presentation.util.navigator.AppNavigator
+import com.example.tomicsandroidappclone.presentation.util.navigator.MainFragments
+import com.example.tomicsandroidappclone.presentation.viewmodel.activity_view_model.BaseViewModel
 import dagger.hilt.android.AndroidEntryPoint
-import okio.blackholeSink
 import javax.inject.Inject
 
 
@@ -68,16 +68,16 @@ class BaseActivity : AppCompatActivity() {
 
     override fun onStart() {
         super.onStart()
-
+        Log.d("TAG", "Activity Start ")
     }
 
     override fun onStop() {
         super.onStop()
-
+        Log.d("TAG", "Activity Stop ")
     }
 
     override fun onResume() {
         super.onResume()
-
+        Log.d("TAG", "Activity Resume ")
     }
 }

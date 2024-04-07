@@ -1,4 +1,4 @@
-package com.example.tomicsandroidappclone.presentation.navigator
+package com.example.tomicsandroidappclone.presentation.util.navigator
 
 /**
  * Available screens.

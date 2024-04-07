@@ -1,38 +1,27 @@
-package com.example.tomicsandroidappclone.presentation.Adapter
+package com.example.tomicsandroidappclone.presentation.adapter
 
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.DiffUtil
+import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
-import com.bumptech.glide.Glide
-import com.example.tomicsandroidappclone.R
-import com.example.tomicsandroidappclone.databinding.PopularityToonItemsSubBinding
+import com.example.tomicsandroidappclone.databinding.PopularityToonItemsBinding
 import com.example.tomicsandroidappclone.domain.entity.Webtoon
 
-class SubPopularityItemAdapter(
+class PopularityToonAdapter(
     private val webtoonList: ArrayList<Webtoon>
-) : ListAdapter<Webtoon, SubPopularityItemAdapter.ViewHolder>(ItemCallback()) {
+) : ListAdapter<Webtoon, PopularityToonAdapter.ViewHolder>(ItemCallback()) {
 
-    inner class ViewHolder(val binding: PopularityToonItemsSubBinding) :
+    inner class ViewHolder(val binding: PopularityToonItemsBinding) :
         RecyclerView.ViewHolder(binding.root) {
-        fun bind(webtoon: Webtoon, position: Int) {
+        fun bind(webtoon: Webtoon) {
+            Log.d("TAG", "MainPopularityToonAdapter bind 실행")
+            Log.d("TAG", "MainPopularityToonAdapter bind 데이터 체크 : " + webtoon.img)
 
-            Log.d("TAG", "SubPopularityItemAdapter bind 실행")
-            Log.d("TAG", "SubPopularityItemAdapter bind 데이터 체크 : " + webtoon.img)
-
-
-            Glide.with(binding.root.context)
-                .load(webtoon.img)
-                .placeholder(R.drawable.ic_launcher_foreground) // image 로드를 못 했을 경우
-                .into(binding.ivPopularity)
-            binding.tvTag1.text = "복수"
-            binding.tvTag2.text = "먼치킨"
-            binding.tvTag3.text = "생존"
-            binding.tvToonName.text = webtoon.title
-            binding.tvToonRank.text = position.inc().toString()
-            Log.d("TAG", "SubPopularityItemAdapter bind: 이미지")
+            initPopularityList(binding)
+            Log.d("TAG", "MainPopularityToonAdapter bind: 이미지")
         }
     }
 
@@ -40,7 +29,7 @@ class SubPopularityItemAdapter(
         parent: ViewGroup,
         viewType: Int
     ): ViewHolder {
-        val binding = PopularityToonItemsSubBinding.inflate(
+        val binding = PopularityToonItemsBinding.inflate(
             LayoutInflater.from(parent.context),
             parent,
             false
@@ -49,7 +38,7 @@ class SubPopularityItemAdapter(
     }
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
-        holder.bind(webtoonList[position], position)
+        holder.bind(webtoonList[position])
     }
     /*  fun updateData(newWebtoonList: ArrayList<Webtoon>) {
               webtoon.clear()
@@ -67,6 +56,19 @@ class SubPopularityItemAdapter(
     }
 
     override fun getItemCount(): Int {
-        return 5
+        return 6
+    }
+
+    private fun initPopularityList(binding: PopularityToonItemsBinding) {
+        val popularityToonAdapter = SubPopularityItemAdapter(webtoonList)
+
+        binding.rvPopularityListSubItems.apply {
+            this.adapter = popularityToonAdapter
+            layoutManager = LinearLayoutManager(
+                binding.rvPopularityListSubItems.context,
+                LinearLayoutManager.VERTICAL,
+                false
+            )
+        }
     }
 }
