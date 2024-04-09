@@ -14,7 +14,7 @@ import com.example.tomicsandroidappclone.presentation.util.mapper.MyGraphicMappe
 
 
 class DefaultToonListAdapter(
-    private val webtoonList: ArrayList<Webtoon>,
+    private val webtoonList: List<Webtoon>,
     private val toonType: Int
 ) : ListAdapter<Webtoon, DefaultToonListAdapter.ViewHolder>(ItemCallback()) {
     private lateinit var mapper: MyGraphicMapper
@@ -24,26 +24,29 @@ class DefaultToonListAdapter(
         fun bind(webtoon: Webtoon) {
             mapper = MyGraphicMapper()
             Log.d("size TAG", "size: $toonType ")
-            // default
-            if (toonType == 0) {
-                val dpHeight = 1100
-                val dpWidth = 700
-                binding.ivToonImg.layoutParams.height = mapper.px2dp(dpHeight)
-                binding.ivToonImg.layoutParams.width = mapper.px2dp(dpWidth)
-            }
-            // oversize
-            else if (toonType == 1) {
-                val dpHeight = 1600
-                val dpWidth = 1200
-                binding.ivToonImg.layoutParams.height = mapper.px2dp(dpHeight)
-                binding.ivToonImg.layoutParams.width = mapper.px2dp(dpWidth)
+
+            when (toonType) {
+                // default
+                1 -> {
+                    val dpHeight = 1100
+                    val dpWidth = 900
+
+                    binding.ivToonImg.layoutParams.height = mapper.px2dp(dpHeight)
+                    binding.rlDefaultToonSize.layoutParams.width = mapper.px2dp(dpWidth)
+                }
+                // oversize
+                2 -> {
+                    val dpHeight = 1600
+                    val dpWidth = 1300
+                    binding.ivToonImg.layoutParams.height = mapper.px2dp(dpHeight)
+                    binding.rlDefaultToonSize.layoutParams.width = mapper.px2dp(dpWidth)
+                }
             }
 
             if (webtoon.additional.up) {
                 Glide.with(binding.root.context)
                     .load(webtoon.img)
                     .placeholder(R.drawable.ic_launcher_foreground) // image 로드를 못 했을 경우
-                    /*.apply(RequestOptions().override(mapper.px2dp(dpWidth), mapper.px2dp(dpHeight)))*/
                     .into(binding.ivToonImg)
                 binding.tvToonTitle.text = webtoon.title
             }
@@ -66,11 +69,14 @@ class DefaultToonListAdapter(
         holder.bind(webtoonList[position])
     }
 
+/*
     fun updateData(newWebtoonList: ArrayList<Webtoon>) {
+        webtoonList as ArrayList<Webtoon>
         webtoonList.clear()
         webtoonList.addAll(newWebtoonList)
         notifyDataSetChanged() // 전체 데이터 갱신시 사용
     }
+*/
 
     class ItemCallback : DiffUtil.ItemCallback<Webtoon>() {
         override fun areContentsTheSame(oldItem: Webtoon, newItem: Webtoon): Boolean {
@@ -83,9 +89,5 @@ class DefaultToonListAdapter(
     }
 
     override fun getItemCount(): Int = webtoonList.size
-
-    fun setDefaultToonList() {
-
-    }
 
 }

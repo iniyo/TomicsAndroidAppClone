@@ -23,7 +23,8 @@ class BaseActivity : AppCompatActivity() {
 
     // ViewModel 인스턴스를 만들려면 Provider가 필요 this는 owner 즉, 현재 사용되는 앱 컴포넌트를 뜻함. -> BaseViewModel
     private val baseViewModel: BaseViewModel by lazy { ViewModelProvider(this)[BaseViewModel::class.java] }
-    @Inject lateinit var navigator: AppNavigator
+    @Inject
+    lateinit var navigator: AppNavigator
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -57,13 +58,14 @@ class BaseActivity : AppCompatActivity() {
             binding.dlMain.closeDrawer(GravityCompat.START)
         }
     }
-    private fun setUpTabNavigator(){
-        binding.ivTomicsLogo.setOnClickListener{navigator.navigateTo(MainFragments.MAIN_PAGE)}
-        binding.rlFreeWebtoon.setOnClickListener{navigator.navigateTo(MainFragments.TAB1)}
-        binding.rlSerialize.setOnClickListener{navigator.navigateTo(MainFragments.TAB2)}
-        binding.rlTopHundred.setOnClickListener{navigator.navigateTo(MainFragments.TAB3)}
-        binding.rlEndedWebtoon.setOnClickListener{navigator.navigateTo(MainFragments.TAB4)}
-        binding.rlHotWebtoon.setOnClickListener{navigator.navigateTo(MainFragments.TAB5)}
+
+    private fun setUpTabNavigator() {
+        binding.ivTomicsLogo.setOnClickListener { navigator.navigateTo(MainFragments.MAIN_PAGE) }
+        binding.rlFreeWebtoon.setOnClickListener { navigator.navigateTo(MainFragments.TAB1) }
+        binding.rlSerialize.setOnClickListener { navigator.navigateTo(MainFragments.TAB2) }
+        binding.rlTopHundred.setOnClickListener { navigator.navigateTo(MainFragments.TAB3) }
+        binding.rlEndedWebtoon.setOnClickListener { navigator.navigateTo(MainFragments.TAB4) }
+        binding.rlHotWebtoon.setOnClickListener { navigator.navigateTo(MainFragments.TAB5) }
     }
 
     override fun onStart() {
@@ -80,4 +82,5 @@ class BaseActivity : AppCompatActivity() {
         super.onResume()
         Log.d("TAG", "Activity Resume ")
     }
+
 }

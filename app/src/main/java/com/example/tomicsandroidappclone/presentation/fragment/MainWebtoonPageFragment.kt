@@ -1,6 +1,7 @@
 package com.example.tomicsandroidappclone.presentation.fragment
 
 import android.os.Bundle
+import android.os.Handler
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
@@ -17,6 +18,7 @@ import com.example.tomicsandroidappclone.presentation.viewmodel.fragment_view_mo
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.delay
+import kotlin.random.Random
 
 @AndroidEntryPoint
 class MainWebtoonPageFragment : Fragment() {
@@ -36,7 +38,6 @@ class MainWebtoonPageFragment : Fragment() {
         }
 
     }
-
     companion object {
         fun newInstance() = MainWebtoonPageFragment()
     }
@@ -60,33 +61,41 @@ class MainWebtoonPageFragment : Fragment() {
                 Log.d("TAG", "binding observer2" + data[0].service)
                 // adapter 초기화는 data를 받아오고 실행되어야 한다. 따라서 couroutine이후에 adapter 초기화 코드를 실행.
                 // 문제점 = 받아오는 속도가 비교적 느려 보인다. (느리다.)
-                initAdapter()
+                setAdapter()
             }
         }
 
         return binding.root
     }
+    private fun init(){
 
+        /*val tagList = resources.getStringArray(R.array.tag_list)
+        viewModel.setWebtton(tagList)*/
+
+    }
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
     }
 
-    private fun initAdapter() {
+    private fun setAdapter() {
         // binding.root.context : 말 그대로 root view의 context(맥락)
         // context는 LifeCycle과 연결되어 있고(!) Singleton임. (실행 중 하나의 객체만 가짐)
         // (!) ApplicationContext, ActivityContext, FragmentContext 는 이름에 있는 LifeCycle을 가짐.
         val webtoons = viewModel.getWebtoons()
-        Log.d("TAG", "initAdapter: " + webtoons?.get(0)?.title)
-        val mainPageAdapter = webtoons?.let { MainPageAdapter(it) }
+        Log.d("TAG", "initAdapter: " + webtoons[0].title)
+        val mainPageAdapter = MainPageAdapter(webtoons)
 
         binding.rvMainPage.apply {
-            Log.d("TAG", "initAdapter rvMain " + webtoons?.get(0)?.title)
+            Log.d("TAG", "initAdapter rvMain " + webtoons[0].title)
             this.adapter = mainPageAdapter
             layoutManager = LinearLayoutManager(binding.root.context)
         }
 
     }
+
+
+
 
 }
 

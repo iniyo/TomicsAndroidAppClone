@@ -50,7 +50,6 @@ class TopSlideAdapter(
 
 
     override fun getItemCount(): Int {
-        Log.d("Adapter getItem TAG", "ViewPage getItemCount 실행")
         return Int.MAX_VALUE
     }
     override fun onViewAttachedToWindow(holder: ViewHolder) {

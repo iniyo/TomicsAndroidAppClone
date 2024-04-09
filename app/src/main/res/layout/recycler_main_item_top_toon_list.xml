@@ -16,6 +16,7 @@
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.0" />
 
+
     <LinearLayout
         android:id="@+id/ll_top_slide_observer"
         android:layout_width="match_parent"
@@ -64,70 +65,4 @@
             android:background="@color/black" />
 
     </LinearLayout>
-
-    <ImageView
-        android:id="@+id/imageView"
-        android:layout_width="30dp"
-        android:layout_height="30dp"
-        android:layout_marginStart="10dp"
-        android:scaleType="fitXY"
-        android:src="@mipmap/ic_launcher"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/ll_top_slide_observer" />
-
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="30dp"
-        android:gravity="center"
-        android:text="인기순위"
-        android:textColor="@color/black"
-        android:textStyle="bold"
-        app:layout_constraintStart_toEndOf="@+id/imageView"
-        app:layout_constraintTop_toBottomOf="@+id/ll_top_slide_observer" />
-
-    <RadioGroup
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/ll_top_slide_observer">
-
-        <androidx.appcompat.widget.AppCompatRadioButton
-            android:id="@+id/rbtn_real_time"
-            android:layout_width="wrap_content"
-            android:layout_height="30dp"
-            android:background="@drawable/selector_popularity_btn_back_img"
-            android:button="@null"
-            android:gravity="center"
-            android:text="실시간"
-            android:textColor="@drawable/selector_popularity_btn_back_text"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/rv_popularity_list" />
-
-        <androidx.appcompat.widget.AppCompatRadioButton
-            android:id="@+id/rbtn_new_art"
-            android:layout_width="wrap_content"
-            android:layout_height="30dp"
-            android:background="@drawable/selector_popularity_btn_back_img"
-            android:button="@null"
-            android:gravity="center"
-            android:text="신작"
-            android:textColor="@drawable/selector_popularity_btn_back_text"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/rv_popularity_list" />
-
-        <androidx.appcompat.widget.AppCompatRadioButton
-            android:id="@+id/rbtn_ended_toon"
-            android:layout_width="wrap_content"
-            android:layout_height="30dp"
-            android:layout_marginEnd="10dp"
-            android:background="@drawable/selector_popularity_btn_back_img"
-            android:button="@null"
-            android:gravity="center"
-            android:text="완결"
-            android:textColor="@drawable/selector_popularity_btn_back_text"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/rv_popularity_list" />
-
-    </RadioGroup>
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -11,9 +11,10 @@ import com.example.tomicsandroidappclone.databinding.PopularityToonItemsBinding
 import com.example.tomicsandroidappclone.domain.entity.Webtoon
 
 class PopularityToonAdapter(
-    private val webtoonList: ArrayList<Webtoon>
+    private val webtoonList: List<Webtoon>,
 ) : ListAdapter<Webtoon, PopularityToonAdapter.ViewHolder>(ItemCallback()) {
-
+    private var count = 0
+    private var number = 5
     inner class ViewHolder(val binding: PopularityToonItemsBinding) :
         RecyclerView.ViewHolder(binding.root) {
         fun bind(webtoon: Webtoon) {
@@ -38,7 +39,7 @@ class PopularityToonAdapter(
     }
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
-        holder.bind(webtoonList[position])
+        holder.bind(webtoonList[position % (webtoonList.size / 5)])
     }
     /*  fun updateData(newWebtoonList: ArrayList<Webtoon>) {
               webtoon.clear()
@@ -56,19 +57,39 @@ class PopularityToonAdapter(
     }
 
     override fun getItemCount(): Int {
-        return 6
+        return Int.MAX_VALUE
     }
 
     private fun initPopularityList(binding: PopularityToonItemsBinding) {
-        val popularityToonAdapter = SubPopularityItemAdapter(webtoonList)
 
+        val webtoonlist: List<Webtoon>
+        if(count == 0){
+            webtoonlist = webtoonList.take(number)
+            number + 5
+        }else{
+            webtoonlist = webtoonList.drop(number).take(number + 5)
+            number + 5
+        }
+        val popularityToonAdapter = SubPopularityItemAdapter(webtoonlist)
+
+        Log.d("initPopularityList TAG", "initPopularityList: $count")
         binding.rvPopularityListSubItems.apply {
-            this.adapter = popularityToonAdapter
+            adapter = popularityToonAdapter
             layoutManager = LinearLayoutManager(
                 binding.rvPopularityListSubItems.context,
                 LinearLayoutManager.VERTICAL,
                 false
             )
+
+            (adapter as SubPopularityItemAdapter).updatePage(count)
+            val page = (adapter as SubPopularityItemAdapter).getPage()
+            if(page != 10) {
+                count.inc()
+                Log.d("TAG", "count: $count")
+            }else{
+                count = 0
+            }
+
         }
     }
 }

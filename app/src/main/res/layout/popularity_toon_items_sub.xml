@@ -51,7 +51,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="20dp"
                 android:layout_below="@+id/tv_toon_name"
-                android:layout_marginTop="10dp"
+                android:layout_marginTop="2dp"
                 android:ellipsize="end"
                 android:maxLines="1"
                 android:text="침묵적고점/열문만화"

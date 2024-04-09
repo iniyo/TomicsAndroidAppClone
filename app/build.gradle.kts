@@ -53,6 +53,7 @@ android {
 }
 
 dependencies {
+
     // 버전 관리
     val paging_version = "3.2.1"
     val hilt_version = "2.51"
@@ -72,17 +73,14 @@ dependencies {
     // glide
     implementation ("com.github.bumptech.glide:glide:4.16.0")
 
-    // coil
-    implementation("io.coil-kt:coil-compose:2.6.0")
-
     // corutine
     implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:1.7.1")
 
-    // picasso
-    implementation("com.squareup.picasso:picasso:2.71828")
-
     // view model
     implementation("androidx.lifecycle:lifecycle-viewmodel-ktx:2.7.0")
+
+    // indicator
+    implementation("com.viewpagerindicator:library:2.4.1")
 
     // defalut
     implementation(libs.androidx.core.ktx)

@@ -1,6 +1,7 @@
 package com.example.tomicsandroidappclone.presentation.adapter
 
 import android.content.Intent
+import android.content.res.Resources
 import android.net.Uri
 import android.util.Log
 import android.view.LayoutInflater
@@ -12,20 +13,21 @@ import com.bumptech.glide.Glide
 import com.example.tomicsandroidappclone.R
 import com.example.tomicsandroidappclone.databinding.PopularityToonItemsSubBinding
 import com.example.tomicsandroidappclone.domain.entity.Webtoon
+import com.example.tomicsandroidappclone.presentation.util.mapper.MyLogChecker
+import kotlin.math.min
+import kotlin.random.Random
 
 class SubPopularityItemAdapter(
-    private val webtoonList: ArrayList<Webtoon>
+    private val webtoonList: List<Webtoon>
 ) : ListAdapter<Webtoon, SubPopularityItemAdapter.ViewHolder>(ItemCallback()) {
-
+    private var currentPage = 0
+    private val itemsPerPage = 5
     inner class ViewHolder(val binding: PopularityToonItemsSubBinding) :
         RecyclerView.ViewHolder(binding.root) {
         fun bind(webtoon: Webtoon, position: Int) {
-
-            Log.d("TAG", "SubPopularityItemAdapter bind 실행")
-            Log.d("TAG", "SubPopularityItemAdapter bind 데이터 체크 : " + webtoon.img)
-
+            val adjustpostion = position + currentPage * itemsPerPage
+            MyLogChecker().logCheck("ivwebtoonclicklistner")
             binding.llTopContainer.setOnClickListener{
-                Log.d("TAG", "bind - ivwebtoonclicklistner ")
                 val intent = Intent(Intent.ACTION_VIEW, Uri.parse(webtoon.url))
                 binding.root.context.startActivity(intent)
             }
@@ -34,12 +36,11 @@ class SubPopularityItemAdapter(
                 .load(webtoon.img)
                 .placeholder(R.drawable.ic_launcher_foreground) // image 로드를 못 했을 경우
                 .into(binding.ivPopularity)
-            binding.tvTag1.text = "복수"
-            binding.tvTag2.text = "먼치킨"
-            binding.tvTag3.text = "생존"
+
+            binding.tvToonRank.text = adjustpostion.inc().toString()
             binding.tvToonName.text = webtoon.title
-            binding.tvToonRank.text = position.inc().toString()
-            Log.d("TAG", "SubPopularityItemAdapter bind: 이미지")
+
+            MyLogChecker().logCheck("ivwebtoonclicklistner", webtoon)
         }
     }
 
@@ -58,6 +59,7 @@ class SubPopularityItemAdapter(
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         holder.bind(webtoonList[position], position)
     }
+
     /*  fun updateData(newWebtoonList: ArrayList<Webtoon>) {
               webtoon.clear()
               webtoon.addAll(newWebtoonList)
@@ -73,7 +75,15 @@ class SubPopularityItemAdapter(
         }
     }
 
+    fun updatePage(page: Int) {
+        currentPage = page
+    }
+
+    fun getPage(): Int {
+        return webtoonList.size - currentPage * itemsPerPage
+    }
     override fun getItemCount(): Int {
-        return 5
+        val remainingItems: Int = webtoonList.size - currentPage * itemsPerPage
+        return min(remainingItems.toDouble(), itemsPerPage.toDouble()).toInt()
     }
 }

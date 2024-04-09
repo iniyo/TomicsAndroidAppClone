@@ -1,16 +1,19 @@
 package com.example.tomicsandroidappclone.presentation.viewmodel.fragment_view_model
 
+import android.content.res.Resources
 import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.example.tomicsandroidappclone.R
 import com.example.tomicsandroidappclone.domain.entity.ToonResponse
 import com.example.tomicsandroidappclone.domain.entity.Webtoon
 import com.example.tomicsandroidappclone.data.repository.WebtoonRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
 import javax.inject.Inject
+import kotlin.random.Random
 
 @HiltViewModel
 class MainFragmentViewModel @Inject constructor(
@@ -39,7 +42,24 @@ class MainFragmentViewModel @Inject constructor(
             }
         }
     }
-    fun getWebtoons(): ArrayList<Webtoon>? = webtoonsInfo.value
+    fun getWebtoons(): ArrayList<Webtoon> {
+
+        val sortedWebtoons = _webtoonsInfo.value!!.sortedByDescending { it.rank }
+        return sortedWebtoons as ArrayList<Webtoon>
+    }
+
+    /*fun setWebtton(tagList:Array<String>) {
+        val randomIndex = Random.nextInt(tagList.size)
+        val randomItem = tagList[randomIndex]
+        for (i in 0 until _webtoonsInfo.value!!.size) {
+            _webtoonsInfo.value!![i].rank = i
+            _webtoonsInfo.value!![i].tagList.tag1 = randomItem
+            _webtoonsInfo.value!![i].tagList.tag2 = randomItem
+            _webtoonsInfo.value!![i].tagList.tag3 = randomItem
+        }
+        getWebtoons()
+
+    }*/
     fun getAllWebtoons(): List<Webtoon> {
         val webtoons = mutableListOf<Webtoon>()
 

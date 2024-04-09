@@ -15,6 +15,7 @@ data class Webtoon(
     val _id: String,
     val webtoonId: Long,
     val title: String,
+    var rank: Int,
     val author: String,
     val url: String,
     val img: String,
@@ -22,7 +23,14 @@ data class Webtoon(
     val updateDays: List<String>,
     val fanCount: Int?,
     val searchKeyword: String,
-    val additional: Additional
+    val additional: Additional,
+    val tagList: Tag
+)
+
+data class Tag(
+    var tag1: String,
+    var tag2: String,
+    var tag3: String
 )
 
 data class Additional(
