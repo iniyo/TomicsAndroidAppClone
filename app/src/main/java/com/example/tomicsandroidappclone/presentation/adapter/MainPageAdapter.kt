@@ -138,8 +138,7 @@ class MainPageAdapter (
 
         val adapterType =
             if(choose == 0){
-                PopularityToonAdapter(webtoonList.take(30))
-
+                PopularityToonAdapter(webtoonList.take(30), -1)
             } else {
                 DefaultToonListAdapter(webtoonList, choose)
             }

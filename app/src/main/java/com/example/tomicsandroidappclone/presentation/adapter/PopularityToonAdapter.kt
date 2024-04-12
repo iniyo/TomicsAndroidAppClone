@@ -1,9 +1,11 @@
 package com.example.tomicsandroidappclone.presentation.adapter
 
+import android.content.Context
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.DiffUtil
+import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
@@ -12,6 +14,7 @@ import com.example.tomicsandroidappclone.domain.entity.Webtoon
 
 class PopularityToonAdapter(
     private val webtoonList: List<Webtoon>,
+    private val checkType: Int
 ) : ListAdapter<Webtoon, PopularityToonAdapter.ViewHolder>(ItemCallback()) {
     private var count = 0
     private var number = 5
@@ -62,34 +65,41 @@ class PopularityToonAdapter(
 
     private fun initPopularityList(binding: PopularityToonItemsBinding) {
 
-        val webtoonlist: List<Webtoon>
-        if(count == 0){
-            webtoonlist = webtoonList.take(number)
-            number + 5
-        }else{
-            webtoonlist = webtoonList.drop(number).take(number + 5)
-            number + 5
+        val adapterType: RecyclerView.Adapter<*>
+        val layoutManagerType = when (checkType) {
+            -1 -> {
+                adapterType = SubPopularityItemAdapter(webtoonList.take(number))
+                LinearLayoutManager(
+                    binding.rvPopularityListSubItems.context,
+                    LinearLayoutManager.VERTICAL,
+                    false
+                )
+            }
+            0 -> {
+                adapterType = TabWebtoonAdapter(webtoonList)
+                GridLayoutManager(binding.rvPopularityListSubItems.context, 3)
+            }
+            else -> {
+                adapterType = TabWebtoonAdapter(webtoonList)
+                GridLayoutManager(binding.rvPopularityListSubItems.context, 2)
+            }
         }
-        val popularityToonAdapter = SubPopularityItemAdapter(webtoonlist)
+
 
         Log.d("initPopularityList TAG", "initPopularityList: $count")
         binding.rvPopularityListSubItems.apply {
-            adapter = popularityToonAdapter
-            layoutManager = LinearLayoutManager(
-                binding.rvPopularityListSubItems.context,
-                LinearLayoutManager.VERTICAL,
-                false
-            )
-
-            (adapter as SubPopularityItemAdapter).updatePage(count)
-            val page = (adapter as SubPopularityItemAdapter).getPage()
-            if(page != 10) {
-                count.inc()
-                Log.d("TAG", "count: $count")
-            }else{
-                count = 0
+            adapter = adapterType
+            layoutManager = layoutManagerType
+            if(checkType == -1){
+                (adapter as SubPopularityItemAdapter).updatePage(count)
+                val page = (adapter as SubPopularityItemAdapter).getPage()
+                if(page != 10) {
+                    count.inc()
+                    Log.d("TAG", "count: $count")
+                }else{
+                    count = 0
+                }
             }
-
         }
     }
 }

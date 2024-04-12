@@ -3,6 +3,7 @@ package com.example.tomicsandroidappclone.presentation.activity
 
 import android.os.Bundle
 import android.util.Log
+import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.GravityCompat
 import androidx.databinding.DataBindingUtil
@@ -10,7 +11,7 @@ import androidx.lifecycle.ViewModelProvider
 import com.example.tomicsandroidappclone.R
 import com.example.tomicsandroidappclone.databinding.ActivityMainBinding
 import com.example.tomicsandroidappclone.presentation.util.navigator.AppNavigator
-import com.example.tomicsandroidappclone.presentation.util.navigator.MainFragments
+import com.example.tomicsandroidappclone.presentation.util.navigator.Fragments
 import com.example.tomicsandroidappclone.presentation.viewmodel.activity_view_model.BaseViewModel
 import dagger.hilt.android.AndroidEntryPoint
 import javax.inject.Inject
@@ -20,11 +21,9 @@ import javax.inject.Inject
 class BaseActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityMainBinding
-
     // ViewModel 인스턴스를 만들려면 Provider가 필요 this는 owner 즉, 현재 사용되는 앱 컴포넌트를 뜻함. -> BaseViewModel
     private val baseViewModel: BaseViewModel by lazy { ViewModelProvider(this)[BaseViewModel::class.java] }
-    @Inject
-    lateinit var navigator: AppNavigator
+    @Inject lateinit var navigator: AppNavigator
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -52,7 +51,7 @@ class BaseActivity : AppCompatActivity() {
             }
         }
         binding.ivTomicsLogo.setOnClickListener {
-            navigator.navigateTo(MainFragments.TAB1)
+            navigator.navigateTo(Fragments.MAIN_PAGE, setTabItems(binding.tvFreeWebtoon) )
         }
         binding.activityDrawer.ivCloseDrawer.setOnClickListener {
             binding.dlMain.closeDrawer(GravityCompat.START)
@@ -60,12 +59,35 @@ class BaseActivity : AppCompatActivity() {
     }
 
     private fun setUpTabNavigator() {
-        binding.ivTomicsLogo.setOnClickListener { navigator.navigateTo(MainFragments.MAIN_PAGE) }
-        binding.rlFreeWebtoon.setOnClickListener { navigator.navigateTo(MainFragments.TAB1) }
-        binding.rlSerialize.setOnClickListener { navigator.navigateTo(MainFragments.TAB2) }
-        binding.rlTopHundred.setOnClickListener { navigator.navigateTo(MainFragments.TAB3) }
-        binding.rlEndedWebtoon.setOnClickListener { navigator.navigateTo(MainFragments.TAB4) }
-        binding.rlHotWebtoon.setOnClickListener { navigator.navigateTo(MainFragments.TAB5) }
+        binding.ivTomicsLogo.setOnClickListener {
+            navigator.navigateTo(Fragments.MAIN_PAGE, setTabItems(binding.tvFreeWebtoon))
+        }
+        binding.rlFreeWebtoon.setOnClickListener {
+            navigator.navigateTo(Fragments.WEBTOON_PAGE, setTabItems(binding.tvFreeWebtoon))
+        }
+        binding.rlSerialize.setOnClickListener {
+            navigator.navigateTo(Fragments.WEBTOON_PAGE, setTabItems(binding.tvSerialize))
+        }
+        binding.rlTopHundred.setOnClickListener {
+            navigator.navigateTo(Fragments.WEBTOON_PAGE, setTabItems(binding.tvTopHundred))
+        }
+        binding.rlEndedWebtoon.setOnClickListener {
+            navigator.navigateTo(Fragments.WEBTOON_PAGE, setTabItems(binding.tvEndedWebtoon))
+        }
+        binding.rlHotWebtoon.setOnClickListener {
+            navigator.navigateTo(Fragments.WEBTOON_PAGE, setTabItems(binding.tvHot))
+        }
+    }
+
+    private fun setTabItems(textView: TextView) : Array<String> {
+        val arrayString = when(textView.text){
+            "나만무료" -> resources.getStringArray(R.array.free_webtoon_tab_items)
+            "연재" -> resources.getStringArray(R.array.serialize_tab_items)
+            "TOP100" -> resources.getStringArray(R.array.top_webtoon_items)
+            "완결" -> resources.getStringArray(R.array.ended_webtoon_items)
+            else -> resources.getStringArray(R.array.hot_webtoon_items)
+        }
+        return arrayString
     }
 
     override fun onStart() {

@@ -3,13 +3,9 @@ package com.example.tomicsandroidappclone.presentation.util.navigator
 /**
  * Available screens.
  */
-enum class MainFragments {
+enum class Fragments {
     MAIN_PAGE,
-    TAB1,
-    TAB2,
-    TAB3,
-    TAB4,
-    TAB5
+    WEBTOON_PAGE,
 }
 
 /**
@@ -17,5 +13,5 @@ enum class MainFragments {
  */
 interface AppNavigator {
     // Navigate to a given screen.
-    fun navigateTo(screen: MainFragments)
+    fun navigateTo(screen: Fragments, tabItmes: Array<String>)
 }

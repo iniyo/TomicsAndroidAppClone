@@ -3,7 +3,7 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="160dp"
+    android:layout_width="120dp"
     android:paddingEnd="5dp"
     android:paddingBottom="5dp"
     android:id="@+id/rl_default_toon_size"
@@ -14,7 +14,7 @@
 
     <ImageView
         android:id="@+id/iv_toon_img"
-        android:layout_width="match_parent"
+        android:layout_width="120dp"
         android:layout_height="160dp"
         android:scaleType="fitXY"
         android:src="@drawable/icon_hot_27x16"

@@ -3,6 +3,7 @@
     <style name="Base.Theme.TomicsAndroidAppClone" parent="Theme.MaterialComponents.DayNight.NoActionBar">
         <!-- Customize your light theme here. -->
         <!-- <item name="colorPrimary">@color/my_light_primary</item> -->
+        <item name="colorPrimary">@color/tomics_gray</item>
     </style>
 
     <style name="Theme.TomicsAndroidAppClone" parent="Base.Theme.TomicsAndroidAppClone" />

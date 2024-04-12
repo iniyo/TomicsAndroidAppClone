@@ -1,26 +1,26 @@
 package com.example.tomicsandroidappclone.presentation.viewmodel.fragment_view_model
 
-import android.content.res.Resources
+import android.content.Context
 import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.example.tomicsandroidappclone.R
+import com.example.tomicsandroidappclone.data.repository.WebtoonRepository
 import com.example.tomicsandroidappclone.domain.entity.ToonResponse
 import com.example.tomicsandroidappclone.domain.entity.Webtoon
-import com.example.tomicsandroidappclone.data.repository.WebtoonRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
+import dagger.hilt.android.qualifiers.ActivityContext
 import kotlinx.coroutines.launch
 import javax.inject.Inject
-import kotlin.random.Random
+
 
 @HiltViewModel
-class MainFragmentViewModel @Inject constructor(
+class WebtoonFragmentViewModel @Inject constructor(
     private val webtoonRepository: WebtoonRepository
 ) : ViewModel() {
-    // MutableLiveData 읽고 쓰기 가능
-    // LivaData 읽기만 가능
+    private val _tabItems = MutableLiveData<Array<String>>() // webtoon 전체 정보
+    val tabItems: LiveData<Array<String>> = _tabItems
     private val _toonResponse = MutableLiveData<ToonResponse>() // webtoon 전체 정보
     val toonResponse: LiveData<ToonResponse> = _toonResponse
     private val _webtoonsInfo = MutableLiveData<ArrayList<Webtoon>>()
@@ -44,32 +44,5 @@ class MainFragmentViewModel @Inject constructor(
     }
     fun getWebtoons(): ArrayList<Webtoon> {
         return _webtoonsInfo.value!!
-    }
-
-    /*fun setWebtton(tagList:Array<String>) {
-        val randomIndex = Random.nextInt(tagList.size)
-        val randomItem = tagList[randomIndex]
-        for (i in 0 until _webtoonsInfo.value!!.size) {
-            _webtoonsInfo.value!![i].rank = i
-            _webtoonsInfo.value!![i].tagList.tag1 = randomItem
-            _webtoonsInfo.value!![i].tagList.tag2 = randomItem
-            _webtoonsInfo.value!![i].tagList.tag3 = randomItem
-        }
-        getWebtoons()
-
-    }*/
-    fun getAllWebtoons(): List<Webtoon> {
-        val webtoons = mutableListOf<Webtoon>()
-
-        // let을 통해 null이 아니면 람다 함수 실행 아니라면 오른쪽 피 연산자 반환
-        _toonResponse.value?.webtoons?.let { toonList ->
-            webtoons.addAll(toonList)
-        }
-        return webtoons
-    }
-    fun getSeviceAndUpdateDayByWebtoon(service: String, updateDay: String) {
-        viewModelScope.launch {
-            _webtoonsInfo.value = webtoonRepository.getDayByWebtoons(service, updateDay)
-        }
     }
 }

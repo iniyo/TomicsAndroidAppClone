@@ -8,7 +8,7 @@ data class ToonResponse(
     val updatedWebtoonCount: Int,
     val createdWebtoonCount: Int,
     val lastUpdate: String,
-    val webtoons: List<Webtoon>
+    val webtoons: ArrayList<Webtoon>
 )
 
 data class Webtoon(

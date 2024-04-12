@@ -26,14 +26,10 @@ import javax.inject.Inject
  */
 class AppNavigatorImpl @Inject constructor(private val activity: FragmentActivity) : AppNavigator {
 
-    override fun navigateTo(screen: MainFragments) {
+    override fun navigateTo(screen: Fragments, tabItmes: Array<String>) {
         val fragment = when (screen) {
-            MainFragments.MAIN_PAGE -> MainWebtoonPageFragment.newInstance()
-            MainFragments.TAB1 -> FreeWebtoonPageFragment.newInstance()
-            MainFragments.TAB2 -> SerializePageFragment.newInstance()
-            MainFragments.TAB3 -> TopWebtoonPageFragment.newInstance()
-            MainFragments.TAB4 -> EndedWebtoonPageFragment.newInstance()
-            MainFragments.TAB5 -> HotWebtoonPageFragment.newInstance()
+            Fragments.MAIN_PAGE -> MainWebtoonPageFragment.newInstance()
+            Fragments.WEBTOON_PAGE -> WebtoonPageFragment.newInstance(tabItmes)
         }
 
         activity.supportFragmentManager.beginTransaction()

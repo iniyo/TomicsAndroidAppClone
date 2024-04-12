@@ -94,9 +94,6 @@ class MainWebtoonPageFragment : Fragment() {
 
     }
 
-
-
-
 }
 
 

@@ -79,9 +79,6 @@ dependencies {
     // view model
     implementation("androidx.lifecycle:lifecycle-viewmodel-ktx:2.7.0")
 
-    // indicator
-    implementation("com.viewpagerindicator:library:2.4.1")
-
     // defalut
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.appcompat)
