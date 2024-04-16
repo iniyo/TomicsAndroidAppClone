@@ -1,4 +1,4 @@
-package com.example.tomicsandroidappclone.presentation.adapter.AutoScrollHandler
+package com.example.tomicsandroidappclone.presentation.adapter.auto_scroll_handler
 
 import android.animation.Animator
 import android.animation.TimeInterpolator
@@ -13,12 +13,14 @@ import androidx.viewpager2.widget.ViewPager2
 class AutoScrollHandler(private val viewPager: ViewPager2) : Handler(Looper.getMainLooper()) {
     private var isAutoScroll = false
 
-    fun startAutoScroll(interval: Long) {
+    fun startAutoScroll(interval: Int) {
+        Log.d("TAG", "startAutoScroll")
         isAutoScroll = true
         postAutoScroll(interval)
     }
 
     fun stopAutoScroll() {
+        Log.d("TAG", "stopAutoScroll")
         isAutoScroll = false
         removeCallbacksAndMessages(null)
     }
@@ -31,12 +33,10 @@ class AutoScrollHandler(private val viewPager: ViewPager2) : Handler(Looper.getM
         Log.d("TAG", "handle currentItem$currentItem")
     }
 
-    private fun postAutoScroll(interval: Long) {
-        postDelayed({
-            if (isAutoScroll) {
-                sendEmptyMessageDelayed(0, interval)
-            }
-        }, interval)
+    private fun postAutoScroll(interval: Int) {
+        if (isAutoScroll) {
+            sendEmptyMessageDelayed(0, interval.toLong())
+        }
     }
 
     private fun ViewPager2.setCurrentItem(

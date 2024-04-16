@@ -69,15 +69,6 @@ class DefaultToonListAdapter(
         holder.bind(webtoonList[position])
     }
 
-/*
-    fun updateData(newWebtoonList: ArrayList<Webtoon>) {
-        webtoonList as ArrayList<Webtoon>
-        webtoonList.clear()
-        webtoonList.addAll(newWebtoonList)
-        notifyDataSetChanged() // 전체 데이터 갱신시 사용
-    }
-*/
-
     class ItemCallback : DiffUtil.ItemCallback<Webtoon>() {
         override fun areContentsTheSame(oldItem: Webtoon, newItem: Webtoon): Boolean {
             return oldItem._id == newItem._id
@@ -87,7 +78,5 @@ class DefaultToonListAdapter(
             return oldItem == newItem
         }
     }
-
     override fun getItemCount(): Int = webtoonList.size
-
 }

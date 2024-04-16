@@ -1,31 +1,32 @@
 package com.example.tomicsandroidappclone.presentation.adapter
 
-import android.content.Context
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.ViewGroup
-import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
-import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.example.tomicsandroidappclone.databinding.PopularityToonItemsBinding
 import com.example.tomicsandroidappclone.domain.entity.Webtoon
 
 class PopularityToonAdapter(
-    private val webtoonList: List<Webtoon>,
+    private val webtoonList: ArrayList<Webtoon>,
     private val checkType: Int
-) : ListAdapter<Webtoon, PopularityToonAdapter.ViewHolder>(ItemCallback()) {
-    private var count = 0
-    private var number = 5
+) : RecyclerView.Adapter<PopularityToonAdapter.ViewHolder>() {
+    private val viewPool: RecyclerView.RecycledViewPool =
+        RecyclerView.RecycledViewPool() // 동일한 스레드에서만 사용해야 함.
+
+    // 아이템 ID를 저장하는 Map
+    private val itemIds = mutableMapOf<Int, Long>()
+
+
+    init {
+        setHasStableIds(true)
+    }
+
     inner class ViewHolder(val binding: PopularityToonItemsBinding) :
         RecyclerView.ViewHolder(binding.root) {
         fun bind(webtoon: Webtoon) {
-            Log.d("TAG", "MainPopularityToonAdapter bind 실행")
-            Log.d("TAG", "MainPopularityToonAdapter bind 데이터 체크 : " + webtoon.img)
-
             initPopularityList(binding)
-            Log.d("TAG", "MainPopularityToonAdapter bind: 이미지")
         }
     }
 
@@ -41,22 +42,27 @@ class PopularityToonAdapter(
         return ViewHolder(binding)
     }
 
-    override fun onBindViewHolder(holder: ViewHolder, position: Int) {
-        holder.bind(webtoonList[position % (webtoonList.size / 5)])
-    }
-    /*  fun updateData(newWebtoonList: ArrayList<Webtoon>) {
-              webtoon.clear()
-              webtoon.addAll(newWebtoonList)
-              notifyDataSetChanged() // 전체 데이터 갱신시 사용
-          }*/
-    class ItemCallback : DiffUtil.ItemCallback<Webtoon>() {
-        override fun areContentsTheSame(oldItem: Webtoon, newItem: Webtoon): Boolean {
-            return oldItem._id == newItem._id
+    override fun getItemId(position: Int): Long {
+        // 아이템 ID가 Map에 존재하지 않으면 생성
+        if (!itemIds.containsKey(position)) {
+            val itemId = position.toLong() // 아이템 데이터베이스 ID 사용
+            itemIds[position] = itemId
         }
 
-        override fun areItemsTheSame(oldItem: Webtoon, newItem: Webtoon): Boolean {
-            return oldItem == newItem
-        }
+        // Map에 저장된 아이템 ID 반환
+        return itemIds[position]!!
+    }
+
+    override fun onAttachedToRecyclerView(recyclerView: RecyclerView) {
+        super.onAttachedToRecyclerView(recyclerView)
+        // RecyclerView가 연결되었을 때 스크롤 위치를 가운데로 이동
+        recyclerView.scrollToPosition(Int.MAX_VALUE / 2)
+    }
+
+    override fun onBindViewHolder(holder: ViewHolder, position: Int) {
+        getItemId(position)
+        holder.itemView.tag = position
+        holder.bind(webtoonList[position % webtoonList.size])
     }
 
     override fun getItemCount(): Int {
@@ -65,41 +71,36 @@ class PopularityToonAdapter(
 
     private fun initPopularityList(binding: PopularityToonItemsBinding) {
 
+        val bindingConfig = binding.rvPopularityListSubItems
+
         val adapterType: RecyclerView.Adapter<*>
         val layoutManagerType = when (checkType) {
             -1 -> {
-                adapterType = SubPopularityItemAdapter(webtoonList.take(number))
+                adapterType = SubPopularityItemAdapter(webtoonList)
                 LinearLayoutManager(
-                    binding.rvPopularityListSubItems.context,
+                    bindingConfig.context,
                     LinearLayoutManager.VERTICAL,
                     false
                 )
             }
+
             0 -> {
                 adapterType = TabWebtoonAdapter(webtoonList)
-                GridLayoutManager(binding.rvPopularityListSubItems.context, 3)
+                GridLayoutManager(bindingConfig.context, 3)
             }
+
             else -> {
                 adapterType = TabWebtoonAdapter(webtoonList)
-                GridLayoutManager(binding.rvPopularityListSubItems.context, 2)
+                GridLayoutManager(bindingConfig.context, 2)
             }
         }
 
-
-        Log.d("initPopularityList TAG", "initPopularityList: $count")
-        binding.rvPopularityListSubItems.apply {
+        bindingConfig.apply {
             adapter = adapterType
             layoutManager = layoutManagerType
-            if(checkType == -1){
-                (adapter as SubPopularityItemAdapter).updatePage(count)
-                val page = (adapter as SubPopularityItemAdapter).getPage()
-                if(page != 10) {
-                    count.inc()
-                    Log.d("TAG", "count: $count")
-                }else{
-                    count = 0
-                }
-            }
+
+            //setRecycledViewPool(viewPool)
         }
+
     }
 }

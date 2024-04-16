@@ -1,6 +1,6 @@
 package com.example.tomicsandroidappclone.presentation.adapter
 
-import android.content.res.Resources
+import android.graphics.Rect
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
@@ -13,74 +13,78 @@ import com.example.tomicsandroidappclone.R
 import com.example.tomicsandroidappclone.databinding.RecyclerMainItemDefaultToonListBinding
 import com.example.tomicsandroidappclone.databinding.RecyclerMainItemTopToonListBinding
 import com.example.tomicsandroidappclone.domain.entity.Webtoon
-import com.example.tomicsandroidappclone.presentation.adapter.AutoScrollHandler.AutoScrollHandler
-import okhttp3.internal.Util
+import com.example.tomicsandroidappclone.presentation.adapter.auto_scroll_handler.AutoScrollHandler
 
 
 class MainPageAdapter (
     private val webtoon: List<Webtoon>
-) : RecyclerView.Adapter<MainPageAdapter.Viewholder>() {
-    private var count = 0
-    private val MSG_SCROLL = 1
+) : RecyclerView.Adapter< RecyclerView.ViewHolder>() {
+
     enum class ViewType{
         TYPE_TOP_TOON, TYPE_DEFAULT_TOON_LIST, OTHER_TYPE
     }
     data class MainItem(val viewType: ViewType, val webtoonData: List<Webtoon>, val choose: Int)
 
+
     val itemList = listOf(
         MainItem(ViewType.TYPE_TOP_TOON, webtoon, 0),
+        MainItem(ViewType.TYPE_DEFAULT_TOON_LIST, webtoon, -1),
         MainItem(ViewType.TYPE_DEFAULT_TOON_LIST, webtoon, 0),
         MainItem(ViewType.TYPE_DEFAULT_TOON_LIST, webtoon, 1),
-        MainItem(ViewType.TYPE_DEFAULT_TOON_LIST, webtoon, 2),
         MainItem(ViewType.TYPE_DEFAULT_TOON_LIST, webtoon, 2),
         MainItem(ViewType.OTHER_TYPE, webtoon, 1),
     )
 
-    abstract class Viewholder(itemView: View) : RecyclerView.ViewHolder(itemView) {
-        abstract fun bind(position:Int)
+    inner class ViewPagerViewHolder(private val binding: RecyclerMainItemTopToonListBinding) :
+        RecyclerView.ViewHolder(binding.root) {
+        fun bind(position: Int) {
+            setViewPager(binding, webtoon)
+        }
     }
 
-    inner class TopToonListViewHolder(private val binding: RecyclerMainItemTopToonListBinding) :
-        Viewholder(binding.root) {
-        override fun bind(position: Int) {}
-    }
-
-
-    inner class DefaultToonListViewHolder(private val binding: RecyclerMainItemDefaultToonListBinding) :
-    Viewholder(binding.root){
-        override fun bind(position: Int) {
-            itemList[position].choose
+    inner class RecyclerViewHolder(private val binding: RecyclerMainItemDefaultToonListBinding) :
+        RecyclerView.ViewHolder(binding.root){
+        fun bind(position: Int) {
             setRecyclerView(binding, itemList[position].choose, webtoon)
         }
     }
 
-    override fun onBindViewHolder(holder: Viewholder, position: Int) {
+    override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
         Log.d("TAG", "MainPage onBindViewHolder: 실행")
         val id = getItemId(position)
         Log.d("TAG", "MainPage onBindViewHolder: $id")
 
-        holder.bind(position)
-    }
-
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): Viewholder {
-        Log.d("TAG", "MainPage onCreateViewHolder: 실행")
-        return when (ViewType.entries[viewType]) {
+        val viewType = getItemViewType(position) // ViewType 추출
+        when (ViewType.entries[viewType]) {
             ViewType.TYPE_TOP_TOON -> {
-                val binding = RecyclerMainItemTopToonListBinding.inflate(LayoutInflater.from(parent.context))
-                val holder = TopToonListViewHolder(binding)
-                setTopViewPager(binding)
-                holder
+
+                (holder as ViewPagerViewHolder).bind(position)
             }
             ViewType.TYPE_DEFAULT_TOON_LIST -> {
-                val binding = RecyclerMainItemDefaultToonListBinding.inflate(LayoutInflater.from(parent.context))
-                DefaultToonListViewHolder(binding)
+                holder.itemView.tag = position
+                (holder as RecyclerViewHolder).bind(position)
             }
-            // 미정
             ViewType.OTHER_TYPE -> {
-                val binding = RecyclerMainItemDefaultToonListBinding.inflate(LayoutInflater.from(parent.context))
-                DefaultToonListViewHolder(binding)
+                holder.itemView.tag = position
+                (holder as RecyclerViewHolder).bind(position)
             }
-            /*-> throw IllegalArgumentException("Invalid view type")*/
+        }
+    }
+    private class PageDecoration(private val margin: Int): RecyclerView.ItemDecoration() {
+
+        override fun getItemOffsets(outRect: Rect, view: View, parent: RecyclerView, state: RecyclerView.State) {
+            outRect.left = margin
+            outRect.right = margin
+        }
+    }
+
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
+        Log.d("TAG", "MainPage onCreateViewHolder: 실행")
+        return when (ViewType.entries[viewType]) {
+            ViewType.TYPE_TOP_TOON -> { ViewPagerViewHolder(RecyclerMainItemTopToonListBinding.inflate(LayoutInflater.from(parent.context))) }
+            ViewType.TYPE_DEFAULT_TOON_LIST -> { RecyclerViewHolder( RecyclerMainItemDefaultToonListBinding.inflate(LayoutInflater.from(parent.context))) }
+            // 미정
+            ViewType.OTHER_TYPE -> { RecyclerViewHolder(RecyclerMainItemDefaultToonListBinding.inflate(LayoutInflater.from(parent.context))) }
         }
     }
 
@@ -89,38 +93,37 @@ class MainPageAdapter (
     // Int 자료형으로 ViewType.entries[position].ordinal값을 반환
     override fun getItemViewType(position: Int): Int = itemList[position].viewType.ordinal
     override fun getItemCount(): Int = itemList.size
-    private fun setTopViewPager(binding: RecyclerMainItemTopToonListBinding) {
-        val webtoonList = webtoon.take(7)
-        val mainTopSlideAdapter = TopSlideAdapter(webtoonList as ArrayList<Webtoon>)
 
-        binding.vpMain.apply {
-            adapter = mainTopSlideAdapter
-            orientation = ViewPager2.ORIENTATION_HORIZONTAL
-
-        }
+    private fun setViewPager(
+        binding: RecyclerMainItemTopToonListBinding,
+        webtoonList: List<Webtoon>
+    ) {
         val myHandler = AutoScrollHandler(binding.vpMain)
-        myHandler.startAutoScroll(3000)
-
-        binding.vpMain.registerOnPageChangeCallback(object: ViewPager2.OnPageChangeCallback(){
+        val interval = 3000
+        myHandler.startAutoScroll(interval)
+        binding.vpMain.registerOnPageChangeCallback(object : ViewPager2.OnPageChangeCallback() {
             override fun onPageScrollStateChanged(state: Int) {
                 super.onPageScrollStateChanged(state)
-
-                Log.d("TAG", "onPageScrollStateChanged: $state")
-
-                when(state) {
+                when(state){
                     ViewPager2.SCROLL_STATE_IDLE -> {
-                        Log.d("TAG", "onPageScrollStateChanged: ")
-                        myHandler.startAutoScroll(2000)
+                        myHandler.startAutoScroll(interval)
                     }
                     ViewPager2.SCROLL_STATE_DRAGGING -> {
                         myHandler.stopAutoScroll()
+                        myHandler.startAutoScroll(interval)
                     }
-                    ViewPager2.SCROLL_STATE_SETTLING -> {
-
-                    }
+                    else -> Log.d("TAG", "pageScrollState 예외 상태")
                 }
             }
         })
+
+        /* 참고 : https://velog.io/@king-jungin/Android-%EC%96%91-%EC%98%86%EC%9D%B4-%EB%AF%B8%EB%A6%AC%EB%B3%B4%EC%9D%B4%EB%8A%94-ViewPager2-%EB%A7%8C%EB%93%A4%EA%B8%B0 */
+        binding.vpMain.apply {
+            adapter = TopSlideAdapter(webtoonList.take(7) as ArrayList<Webtoon>)
+            orientation = ViewPager2.ORIENTATION_HORIZONTAL
+            offscreenPageLimit = 1
+            setCurrentItem(0,true)
+        }
     }
 
     private fun setRecyclerView(
@@ -128,36 +131,51 @@ class MainPageAdapter (
         choose: Int,
         webtoonList: List<Webtoon>
     ) {
-
         val context = binding.root.context
         val bannerItems = context.resources.getStringArray(R.array.banner_items)
         for(i in bannerItems.indices){
             Log.d("TAG", "bannerItems $bannerItems[i]")
         }
 
+        val adapterType = when(choose){
+            -1 -> {
+                val itemDecoration = object : RecyclerView.ItemDecoration() {
+                    override fun getItemOffsets(outRect: Rect, view: View, parent: RecyclerView, state: RecyclerView.State) {
+                        val position = parent.getChildItemId(view)
 
-        val adapterType =
-            if(choose == 0){
-                PopularityToonAdapter(webtoonList.take(30), -1)
-            } else {
-                DefaultToonListAdapter(webtoonList, choose)
-            }
+                        Log.d("TAG", "getItemID: $position")
+                        val itemWidth = parent.width / 3 // 아이템 너비 계산
 
+                        if (position.toInt() == 0) { // 첫 번째 아이템
+                            outRect.left = itemWidth // 왼쪽 여백 설정
+                        } else {
+                            outRect.left = -50 // 여백 없음
+                        }
+                    }
+                }
+                val snapHelper = PagerSnapHelper()
+                binding.rvMainDefaultList.apply {
+                    snapHelper.attachToRecyclerView(binding.rvMainDefaultList)
+                    addItemDecoration(itemDecoration)
+                }
+                PopularityToonAdapter(webtoonList as ArrayList<Webtoon>, choose)}
+
+            0 -> DefaultToonListAdapter(webtoonList, choose)
+            else -> {DefaultToonListAdapter(webtoonList, choose)}
+        }
+
+        val setLayoutManager = LinearLayoutManager(
+            binding.rvMainDefaultList.context,
+            LinearLayoutManager.HORIZONTAL,
+            false
+        )
+
+        // setLayoutManager.recycleChildrenOnDetach = true // 아이템 뿐 아니라 아이템 내의 View도 모두 재사용 됨.
         binding.rvMainDefaultList.apply {
             adapter = adapterType
-            layoutManager = LinearLayoutManager(
-                binding.rvMainDefaultList.context,
-                LinearLayoutManager.HORIZONTAL,
-                false
-            )
-            if(choose == 0){
-                val snapHelper = PagerSnapHelper()
-                snapHelper.attachToRecyclerView(binding.rvMainDefaultList)
-                setHasFixedSize(true)
-
-            } else {
-                setHasFixedSize(true)
-            }
+            layoutManager = setLayoutManager
+            setItemViewCacheSize(5) // 아이템 화면 밖으로 사라져도, n만큼의 항목을 계속 유지 -> 캐싱해두는것. onBind를 실행하지 않아도 됨.
+            setHasFixedSize(true)
         }
     }
 }

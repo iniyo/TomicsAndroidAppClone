@@ -8,11 +8,8 @@ import android.view.ViewGroup
 import android.widget.RadioGroup
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
-import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.PagerSnapHelper
-import androidx.recyclerview.widget.RecyclerView.LayoutManager
-import androidx.viewpager2.widget.ViewPager2
 import com.example.tomicsandroidappclone.databinding.FragmentWebtoonPageBinding
 import com.example.tomicsandroidappclone.domain.repository.AdapterRepository
 import com.example.tomicsandroidappclone.presentation.adapter.PopularityToonAdapter

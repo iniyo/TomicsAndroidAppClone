@@ -12,16 +12,14 @@ import com.example.tomicsandroidappclone.domain.entity.Webtoon
 
 class TabWebtoonAdapter(
     private val webtoon: List<Webtoon>
-): ListAdapter<Webtoon, TabWebtoonAdapter.ViewHolder>(TabWebtoonAdapter.ItemCallback()) {
+): RecyclerView.Adapter<TabWebtoonAdapter.ViewHolder>() {
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): TabWebtoonAdapter.ViewHolder {
         val binding = DefaultToonItemsBinding.inflate(LayoutInflater.from(parent.context), parent, false)
         return ViewHolder(binding)
     }
-
     override fun onBindViewHolder(holder: TabWebtoonAdapter.ViewHolder, position: Int) {
         holder.bind(webtoon[position])
     }
-
     inner class ViewHolder(val binding: DefaultToonItemsBinding) :
         RecyclerView.ViewHolder(binding.root) {
         fun bind(webtoon: Webtoon) {
@@ -35,19 +33,7 @@ class TabWebtoonAdapter(
             }
         }
     }
-
     override fun getItemCount(): Int {
         return webtoon.size
     }
-
-    class ItemCallback : DiffUtil.ItemCallback<Webtoon>() {
-        override fun areContentsTheSame(oldItem: Webtoon, newItem: Webtoon): Boolean {
-            return oldItem._id == newItem._id
-        }
-
-        override fun areItemsTheSame(oldItem: Webtoon, newItem: Webtoon): Boolean {
-            return oldItem == newItem
-        }
-    }
-
 }
