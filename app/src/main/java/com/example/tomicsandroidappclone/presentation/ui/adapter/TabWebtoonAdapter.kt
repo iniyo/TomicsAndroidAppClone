@@ -1,4 +1,4 @@
-package com.example.tomicsandroidappclone.presentation.adapter
+package com.example.tomicsandroidappclone.presentation.ui.adapter
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
@@ -13,18 +13,18 @@ import com.example.tomicsandroidappclone.domain.entity.Webtoon
 class TabWebtoonAdapter(
     private val webtoon: List<Webtoon>
 ): RecyclerView.Adapter<TabWebtoonAdapter.ViewHolder>() {
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): TabWebtoonAdapter.ViewHolder {
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         val binding = DefaultToonItemsBinding.inflate(LayoutInflater.from(parent.context), parent, false)
         return ViewHolder(binding)
     }
-    override fun onBindViewHolder(holder: TabWebtoonAdapter.ViewHolder, position: Int) {
+    override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         holder.bind(webtoon[position])
     }
     inner class ViewHolder(val binding: DefaultToonItemsBinding) :
         RecyclerView.ViewHolder(binding.root) {
         fun bind(webtoon: Webtoon) {
 
-            if (webtoon.additional.up) {
+            if (webtoon.additional!!.up) {
                 Glide.with(binding.root.context)
                     .load(webtoon.img)
                     .placeholder(R.drawable.icon_not_founded) // image 로드를 못 했을 경우

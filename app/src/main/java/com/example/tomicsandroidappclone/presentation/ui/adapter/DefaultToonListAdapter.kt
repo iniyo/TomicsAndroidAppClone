@@ -1,4 +1,4 @@
-package com.example.tomicsandroidappclone.presentation.adapter
+package com.example.tomicsandroidappclone.presentation.ui.adapter
 
 import android.util.Log
 import android.view.LayoutInflater
@@ -43,7 +43,7 @@ class DefaultToonListAdapter(
                 }
             }
 
-            if (webtoon.additional.up) {
+            if (webtoon.additional!!.up) {
                 Glide.with(binding.root.context)
                     .load(webtoon.img)
                     .placeholder(R.drawable.ic_launcher_foreground) // image 로드를 못 했을 경우

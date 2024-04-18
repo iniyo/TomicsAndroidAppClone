@@ -15,10 +15,6 @@ interface WebtoonApi {
         @Query("updateDay") updateDay: String // mon, tue, wed, thu, fri, sat, sun, finished, naverDaily
     ): ToonResponse
 
-   /* @GET("/")
-    suspend fun getWebtoons(
-    ) : ToonResponse*/
-
     @GET("/search")
     suspend fun getSearch(
         @Query("keyword") keyword: String

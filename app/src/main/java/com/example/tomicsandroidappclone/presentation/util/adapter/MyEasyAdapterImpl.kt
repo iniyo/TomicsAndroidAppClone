@@ -1,11 +1,9 @@
-package com.example.tomicsandroidappclone.domain.repository
+package com.example.tomicsandroidappclone.presentation.util.adapter
 
-import android.app.ActionBar.LayoutParams
 import com.google.android.material.tabs.TabLayout
 import javax.inject.Inject
 
-
-class AdapterRepositoryImpl @Inject constructor() : AdapterRepository {
+class MyEasyAdapterImpl @Inject constructor() : MyEasyAdapter {
     override fun addTabs(tabLayout: TabLayout,  tabItems: Array<String>, checkType: Boolean) {
         tabLayout.removeAllTabs()
         if(checkType) {

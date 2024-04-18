@@ -16,9 +16,11 @@
 
 
 package com.example.tomicsandroidappclone.presentation.util.navigator
+
 import androidx.fragment.app.FragmentActivity
 import com.example.tomicsandroidappclone.R
-import com.example.tomicsandroidappclone.presentation.fragment.*
+import com.example.tomicsandroidappclone.presentation.ui.fragment.MainPageFragment
+import com.example.tomicsandroidappclone.presentation.ui.fragment.WebtoonPageFragment
 import javax.inject.Inject
 
 /**
@@ -28,7 +30,7 @@ class AppNavigatorImpl @Inject constructor(private val activity: FragmentActivit
 
     override fun navigateTo(screen: Fragments, tabItmes: Array<String>) {
         val fragment = when (screen) {
-            Fragments.MAIN_PAGE -> MainWebtoonPageFragment.newInstance()
+            Fragments.MAIN_PAGE -> MainPageFragment.newInstance()
             Fragments.WEBTOON_PAGE -> WebtoonPageFragment.newInstance(tabItmes)
         }
 
