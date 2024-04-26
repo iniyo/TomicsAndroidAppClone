@@ -1,4 +1,4 @@
-package com.example.tomicsandroidappclone.presentation.adapter
+package com.example.tomicsandroidappclone.presentation.ui.adapter
 
 import android.content.Intent
 import android.net.Uri

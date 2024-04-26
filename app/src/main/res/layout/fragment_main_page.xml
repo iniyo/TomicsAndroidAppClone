@@ -7,7 +7,7 @@
     <data>
         <variable
             name="main_fragment_view_model"
-            type="com.example.tomicsandroidappclone.presentation.viewmodel.fragment_view_model.MainFragmentViewModel" />
+            type="com.example.tomicsandroidappclone.presentation.ui.viewmodel.MainFragmentViewModel" />
     </data>
 
 <LinearLayout

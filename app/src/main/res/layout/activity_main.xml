@@ -6,7 +6,7 @@
     <data>
         <variable
             name="viewModel"
-            type="com.example.tomicsandroidappclone.presentation.viewmodel.activity_view_model.BaseViewModel" />
+            type="com.example.tomicsandroidappclone.presentation.ui.viewmodel.BaseViewModel" />
     </data>
 
     <androidx.drawerlayout.widget.DrawerLayout
@@ -15,7 +15,7 @@
         android:layout_height="match_parent"
         android:background="@color/white"
         android:fitsSystemWindows="false"
-        tools:context=".presentation.activity.BaseActivity"
+        tools:context=".presentation.ui.BaseActivity"
         tools:openDrawer="start">
 
         <RelativeLayout
@@ -259,7 +259,7 @@
             <androidx.fragment.app.FragmentContainerView
                 android:id="@+id/fcv_main"
                 android:layout_below="@+id/ll_top_container"
-                android:name="com.example.tomicsandroidappclone.presentation.fragment.MainWebtoonPageFragment"
+                android:name="com.example.tomicsandroidappclone.presentation.ui.fragment.MainPageFragment"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_alignParentBottom="true" />

@@ -1,14 +1,11 @@
 package com.example.tomicsandroidappclone.domain.di
 
-import com.example.tomicsandroidappclone.domain.repository.AdapterRepository
-import com.example.tomicsandroidappclone.domain.repository.AdapterRepositoryImpl
+import com.example.tomicsandroidappclone.presentation.util.adapter.MyEasyAdapter
+import com.example.tomicsandroidappclone.presentation.util.adapter.MyEasyAdapterImpl
 import dagger.Binds
 import dagger.Module
-import dagger.Provides
 import dagger.hilt.InstallIn
 import dagger.hilt.android.components.ActivityComponent
-import dagger.hilt.android.components.FragmentComponent
-import javax.inject.Singleton
 
 
 @Module
@@ -16,5 +13,5 @@ import javax.inject.Singleton
 abstract class AdapterModule {
 
     @Binds
-    abstract fun bindingAdapterRepository(adapterImpl: AdapterRepositoryImpl) : AdapterRepository
+    abstract fun bindingAdapterRepository(adapterImpl: MyEasyAdapterImpl): MyEasyAdapter
 }

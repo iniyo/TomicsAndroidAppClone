@@ -54,10 +54,11 @@ android {
 
 dependencies {
 
-    // 버전 관리
+    // version controll
     val paging_version = "3.2.1"
     val hilt_version = "2.51"
     val retrofit2_version = "2.9.0"
+    val room_version = "2.6.1"
 
     // hilt
     implementation("com.google.dagger:hilt-android:$hilt_version")
@@ -76,8 +77,12 @@ dependencies {
     // corutine
     implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:1.7.1")
 
-    // view model
+    // viewmodel
     implementation("androidx.lifecycle:lifecycle-viewmodel-ktx:2.7.0")
+
+    // room
+    implementation("androidx.room:room-runtime:$room_version")
+    kapt("androidx.room:room-compiler:$room_version")
 
     // defalut
     implementation(libs.androidx.core.ktx)

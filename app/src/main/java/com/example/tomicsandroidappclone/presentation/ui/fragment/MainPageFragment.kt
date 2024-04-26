@@ -1,7 +1,6 @@
-package com.example.tomicsandroidappclone.presentation.fragment
+package com.example.tomicsandroidappclone.presentation.ui.fragment
 
 import android.os.Bundle
-import android.os.Handler
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
@@ -9,19 +8,15 @@ import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
-import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.tomicsandroidappclone.R
 import com.example.tomicsandroidappclone.databinding.FragmentMainPageBinding
-import com.example.tomicsandroidappclone.presentation.adapter.MainPageAdapter
-import com.example.tomicsandroidappclone.presentation.viewmodel.fragment_view_model.MainFragmentViewModel
+import com.example.tomicsandroidappclone.presentation.ui.adapter.MainPageAdapter
+import com.example.tomicsandroidappclone.presentation.ui.viewmodel.MainFragmentViewModel
 import dagger.hilt.android.AndroidEntryPoint
-import kotlinx.coroutines.Job
-import kotlinx.coroutines.delay
-import kotlin.random.Random
 
 @AndroidEntryPoint
-class MainWebtoonPageFragment : Fragment() {
+class MainPageFragment : Fragment() {
 
     private lateinit var binding: FragmentMainPageBinding
 
@@ -39,7 +34,7 @@ class MainWebtoonPageFragment : Fragment() {
 
     }
     companion object {
-        fun newInstance() = MainWebtoonPageFragment()
+        fun newInstance() = MainPageFragment()
     }
 
     override fun onCreateView(
@@ -64,7 +59,6 @@ class MainWebtoonPageFragment : Fragment() {
                 setAdapter()
             }
         }
-
         return binding.root
     }
     private fun init(){
@@ -84,7 +78,7 @@ class MainWebtoonPageFragment : Fragment() {
         // (!) ApplicationContext, ActivityContext, FragmentContext 는 이름에 있는 LifeCycle을 가짐.
         val webtoons = viewModel.getWebtoons()
         Log.d("TAG", "initAdapter: " + webtoons[0].title)
-        val mainPageAdapter = MainPageAdapter(webtoons)
+        val mainPageAdapter = context?.let { MainPageAdapter(webtoons, it) }
 
         binding.rvMainPage.apply {
             Log.d("TAG", "initAdapter rvMain " + webtoons[0].title)

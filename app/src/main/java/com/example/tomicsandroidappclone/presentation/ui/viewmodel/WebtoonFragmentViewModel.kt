@@ -1,6 +1,5 @@
-package com.example.tomicsandroidappclone.presentation.viewmodel.fragment_view_model
+package com.example.tomicsandroidappclone.presentation.ui.viewmodel
 
-import android.content.Context
 import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
@@ -10,7 +9,6 @@ import com.example.tomicsandroidappclone.data.repository.WebtoonRepository
 import com.example.tomicsandroidappclone.domain.entity.ToonResponse
 import com.example.tomicsandroidappclone.domain.entity.Webtoon
 import dagger.hilt.android.lifecycle.HiltViewModel
-import dagger.hilt.android.qualifiers.ActivityContext
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 

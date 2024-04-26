@@ -101,5 +101,6 @@ class PopularityToonAdapter(
 
             //setRecycledViewPool(viewPool)
         }
+
     }
 }

@@ -1,4 +1,4 @@
-package com.example.tomicsandroidappclone.presentation.fragment
+package com.example.tomicsandroidappclone.presentation.ui.fragment
 
 import android.os.Bundle
 import android.util.Log
@@ -8,12 +8,11 @@ import android.view.ViewGroup
 import android.widget.RadioGroup
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
-import androidx.recyclerview.widget.LinearLayoutManager
-import androidx.recyclerview.widget.PagerSnapHelper
+import androidx.viewpager2.widget.ViewPager2
 import com.example.tomicsandroidappclone.databinding.FragmentWebtoonPageBinding
-import com.example.tomicsandroidappclone.domain.repository.AdapterRepository
-import com.example.tomicsandroidappclone.presentation.adapter.PopularityToonAdapter
-import com.example.tomicsandroidappclone.presentation.viewmodel.fragment_view_model.WebtoonFragmentViewModel
+import com.example.tomicsandroidappclone.presentation.ui.adapter.PopularityToonAdapter
+import com.example.tomicsandroidappclone.presentation.ui.viewmodel.WebtoonFragmentViewModel
+import com.example.tomicsandroidappclone.presentation.util.adapter.MyEasyAdapter
 import dagger.hilt.android.AndroidEntryPoint
 import javax.inject.Inject
 
@@ -24,7 +23,7 @@ private const val ARG_PARAM1 = "tabItems"
 class WebtoonPageFragment : Fragment() {
 
     @Inject
-    lateinit var adapterRepository: AdapterRepository
+    lateinit var myEasyAdapter: MyEasyAdapter
     private val viewModel: WebtoonFragmentViewModel by lazy { ViewModelProvider(this)[WebtoonFragmentViewModel::class.java] }
     private lateinit var binding: FragmentWebtoonPageBinding
     private var tabItems: Array<String>? = null
@@ -76,10 +75,10 @@ class WebtoonPageFragment : Fragment() {
     private fun setTab() {
         tabItems?.let {
             if (tabItems!![0] != "전체") {
-                adapterRepository.addTabs(binding.tlFreeWebtoonFragment, it)
+                myEasyAdapter.addTabs(binding.tlFreeWebtoonFragment, it)
                 binding.openSearchViewToolbarContainer.layoutParams.height = 135
             } else {
-                adapterRepository.addTabs(binding.tlFreeWebtoonFragment, it, true)
+                myEasyAdapter.addTabs(binding.tlFreeWebtoonFragment, it, true)
             }
         }
         Log.d("TAG", "setTab: $tabItems")
@@ -102,21 +101,15 @@ class WebtoonPageFragment : Fragment() {
         val webtoons = viewModel.getWebtoons()
         var int: Int
         if (tabItems!![0] != "뜨는 한 컷") {
-            int = 0
-        } else {
             int = 1
+        } else {
+            int = 0
         }
 
-        binding.rvWebtoonPage.apply {
+        binding.vpWebtoonPage.apply {
             adapter = PopularityToonAdapter(webtoons, int)
-            layoutManager = LinearLayoutManager(
-                binding.rvWebtoonPage.context,
-                LinearLayoutManager.HORIZONTAL,
-                false
-            )
-            val snapHelper = PagerSnapHelper()
-            snapHelper.attachToRecyclerView(binding.rvWebtoonPage)
-            setHasFixedSize(true)
+            orientation = ViewPager2.ORIENTATION_HORIZONTAL
+            offscreenPageLimit = 1
         }
 
     }

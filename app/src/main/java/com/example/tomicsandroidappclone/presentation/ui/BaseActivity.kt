@@ -1,4 +1,4 @@
-package com.example.tomicsandroidappclone.presentation.activity
+package com.example.tomicsandroidappclone.presentation.ui
 
 
 import android.os.Bundle
@@ -12,7 +12,7 @@ import com.example.tomicsandroidappclone.R
 import com.example.tomicsandroidappclone.databinding.ActivityMainBinding
 import com.example.tomicsandroidappclone.presentation.util.navigator.AppNavigator
 import com.example.tomicsandroidappclone.presentation.util.navigator.Fragments
-import com.example.tomicsandroidappclone.presentation.viewmodel.activity_view_model.BaseViewModel
+import com.example.tomicsandroidappclone.presentation.ui.viewmodel.BaseViewModel
 import dagger.hilt.android.AndroidEntryPoint
 import javax.inject.Inject
 
@@ -32,17 +32,17 @@ class BaseActivity : AppCompatActivity() {
     }
 
     private fun initViews() {
-        setUpFlate()
-        setUpDrawer()
-        setUpTabNavigator()
+        setFlate()
+        setDrawer()
+        setTabNavigator()
     }
 
-    private fun setUpFlate() {
+    private fun setFlate() {
         binding = DataBindingUtil.setContentView(this, R.layout.activity_main) // databinding으로 set
         binding.viewModel = baseViewModel // ViewModel 연동
     }
 
-    private fun setUpDrawer() {
+    private fun setDrawer() {
         binding.ivDrawer.setOnClickListener {
             if (binding.dlMain.isDrawerOpen(GravityCompat.START)) {
                 binding.dlMain.closeDrawer(GravityCompat.START)
@@ -58,24 +58,18 @@ class BaseActivity : AppCompatActivity() {
         }
     }
 
-    private fun setUpTabNavigator() {
-        binding.ivTomicsLogo.setOnClickListener {
-            navigator.navigateTo(Fragments.MAIN_PAGE, setTabItems(binding.tvFreeWebtoon))
-        }
-        binding.rlFreeWebtoon.setOnClickListener {
-            navigator.navigateTo(Fragments.WEBTOON_PAGE, setTabItems(binding.tvFreeWebtoon))
-        }
-        binding.rlSerialize.setOnClickListener {
-            navigator.navigateTo(Fragments.WEBTOON_PAGE, setTabItems(binding.tvSerialize))
-        }
-        binding.rlTopHundred.setOnClickListener {
-            navigator.navigateTo(Fragments.WEBTOON_PAGE, setTabItems(binding.tvTopHundred))
-        }
-        binding.rlEndedWebtoon.setOnClickListener {
-            navigator.navigateTo(Fragments.WEBTOON_PAGE, setTabItems(binding.tvEndedWebtoon))
-        }
-        binding.rlHotWebtoon.setOnClickListener {
-            navigator.navigateTo(Fragments.WEBTOON_PAGE, setTabItems(binding.tvHot))
+    private fun setTabNavigator() {
+        binding.run {
+            listOf(ivTomicsLogo to tvFreeWebtoon,
+                rlFreeWebtoon to tvFreeWebtoon,
+                rlSerialize to tvSerialize,
+                rlTopHundred to tvTopHundred,
+                rlEndedWebtoon to tvEndedWebtoon,
+                rlHotWebtoon to tvHot).forEach { (view, textView) ->
+                view.setOnClickListener {
+                    navigator.navigateTo(Fragments.WEBTOON_PAGE, setTabItems(textView))
+                }
+            }
         }
     }
 
