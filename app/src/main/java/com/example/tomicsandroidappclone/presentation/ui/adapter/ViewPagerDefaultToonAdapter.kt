@@ -1,5 +1,6 @@
 package com.example.tomicsandroidappclone.presentation.ui.adapter
 
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.GridLayoutManager
@@ -8,10 +9,11 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.tomicsandroidappclone.databinding.PopularityToonItemsBinding
 import com.example.tomicsandroidappclone.domain.entity.Webtoon
 
-class PopularityToonAdapter(
+class ViewPagerDefaultToonAdapter(
     private val webtoonList: ArrayList<Webtoon>,
-    private val checkType: Int
-) : RecyclerView.Adapter<PopularityToonAdapter.ViewHolder>() {
+    private val checkType: Int,
+    private val getSize: Int
+) : RecyclerView.Adapter<ViewPagerDefaultToonAdapter.ViewHolder>() {
 
     inner class ViewHolder(val binding: PopularityToonItemsBinding) :
         RecyclerView.ViewHolder(binding.root) {
@@ -23,10 +25,17 @@ class PopularityToonAdapter(
                     else -> GridLayoutManager(context, 2)
                 }
                 adapter = when (checkType) {
-                    0 -> SubPopularityItemAdapter(webtoonList)
-                    else -> TabWebtoonAdapter(webtoonList)
+                    0 -> ViewPagerSubListItemsAdapter(webtoonList)
+                    else -> ViewPagerTabAdapter(webtoonList)
                 }
             }
+        }
+    }
+
+    override fun onAttachedToRecyclerView(recyclerView: RecyclerView) {
+        super.onAttachedToRecyclerView(recyclerView)
+        if (checkType == 0) {
+            recyclerView.scrollToPosition(Int.MAX_VALUE / 2)
         }
     }
 
@@ -39,10 +48,27 @@ class PopularityToonAdapter(
         return ViewHolder(binding)
     }
 
+
+
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         holder.bind()
     }
 
-    override fun getItemCount(): Int = Int.MAX_VALUE // For infinite scrolling
+    /*private fun getPartialList(holder: ViewPagerTabAdapter.ViewHolder): List<Webtoon> {
+        val startIndex = holder.adapterPosition * poolSize
+        val endIndex = minOf(startIndex + poolSize, webtoon.size)
+        if (startIndex >= webtoon.size) {
+            return emptyList()
+        }
+        Log.d("TAG", "from: $startIndex ")
+        Log.d("TAG", "to: $endIndex ")
+        return webtoon.subList(startIndex, endIndex)
+    }*/
+
+    override fun getItemCount(): Int {
+        val getCount = if (checkType == 0) Int.MAX_VALUE // For infinite scrolling
+        else getSize
+        return getCount
+    }
     override fun getItemId(position: Int): Long = position.toLong() // Stable IDs
 }

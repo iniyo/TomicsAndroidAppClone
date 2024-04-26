@@ -23,7 +23,7 @@ data class Webtoon(
     val updateDays: List<String>,
     val fanCount: Int?,
     val searchKeyword: String,
-    val additional: Additional?,
+    val additional: Additional,
     val tagList: Tag?
 )
 

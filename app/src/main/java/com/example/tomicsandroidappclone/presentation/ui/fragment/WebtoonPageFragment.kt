@@ -3,14 +3,18 @@ package com.example.tomicsandroidappclone.presentation.ui.fragment
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
+import android.view.MotionEvent
 import android.view.View
 import android.view.ViewGroup
 import android.widget.RadioGroup
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
+import androidx.recyclerview.widget.RecyclerView
 import androidx.viewpager2.widget.ViewPager2
 import com.example.tomicsandroidappclone.databinding.FragmentWebtoonPageBinding
-import com.example.tomicsandroidappclone.presentation.ui.adapter.PopularityToonAdapter
+import com.example.tomicsandroidappclone.domain.di.EasyAdapter
+import com.example.tomicsandroidappclone.presentation.ui.adapter.RecyclerDefaultToonAdapter
+import com.example.tomicsandroidappclone.presentation.ui.adapter.ViewPagerDefaultToonAdapter
 import com.example.tomicsandroidappclone.presentation.ui.viewmodel.WebtoonFragmentViewModel
 import com.example.tomicsandroidappclone.presentation.util.adapter.MyEasyAdapter
 import dagger.hilt.android.AndroidEntryPoint
@@ -22,8 +26,8 @@ private const val ARG_PARAM1 = "tabItems"
 @AndroidEntryPoint
 class WebtoonPageFragment : Fragment() {
 
-    @Inject
-    lateinit var myEasyAdapter: MyEasyAdapter
+    @EasyAdapter
+    @Inject lateinit var myEasyAdapter: MyEasyAdapter
     private val viewModel: WebtoonFragmentViewModel by lazy { ViewModelProvider(this)[WebtoonFragmentViewModel::class.java] }
     private lateinit var binding: FragmentWebtoonPageBinding
     private var tabItems: Array<String>? = null
@@ -90,6 +94,7 @@ class WebtoonPageFragment : Fragment() {
                 binding.rgMain.visibility = RadioGroup.GONE
             } else {
                 binding.rgMain.setOnCheckedChangeListener { radioGroup, _ ->
+                    radioGroup.check(0)
                     radioGroup.clearAnimation()
                     radioGroup.jumpDrawablesToCurrentState()
                 }
@@ -99,17 +104,16 @@ class WebtoonPageFragment : Fragment() {
 
     private fun setAdapter() {
         val webtoons = viewModel.getWebtoons()
-        var int: Int
-        if (tabItems!![0] != "뜨는 한 컷") {
-            int = 1
+        val int = if (tabItems!![0] != "뜨는 한 컷") {
+            1
         } else {
-            int = 0
+            0
         }
 
         binding.vpWebtoonPage.apply {
-            adapter = PopularityToonAdapter(webtoons, int)
+            adapter = ViewPagerDefaultToonAdapter(webtoons, int, tabItems!!.size)
             orientation = ViewPager2.ORIENTATION_HORIZONTAL
-            offscreenPageLimit = 1
+            offscreenPageLimit = 9 // view pager 양 옆 page 미리 생성 5 = 최악의 경우 10개가 생성.
         }
 
     }

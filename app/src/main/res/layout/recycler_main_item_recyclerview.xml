@@ -2,23 +2,35 @@
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/constraint_df_container"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:background="@color/white"
     tools:ignore="RtlSymmetry">
 
     <include
-        android:id="@+id/layout_top"
-        layout="@layout/banner_item_layout"/>
+        android:id="@+id/inclued_layout_banner"
+        layout="@layout/recycler_banner"/>
+
+    <ImageView
+        android:id="@+id/iv_ad"
+        android:layout_width="match_parent"
+        android:layout_height="120dp"
+        android:importantForAccessibility="no"
+        android:padding="10dp"
+        android:scaleType="fitXY"
+        android:src="@drawable/icon_advertisement"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/inclued_layout_banner" />
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/rv_main_default_list"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="10dp"
         android:paddingStart="9dp"
         android:paddingBottom="20dp"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/layout_top" />
+        app:layout_constraintTop_toBottomOf="@+id/iv_ad" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

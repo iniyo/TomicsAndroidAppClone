@@ -1,25 +1,19 @@
 package com.example.tomicsandroidappclone.presentation.ui.adapter
 
 import android.content.Intent
-import android.content.res.Resources
 import android.net.Uri
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.ViewGroup
-import androidx.recyclerview.widget.DiffUtil
-import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.example.tomicsandroidappclone.R
 import com.example.tomicsandroidappclone.databinding.PopularityToonItemsSubBinding
 import com.example.tomicsandroidappclone.domain.entity.Webtoon
 import com.example.tomicsandroidappclone.presentation.util.mapper.MyLogChecker
-import kotlin.math.min
-import kotlin.random.Random
 
-class SubPopularityItemAdapter(
+class ViewPagerSubListItemsAdapter(
     private val webtoonList: List<Webtoon>
-) :  RecyclerView.Adapter<SubPopularityItemAdapter.ViewHolder>(){
+) :  RecyclerView.Adapter<ViewPagerSubListItemsAdapter.ViewHolder>(){
 
     inner class ViewHolder(val binding: PopularityToonItemsSubBinding) :
         RecyclerView.ViewHolder(binding.root) {

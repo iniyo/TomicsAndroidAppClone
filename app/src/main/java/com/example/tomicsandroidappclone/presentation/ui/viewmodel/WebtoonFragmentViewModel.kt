@@ -17,8 +17,6 @@ import javax.inject.Inject
 class WebtoonFragmentViewModel @Inject constructor(
     private val webtoonRepository: WebtoonRepository
 ) : ViewModel() {
-    private val _tabItems = MutableLiveData<Array<String>>() // webtoon 전체 정보
-    val tabItems: LiveData<Array<String>> = _tabItems
     private val _toonResponse = MutableLiveData<ToonResponse>() // webtoon 전체 정보
     val toonResponse: LiveData<ToonResponse> = _toonResponse
     private val _webtoonsInfo = MutableLiveData<ArrayList<Webtoon>>()

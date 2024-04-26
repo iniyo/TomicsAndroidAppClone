@@ -13,10 +13,10 @@ import com.example.tomicsandroidappclone.domain.entity.Webtoon
 import com.example.tomicsandroidappclone.presentation.util.mapper.MyGraphicMapper
 
 
-class DefaultToonListAdapter(
+class RecyclerDefaultToonAdapter(
     private val webtoonList: List<Webtoon>,
     private val toonType: Int
-) : ListAdapter<Webtoon, DefaultToonListAdapter.ViewHolder>(ItemCallback()) {
+) : ListAdapter<Webtoon, RecyclerDefaultToonAdapter.ViewHolder>(ItemCallback()) {
     private lateinit var mapper: MyGraphicMapper
 
     inner class ViewHolder(val binding: DefaultToonItemsBinding) :
@@ -24,26 +24,38 @@ class DefaultToonListAdapter(
         fun bind(webtoon: Webtoon) {
             mapper = MyGraphicMapper()
             Log.d("size TAG", "size: $toonType ")
-
+            var dpHeight = 1100
+            var dpWidth = 900
             when (toonType) {
                 // default
-                1 -> {
-                    val dpHeight = 1100
-                    val dpWidth = 900
-
+                0 -> {
                     binding.ivToonImg.layoutParams.height = mapper.px2dp(dpHeight)
                     binding.rlDefaultToonSize.layoutParams.width = mapper.px2dp(dpWidth)
                 }
-                // oversize
+                // big size
+                1 -> {
+                    dpHeight = 1700
+                    dpWidth = 1400
+                    binding.ivToonImg.layoutParams.height = mapper.px2dp(dpHeight)
+                    binding.rlDefaultToonSize.layoutParams.width = mapper.px2dp(dpWidth)
+                }
+                // middle size
                 2 -> {
-                    val dpHeight = 1600
-                    val dpWidth = 1300
+                    dpHeight = 1300
+                    dpWidth = 1400
+                    binding.ivToonImg.layoutParams.height = mapper.px2dp(dpHeight)
+                    binding.rlDefaultToonSize.layoutParams.width = mapper.px2dp(dpWidth)
+                }
+                // foot - ad long size banner
+                3 -> {
+                    dpHeight = 1100
+                    dpWidth = 3000
                     binding.ivToonImg.layoutParams.height = mapper.px2dp(dpHeight)
                     binding.rlDefaultToonSize.layoutParams.width = mapper.px2dp(dpWidth)
                 }
             }
 
-            if (webtoon.additional!!.up) {
+            if (webtoon.additional.up) {
                 Glide.with(binding.root.context)
                     .load(webtoon.img)
                     .placeholder(R.drawable.ic_launcher_foreground) // image 로드를 못 했을 경우

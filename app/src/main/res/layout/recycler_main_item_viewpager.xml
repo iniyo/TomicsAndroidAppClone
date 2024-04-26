@@ -2,9 +2,14 @@
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:id="@+id/recycler_main_viewpager_container"
+    android:layout_marginTop="20dp"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     xmlns:tools="http://schemas.android.com/tools">
+
+    <include
+        android:id="@+id/inclued_layout_banner"
+        layout="@layout/recycler_banner"/>
 
     <androidx.viewpager2.widget.ViewPager2
         android:id="@+id/vp_main"
@@ -12,14 +17,12 @@
         android:layout_height="wrap_content"
         android:clipToPadding="false"
         android:padding="0dp"
-
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="1.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/inclued_layout_banner"
         app:layout_constraintVertical_bias="0.0" />
-
 
     <LinearLayout
         android:id="@+id/ll_top_slide_observer"
@@ -33,40 +36,48 @@
         app:layout_constraintTop_toBottomOf="@+id/vp_main">
 
         <View
+            android:id="@+id/indicator_0"
             android:layout_width="20dp"
             android:layout_height="1dp"
             android:layout_marginEnd="5dp"
-            android:background="@color/black" />
+            android:background="@drawable/selector_linear_indicator" />
         <View
+            android:id="@+id/indicator_1"
             android:layout_width="20dp"
             android:layout_height="1dp"
             android:layout_marginEnd="5dp"
-            android:background="@color/black" />
+            android:background="@drawable/selector_linear_indicator" />
         <View
+            android:id="@+id/indicator_2"
             android:layout_width="20dp"
             android:layout_height="1dp"
             android:layout_marginEnd="5dp"
-            android:background="@color/black" />
+            android:background="@drawable/selector_linear_indicator" />
         <View
+            android:id="@+id/indicator_3"
             android:layout_width="20dp"
             android:layout_height="1dp"
             android:layout_marginEnd="5dp"
-            android:background="@color/black" />
+            android:background="@drawable/selector_linear_indicator" />
         <View
+            android:id="@+id/indicator_4"
             android:layout_width="20dp"
             android:layout_height="1dp"
             android:layout_marginEnd="5dp"
-            android:background="@color/black" />
+            android:background="@drawable/selector_linear_indicator" />
         <View
+            android:id="@+id/indicator_5"
             android:layout_width="20dp"
             android:layout_height="1dp"
             android:layout_marginEnd="5dp"
-            android:background="@color/black" />
+            android:background="@drawable/selector_linear_indicator" />
         <View
+            android:id="@+id/indicator_6"
             android:layout_width="20dp"
             android:layout_height="1dp"
             android:layout_marginEnd="5dp"
-            android:background="@color/black" />
+            android:background="@drawable/selector_linear_indicator" />
 
     </LinearLayout>
+
 </androidx.constraintlayout.widget.ConstraintLayout>

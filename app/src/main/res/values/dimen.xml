@@ -1,5 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <dimen name="pageMargin">16dp</dimen>
-    <dimen name="pagerWidth">300dp</dimen>
+    <dimen name="page_margin">16dp</dimen>
+    <dimen name="page_width">300dp</dimen>
+
+    <dimen name="default_width">900dp</dimen>
+    <dimen name="default_height">1100dp</dimen>
+    <dimen name="over_size_width">1600dp</dimen>
+    <dimen name="over_size_height">1300dp</dimen>
+
 </resources>

@@ -32,6 +32,7 @@ class BaseActivity : AppCompatActivity() {
     }
 
     private fun initViews() {
+
         setFlate()
         setDrawer()
         setTabNavigator()
@@ -60,7 +61,7 @@ class BaseActivity : AppCompatActivity() {
 
     private fun setTabNavigator() {
         binding.run {
-            listOf(ivTomicsLogo to tvFreeWebtoon,
+            listOf(
                 rlFreeWebtoon to tvFreeWebtoon,
                 rlSerialize to tvSerialize,
                 rlTopHundred to tvTopHundred,

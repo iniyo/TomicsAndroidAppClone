@@ -1,4 +1,4 @@
-package com.example.tomicsandroidappclone.presentation.ui.adapter.auto_scroll_handler
+package com.example.tomicsandroidappclone.presentation.ui.adapter.handler
 
 import android.animation.Animator
 import android.animation.TimeInterpolator
