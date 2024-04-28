@@ -1,6 +1,5 @@
 package com.example.tomicsandroidappclone.presentation.ui.fragment
 
-import android.content.res.Resources
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
@@ -9,19 +8,15 @@ import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
-import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.bumptech.glide.load.engine.Resource
 import com.example.tomicsandroidappclone.R
 import com.example.tomicsandroidappclone.databinding.FragmentMainPageBinding
+import com.example.tomicsandroidappclone.domain.entity.Webtoon
 import com.example.tomicsandroidappclone.presentation.ui.adapter.MainRecyclerAdapter
 import com.example.tomicsandroidappclone.presentation.ui.viewmodel.MainFragmentViewModel
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.SupervisorJob
-import kotlinx.coroutines.coroutineScope
-import kotlinx.coroutines.launch
-import kotlin.coroutines.coroutineContext
 
 @AndroidEntryPoint
 class MainPageFragment : Fragment() {
@@ -35,7 +30,6 @@ class MainPageFragment : Fragment() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        viewModel.fetchData()
         /*viewModel.fetchWebtoons() // webtoon data*/
     }
 
@@ -50,18 +44,13 @@ class MainPageFragment : Fragment() {
         binding = DataBindingUtil.inflate(inflater, R.layout.fragment_main_page, container, false)
         binding.mainFragmentViewModel = viewModel
 
-
-        // 멍청하게도 fetchWebtoons에 webtoonsInfo에 대한 초기화를 안 해두고 webtoonsInfo에 observer를 달았다.
-        // webtoonsInfo의 observer가 동작하지 않는 이유를 장장 1시간 30분 동안 찾았다.
-        // coroutine으로 작성했으니까 비동기 처리를 해야 한다. 이 점 유의하고 코딩하자..
-
         /*viewModel.getSeviceAndUpdateDayByWebtoon("kakao",  "mon")*/
         binding.run {
             Log.d("TAG", "binding run")
             viewModel.webtoonsInfo.observe(viewLifecycleOwner) {
                 // adapter 초기화는 data를 받아오고 실행되어야 한다. 따라서 couroutine이후에 adapter 초기화 코드를 실행.
                 // 문제점 = 받아오는 속도가 비교적 느려 보인다. (느리다.)
-                setAdapter()
+                setAdapter(it)
             }
         }
         return binding.root
@@ -77,11 +66,12 @@ class MainPageFragment : Fragment() {
         binding.rvMainPage.adapter = null // Adapter 해제
     }
 
-    private fun setAdapter() {
+    private fun setAdapter(WebtoonList: ArrayList<Webtoon>) {
         // binding.root.context : 말 그대로 root view의 context(맥락)
         // context는 LifeCycle과 연결되어 있고(!) Singleton임. (실행 중 하나의 객체만 가짐)
         // (!) ApplicationContext, ActivityContext, FragmentContext 는 이름에 있는 LifeCycle을 가짐.
-        val mainRecyclerAdapter = context?.let { MainRecyclerAdapter(viewModel.getWebtoons(), it) }
+        val mainRecyclerAdapter = context?.let { MainRecyclerAdapter(WebtoonList, it) }
+        Log.d("TAG", "${viewModel.webtoonsInfo}")
         binding.rvMainPage.apply {
             this.adapter = mainRecyclerAdapter
             layoutManager = LinearLayoutManager(binding.root.context)

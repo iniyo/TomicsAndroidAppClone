@@ -2,11 +2,11 @@ package com.example.tomicsandroidappclone.presentation.ui.adapter
 
 import android.content.Context
 import android.graphics.Color
-import android.graphics.Rect
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.lifecycle.LiveData
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import androidx.viewpager2.widget.ViewPager2
@@ -15,10 +15,11 @@ import com.example.tomicsandroidappclone.databinding.RecyclerMainItemRecyclervie
 import com.example.tomicsandroidappclone.databinding.RecyclerMainItemViewpagerBinding
 import com.example.tomicsandroidappclone.domain.entity.Webtoon
 import com.example.tomicsandroidappclone.presentation.ui.adapter.handler.AutoScrollHandler
-import com.example.tomicsandroidappclone.presentation.util.mapper.MyLogChecker
+import kotlin.math.abs
+import kotlin.math.absoluteValue
 
 class MainRecyclerAdapter(
-    private val webtoon: ArrayList<Webtoon>,
+    private val webtoonData: ArrayList<Webtoon>,
     private val context: Context
 ) : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
     private lateinit var myHandler: AutoScrollHandler
@@ -31,36 +32,36 @@ class MainRecyclerAdapter(
     val itemList = listOf(
         // viewpager choose -1=top slide, 0=nested recycler
         // recycler -1=only ad 0=default, 1=big size, 2=middle size, 3=tag to image, 4=change container, 5=long size banner
-        MainItem(ViewType.TYPE_VIEWPAGER, webtoon, -1),
-        MainItem(ViewType.TYPE_VIEWPAGER, webtoon, 0),
-        MainItem(ViewType.TYPE_RECYCLER, webtoon, 0),
-        MainItem(ViewType.TYPE_RECYCLER, webtoon, 1),
-        MainItem(ViewType.TYPE_RECYCLER, webtoon, 2),
-        MainItem(ViewType.TYPE_RECYCLER, webtoon, -1),
-        MainItem(ViewType.TYPE_RECYCLER, webtoon, 3),
-        MainItem(ViewType.TYPE_RECYCLER, webtoon, 0),
-        MainItem(ViewType.TYPE_RECYCLER, webtoon, 0), // tag 추가해서 선택 가능하게 변경.
-        MainItem(ViewType.TYPE_RECYCLER, webtoon, 4),
-        MainItem(ViewType.TYPE_RECYCLER, webtoon, 0),
-        MainItem(ViewType.TYPE_RECYCLER, webtoon, 0),
-        MainItem(ViewType.TYPE_RECYCLER, webtoon, -1),
-        MainItem(ViewType.TYPE_RECYCLER, webtoon, 4),
-        MainItem(ViewType.TYPE_RECYCLER, webtoon, 0),
-        MainItem(ViewType.TYPE_RECYCLER, webtoon, 0),
-        MainItem(ViewType.TYPE_RECYCLER, webtoon, 5),
+        MainItem(ViewType.TYPE_VIEWPAGER, webtoonData, -1),
+        MainItem(ViewType.TYPE_VIEWPAGER, webtoonData, 0),
+        MainItem(ViewType.TYPE_RECYCLER, webtoonData, 0),
+        MainItem(ViewType.TYPE_RECYCLER, webtoonData, 1),
+        MainItem(ViewType.TYPE_RECYCLER, webtoonData, 2),
+        MainItem(ViewType.TYPE_RECYCLER, webtoonData, -1),
+        MainItem(ViewType.TYPE_RECYCLER, webtoonData, 3),
+        MainItem(ViewType.TYPE_RECYCLER, webtoonData, 0),
+        MainItem(ViewType.TYPE_RECYCLER, webtoonData, 0), // tag 추가해서 선택 가능하게 변경.
+        MainItem(ViewType.TYPE_RECYCLER, webtoonData, 4),
+        MainItem(ViewType.TYPE_RECYCLER, webtoonData, 0),
+        MainItem(ViewType.TYPE_RECYCLER, webtoonData, 0),
+        MainItem(ViewType.TYPE_RECYCLER, webtoonData, -1),
+        MainItem(ViewType.TYPE_RECYCLER, webtoonData, 4),
+        MainItem(ViewType.TYPE_RECYCLER, webtoonData, 0),
+        MainItem(ViewType.TYPE_RECYCLER, webtoonData, 0),
+        MainItem(ViewType.TYPE_RECYCLER, webtoonData, 5),
     )
 
     inner class ViewPagerViewHolder(private val binding: RecyclerMainItemViewpagerBinding) :
         RecyclerView.ViewHolder(binding.root) {
         fun bind(position: Int) {
-            setViewPager(binding, itemList[position].choose, webtoon)
+            setViewPager(binding, itemList[position].choose)
         }
     }
 
     inner class RecyclerViewHolder(private val binding: RecyclerMainItemRecyclerviewBinding) :
         RecyclerView.ViewHolder(binding.root) {
         fun bind(position: Int) {
-            setRecyclerView(binding, itemList[position].choose, webtoon)
+            setRecyclerView(binding, itemList[position].choose)
         }
     }
 
@@ -112,11 +113,6 @@ class MainRecyclerAdapter(
         }
     }
 
-    override fun onAttachedToRecyclerView(recyclerView: RecyclerView) {
-        super.onAttachedToRecyclerView(recyclerView)
-        /*myHandler.startAutoScroll(3000)*/ //초기화 문제
-    }
-
     override fun onDetachedFromRecyclerView(recyclerView: RecyclerView) {
         super.onDetachedFromRecyclerView(recyclerView)
         Log.d("TAG", "onDetachedFromRecyclerView ")
@@ -130,37 +126,61 @@ class MainRecyclerAdapter(
     override fun getItemCount(): Int = itemList.size
     private fun setViewPager(
         binding: RecyclerMainItemViewpagerBinding,
-        choose: Int,
-        webtoonList: List<Webtoon>
+        choose: Int
     ) {
         val adapterType = when (choose) {
             -1 -> {
                 myHandler = AutoScrollHandler(binding.vpMain)
                 val interval = 3000
-                // 여기에다가 사용하게 되면 handler가 view가 사라질 때 사라지지 않음.
-                // 따라서 view가 사라질때 사라지게 하거나 다른 방법을 찾아야 함.
-                myHandler.startAutoScroll(interval)
+                /*myHandler.startAutoScroll(interval)*/
                 binding.incluedLayoutBanner.linearContainer.visibility = View.GONE
 
-                binding.vpMain.registerOnPageChangeCallback(object :
-                    ViewPager2.OnPageChangeCallback() {
-                    override fun onPageScrollStateChanged(state: Int) {
-                        super.onPageScrollStateChanged(state)
-                        when (state) {
-                            ViewPager2.SCROLL_STATE_IDLE -> {
-                                myHandler.startAutoScroll(interval)
-                            }
+                binding.vpMain.apply {
 
-                           /* ViewPager2.SCROLL_STATE_DRAGGING -> {
-                                myHandler.stopAutoScroll()
-                                myHandler.startAutoScroll(interval)
-                            }*/
-
-                            else -> Log.d("TAG", "pageScrollState 예외 상태")
-                        }
+                    setPageTransformer { page, position ->
+                        val pagePosition = position % adapter!!.itemCount
+                        val realPosition = if (pagePosition < 0) pagePosition + adapter!!.itemCount else pagePosition
+                        // pagePosition 값을 사용하여 page.tag에 값을 설정
+                        page.tag = realPosition
                     }
-                })
-                ViewPagerTopSlideAdapter(webtoonList.take(7) as ArrayList<Webtoon>)
+                    registerOnPageChangeCallback(object :
+                        ViewPager2.OnPageChangeCallback() {
+                        override fun onPageSelected(position: Int) {
+                            adapter?.let { adapter ->
+                                val itemCount = adapter.itemCount // int.maxvalue
+                                val pagePosition = position - (Int.MAX_VALUE / 2)
+                                Log.d("TAG", "position: $position")
+                                Log.d("TAG", "pagePosition: ${pagePosition}")
+                                val normalizedPosition = if (pagePosition >= 0) {
+                                    Log.d("TAG", "true: ${pagePosition}")
+                                    pagePosition
+                                } else {
+                                    Log.d("TAG", "false: ${ itemCount - ((-pagePosition) + 1)}")
+                                    itemCount - ((-pagePosition).inc())// 음수일 경우 역순으로 위치 계산. +1을 해야 값이 중복되지 않음.
+                                }
+                                val indicatorPosition = normalizedPosition % 7
+                                Log.d("TAG", "onPageSelected: $indicatorPosition")
+                                binding.indicator.selectDot(indicatorPosition)
+                            } ?: Log.w("TAG", "Adapter is null")
+                        }
+                       /* override fun onPageScrollStateChanged(state: Int) {
+                            super.onPageScrollStateChanged(state)
+                            when (state) {
+                                ViewPager2.SCROLL_STATE_IDLE -> {
+                                    myHandler.startAutoScroll(interval)
+                                }
+                                ViewPager2.SCROLL_STATE_DRAGGING -> {
+                                    myHandler.stopAutoScroll()
+                                }
+                                else -> Log.d("TAG", "pageScrollState 예외 상태")
+                            }
+                        }*/
+                    })
+                }
+                val webtoonListValue: List<Webtoon> = webtoonData
+                //init indicator
+                binding.indicator.createDotPanel(7, R.drawable.indicator_dot_off, R.drawable.indicator_dot_on, 0)
+                ViewPagerTopSlideAdapter(webtoonListValue.take(7))
             }
 
             0 -> {
@@ -169,7 +189,7 @@ class MainRecyclerAdapter(
                 val pagerWidth = context.resources.getDimensionPixelOffset(R.dimen.page_width)
                 val screenWidth = context.resources.displayMetrics.widthPixels
                 val offsetPx = screenWidth - pageMarginPx - pagerWidth
-                binding.recyclerMainViewpagerContainer.removeView(binding.llTopSlideObserver) // 재사용 되지 않으므로 그냥 view를 삭제.
+                binding.recyclerMainViewpagerContainer.removeView(binding.indicator) // 재사용 되지 않으므로 그냥 view를 삭제.
                 binding.vpMain.apply {
                     clipToPadding = false // padding 공간을 스크롤 화면으로 활용가능.
                     clipChildren = false // view의 자식들이 영역 안에서만 그려지도록 설정하는 것. Default = true
@@ -178,11 +198,11 @@ class MainRecyclerAdapter(
                     }
 
                 }
-                ViewPagerDefaultToonAdapter(webtoonList as ArrayList<Webtoon>, choose, choose)
+                ViewPagerDefaultToonAdapter(webtoonData, choose, choose)
             }
 
             else -> {
-                ViewPagerDefaultToonAdapter(webtoonList as ArrayList<Webtoon>, choose, choose)
+                ViewPagerDefaultToonAdapter(webtoonData, choose, choose)
             }
         }
         /* 참고 : https://velog.io/@king-jungin/Android-%EC%96%91-%EC%98%86%EC%9D%B4-%EB%AF%B8%EB%A6%AC%EB%B3%B4%EC%9D%B4%EB%8A%94-ViewPager2-%EB%A7%8C%EB%93%A4%EA%B8%B0 */
@@ -196,8 +216,7 @@ class MainRecyclerAdapter(
 
     private fun setRecyclerView(
         binding: RecyclerMainItemRecyclerviewBinding,
-        choose: Int,
-        webtoonList: List<Webtoon>
+        choose: Int
     ) {
         val context = binding.root.context
         val bannerItems = context.resources.getStringArray(R.array.banner_items)
@@ -220,13 +239,12 @@ class MainRecyclerAdapter(
                     binding.incluedLayoutBanner.tvTag.text = bannerItems[count]
                 }
                 count.inc()
-                RecyclerDefaultToonAdapter(webtoonList, choose)
+                RecyclerDefaultToonAdapter(webtoonData, choose)
             }
-
             else -> {
                 binding.incluedLayoutBanner.tvTag.text = bannerItems[count]
                 count.inc()
-                RecyclerDefaultToonAdapter(webtoonList, choose)
+                RecyclerDefaultToonAdapter(webtoonData, choose)
             }
         }
 

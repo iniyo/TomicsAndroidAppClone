@@ -1,13 +1,12 @@
 package com.example.tomicsandroidappclone.domain.di
 
 import com.example.tomicsandroidappclone.data.repository.WebtoonRepository
-import com.example.tomicsandroidappclone.domain.usecase.GetSharedDataUseCase
+import com.example.tomicsandroidappclone.domain.usecase.GetKakaoWebtoonByDayUseCase
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
 import dagger.hilt.android.components.ActivityRetainedComponent
 import dagger.hilt.android.scopes.ActivityRetainedScoped
-import javax.inject.Singleton
 
 
 // use case
@@ -31,7 +30,7 @@ object UseCaseModule {
     @ActivityRetainedScoped
     fun provideGetSharedDataUseCase(
         webtoonRepository: WebtoonRepository
-    ) = GetSharedDataUseCase(
+    ) = GetKakaoWebtoonByDayUseCase(
         webtoonRepository = webtoonRepository
     )
 }

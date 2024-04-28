@@ -3,6 +3,7 @@ package com.example.tomicsandroidappclone.presentation.ui.adapter
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.ViewGroup
+import androidx.lifecycle.LiveData
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
@@ -14,7 +15,7 @@ import com.example.tomicsandroidappclone.presentation.util.mapper.MyGraphicMappe
 
 
 class RecyclerDefaultToonAdapter(
-    private val webtoonList: List<Webtoon>,
+    private val webtoonList: ArrayList<Webtoon>,
     private val toonType: Int
 ) : ListAdapter<Webtoon, RecyclerDefaultToonAdapter.ViewHolder>(ItemCallback()) {
     private lateinit var mapper: MyGraphicMapper
@@ -78,7 +79,9 @@ class RecyclerDefaultToonAdapter(
     }
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
-        holder.bind(webtoonList[position])
+        webtoonList[position].let{
+            holder.bind(it)
+        }
     }
 
     class ItemCallback : DiffUtil.ItemCallback<Webtoon>() {

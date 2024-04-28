@@ -5,10 +5,12 @@ import com.example.tomicsandroidappclone.data.repository.WebtoonRepository
 import com.example.tomicsandroidappclone.domain.entity.Webtoon
 import java.util.Calendar
 
-class GetSharedDataUseCase(
+class GetKakaoWebtoonByDayUseCase(
     private val webtoonRepository: WebtoonRepository
 ) {
-    suspend fun getTodayWebtoonData(): ArrayList<Webtoon>{
+    private lateinit var webtoon: ArrayList<Webtoon>
+
+    suspend fun getTodayWebtoonData() {
         val calendar: Calendar = Calendar.getInstance()
         val dayOfWeek: Int = calendar.get(Calendar.DAY_OF_WEEK)
 
@@ -20,9 +22,15 @@ class GetSharedDataUseCase(
             Calendar.THURSDAY -> "thu"
             Calendar.FRIDAY -> "fri"
             Calendar.SATURDAY -> "sat"
-            else -> {"mon"}
+            else -> {"null"}
         }
         Log.d("TAG", dayOfWeekString)
-        return webtoonRepository.getDayByWebtoons("kakao", dayOfWeekString)
+        webtoon = webtoonRepository.getDayByWebtoons("kakao", dayOfWeekString)
+    }
+
+    // invoke - operator관례 함수
+    suspend operator fun invoke() : ArrayList<Webtoon> {
+        getTodayWebtoonData()
+        return webtoon
     }
 }

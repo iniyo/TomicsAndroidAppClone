@@ -12,7 +12,7 @@ import com.example.tomicsandroidappclone.databinding.TopToonItemsBinding
 import com.example.tomicsandroidappclone.domain.entity.Webtoon
 
 class ViewPagerTopSlideAdapter(
-    private val webtoonList: ArrayList<Webtoon>
+    private val webtoonList: List<Webtoon>
 ) : RecyclerView.Adapter<ViewPagerTopSlideAdapter.ViewHolder>() {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {

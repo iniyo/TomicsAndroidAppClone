@@ -24,60 +24,12 @@
         app:layout_constraintTop_toBottomOf="@+id/inclued_layout_banner"
         app:layout_constraintVertical_bias="0.0" />
 
-    <LinearLayout
-        android:id="@+id/ll_top_slide_observer"
+    <com.example.tomicsandroidappclone.presentation.ui.adapter.inidicator.LinearIndicator
+        android:id="@+id/indicator"
         android:layout_width="match_parent"
-        android:layout_height="30dp"
-        android:background="@color/white"
-        android:gravity="center"
-        android:orientation="horizontal"
+        android:layout_height="10dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/vp_main">
-
-        <View
-            android:id="@+id/indicator_0"
-            android:layout_width="20dp"
-            android:layout_height="1dp"
-            android:layout_marginEnd="5dp"
-            android:background="@drawable/selector_linear_indicator" />
-        <View
-            android:id="@+id/indicator_1"
-            android:layout_width="20dp"
-            android:layout_height="1dp"
-            android:layout_marginEnd="5dp"
-            android:background="@drawable/selector_linear_indicator" />
-        <View
-            android:id="@+id/indicator_2"
-            android:layout_width="20dp"
-            android:layout_height="1dp"
-            android:layout_marginEnd="5dp"
-            android:background="@drawable/selector_linear_indicator" />
-        <View
-            android:id="@+id/indicator_3"
-            android:layout_width="20dp"
-            android:layout_height="1dp"
-            android:layout_marginEnd="5dp"
-            android:background="@drawable/selector_linear_indicator" />
-        <View
-            android:id="@+id/indicator_4"
-            android:layout_width="20dp"
-            android:layout_height="1dp"
-            android:layout_marginEnd="5dp"
-            android:background="@drawable/selector_linear_indicator" />
-        <View
-            android:id="@+id/indicator_5"
-            android:layout_width="20dp"
-            android:layout_height="1dp"
-            android:layout_marginEnd="5dp"
-            android:background="@drawable/selector_linear_indicator" />
-        <View
-            android:id="@+id/indicator_6"
-            android:layout_width="20dp"
-            android:layout_height="1dp"
-            android:layout_marginEnd="5dp"
-            android:background="@drawable/selector_linear_indicator" />
-
-    </LinearLayout>
+        app:layout_constraintTop_toBottomOf="@+id/vp_main" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
