@@ -9,6 +9,7 @@ import dagger.hilt.components.SingletonComponent
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 import javax.inject.Singleton
+
 // NetworkModule.kt
 // Binds랑 Provides 어노테이션은 같이 쓰면 안됨.
 
@@ -32,6 +33,7 @@ object NetworkModule {
             .addConverterFactory(GsonConverterFactory.create())
             .build()
     }
+
     @Singleton
     @Provides
     fun provideWebtoonApi(retrofit: Retrofit): WebtoonApi {

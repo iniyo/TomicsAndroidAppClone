@@ -6,7 +6,6 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.lifecycle.LiveData
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import androidx.viewpager2.widget.ViewPager2
@@ -15,8 +14,6 @@ import com.example.tomicsandroidappclone.databinding.RecyclerMainItemRecyclervie
 import com.example.tomicsandroidappclone.databinding.RecyclerMainItemViewpagerBinding
 import com.example.tomicsandroidappclone.domain.entity.Webtoon
 import com.example.tomicsandroidappclone.presentation.ui.adapter.handler.AutoScrollHandler
-import kotlin.math.abs
-import kotlin.math.absoluteValue
 
 class MainRecyclerAdapter(
     private val webtoonData: ArrayList<Webtoon>,

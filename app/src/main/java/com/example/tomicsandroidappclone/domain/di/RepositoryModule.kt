@@ -1,13 +1,12 @@
 package com.example.tomicsandroidappclone.domain.di
 
-import com.example.tomicsandroidappclone.data.repository.WebtoonRepositoryImpl
 import com.example.tomicsandroidappclone.data.repository.WebtoonRepository
+import com.example.tomicsandroidappclone.data.repository.WebtoonRepositoryImpl
 import dagger.Binds
 import dagger.Module
 import dagger.hilt.InstallIn
 import dagger.hilt.components.SingletonComponent
 import javax.inject.Singleton
-
 
 
 // RepositoryModule.kt
@@ -20,5 +19,5 @@ abstract class RepositoryModule {
     // !중요 - 여기서 :는 상속이 아닌 바인딩된 관계를 뜻함.
     // 즉, 아래 함수는 다른 클래스에서 webtoonInterface(webtoonRepository)를 요청하면
     // 구현체인 webtoonRepositoryImpl의 인스턴스를 제공함.
-    abstract fun bindWebtoonRepository( WebtoonImpl: WebtoonRepositoryImpl ): WebtoonRepository
+    abstract fun bindWebtoonRepository(WebtoonImpl: WebtoonRepositoryImpl): WebtoonRepository
 }

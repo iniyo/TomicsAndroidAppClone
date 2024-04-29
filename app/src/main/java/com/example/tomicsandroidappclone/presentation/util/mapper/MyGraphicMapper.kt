@@ -10,8 +10,9 @@ class MyGraphicMapper {
         val metrics = resources.displayMetrics
         return (px / (metrics.densityDpi.toFloat() / DisplayMetrics.DENSITY_DEFAULT)).toInt()
     }
-    fun dp2px (dp: Int): Int {
-        val resources: Resources =  Resources.getSystem()
+
+    fun dp2px(dp: Int): Int {
+        val resources: Resources = Resources.getSystem()
         val metrics = resources.displayMetrics
         return (dp * (metrics.densityDpi.toFloat() / DisplayMetrics.DENSITY_DEFAULT)).toInt()
     }

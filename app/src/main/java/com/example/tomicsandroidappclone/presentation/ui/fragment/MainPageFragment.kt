@@ -23,6 +23,7 @@ class MainPageFragment : Fragment() {
 
     private lateinit var binding: FragmentMainPageBinding
     private val viewCoroutineScope = CoroutineScope(SupervisorJob())
+
     // lateinit과 lazy의 공통점 : ?일수 없다, 나중에 값을 초기화 한다.
     // lateinit과 lazy의 차이점 : late는 var로만 by lazy는 val로만 선언 된다. ()
     // 즉, 초기화 이후 값이 변하는 유무에 따라 사용하며 구분하면 lateinit: 값이 바뀔때, by lazy: 읽기 전용일때
@@ -55,10 +56,12 @@ class MainPageFragment : Fragment() {
         }
         return binding.root
     }
+
     override fun onDestroy() {
         super.onDestroy()
         Log.d("TAG", "onDestroy: ")
     }
+
     // fragment가 완전히 파괴되기 전 view가 해제되는 경우, adapter는 뷰에 표시되기 때문에.
     override fun onDestroyView() {
         super.onDestroyView()

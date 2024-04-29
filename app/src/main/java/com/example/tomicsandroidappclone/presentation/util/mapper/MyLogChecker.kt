@@ -4,10 +4,11 @@ import android.util.Log
 import com.example.tomicsandroidappclone.domain.entity.Webtoon
 
 class MyLogChecker {
-    fun logCheck(log: String){
+    fun logCheck(log: String) {
         Log.d("TAG", "$log 실행")
     }
-    fun logCheck(log: String, webtoon: Webtoon){
+
+    fun logCheck(log: String, webtoon: Webtoon) {
         Log.d("TAG", "$log 실행, data check: ${webtoon.title}")
     }
 }

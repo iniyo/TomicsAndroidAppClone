@@ -13,14 +13,14 @@ import com.example.tomicsandroidappclone.presentation.util.mapper.MyLogChecker
 
 class ViewPagerSubListItemsAdapter(
     private val webtoonList: List<Webtoon>
-) :  RecyclerView.Adapter<ViewPagerSubListItemsAdapter.ViewHolder>(){
+) : RecyclerView.Adapter<ViewPagerSubListItemsAdapter.ViewHolder>() {
 
     inner class ViewHolder(val binding: PopularityToonItemsSubBinding) :
         RecyclerView.ViewHolder(binding.root) {
         fun bind(webtoon: Webtoon, position: Int) {
 
             MyLogChecker().logCheck("ivwebtoonclicklistner")
-            binding.llTopContainer.setOnClickListener{
+            binding.llTopContainer.setOnClickListener {
                 val intent = Intent(Intent.ACTION_VIEW, Uri.parse(webtoon.url))
                 binding.root.context.startActivity(intent)
             }
@@ -45,9 +45,11 @@ class ViewPagerSubListItemsAdapter(
         )
         return ViewHolder(binding)
     }
+
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         holder.bind(webtoonList[position], position)
     }
+
     override fun getItemCount(): Int {
         return 5
     }

@@ -22,14 +22,16 @@ class GetKakaoWebtoonByDayUseCase(
             Calendar.THURSDAY -> "thu"
             Calendar.FRIDAY -> "fri"
             Calendar.SATURDAY -> "sat"
-            else -> {"null"}
+            else -> {
+                "null"
+            }
         }
         Log.d("TAG", dayOfWeekString)
         webtoon = webtoonRepository.getDayByWebtoons("kakao", dayOfWeekString)
     }
 
     // invoke - operator관례 함수
-    suspend operator fun invoke() : ArrayList<Webtoon> {
+    suspend operator fun invoke(): ArrayList<Webtoon> {
         getTodayWebtoonData()
         return webtoon
     }

@@ -29,7 +29,7 @@ class AutoScrollHandler(private val viewPager: ViewPager2) : Handler(Looper.getM
         super.handleMessage(msg)
 
         val currentItem = viewPager.currentItem
-        viewPager.setCurrentItem(currentItem+1, 400)
+        viewPager.setCurrentItem(currentItem + 1, 400)
         Log.d("TAG", "handle currentItem$currentItem")
     }
 
@@ -55,10 +55,19 @@ class AutoScrollHandler(private val viewPager: ViewPager2) : Handler(Looper.getM
             previousValue = currentValue
         }
         animator.addListener(object : Animator.AnimatorListener {
-            override fun onAnimationStart(animation: Animator) { beginFakeDrag() }
-            override fun onAnimationEnd(animation: Animator) { endFakeDrag() }
-            override fun onAnimationCancel(animation: Animator) { /* Ignored */ }
-            override fun onAnimationRepeat(animation: Animator) { /* Ignored */ }
+            override fun onAnimationStart(animation: Animator) {
+                beginFakeDrag()
+            }
+
+            override fun onAnimationEnd(animation: Animator) {
+                endFakeDrag()
+            }
+
+            override fun onAnimationCancel(animation: Animator) { /* Ignored */
+            }
+
+            override fun onAnimationRepeat(animation: Animator) { /* Ignored */
+            }
         })
         animator.interpolator = interpolator
         animator.duration = duration

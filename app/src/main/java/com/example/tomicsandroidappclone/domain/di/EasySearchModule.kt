@@ -16,6 +16,7 @@ object EasySearchModule {
     fun provideContext(application: Application): Context {
         return application.applicationContext
     }
+
     @Provides
     fun provideStringArray(@ApplicationContext context: Context): Array<String> {
         return context.resources.getStringArray(R.array.free_webtoon_tab_items)

@@ -3,7 +3,6 @@ package com.example.tomicsandroidappclone.presentation.ui.adapter
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.ViewGroup
-import androidx.lifecycle.LiveData
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
@@ -79,7 +78,7 @@ class RecyclerDefaultToonAdapter(
     }
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
-        webtoonList[position].let{
+        webtoonList[position].let {
             holder.bind(it)
         }
     }
@@ -93,5 +92,6 @@ class RecyclerDefaultToonAdapter(
             return oldItem == newItem
         }
     }
+
     override fun getItemCount(): Int = webtoonList.size
 }
