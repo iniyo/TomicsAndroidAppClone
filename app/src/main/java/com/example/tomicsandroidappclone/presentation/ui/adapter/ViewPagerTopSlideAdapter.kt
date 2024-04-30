@@ -2,7 +2,6 @@ package com.example.tomicsandroidappclone.presentation.ui.adapter
 
 import android.content.Intent
 import android.net.Uri
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
@@ -41,16 +40,14 @@ class ViewPagerTopSlideAdapter(
         RecyclerView.ViewHolder(binding.root) {
         fun bind(webtoon: Webtoon) {
 
-            Log.d("TAG", "ViewPagerAdapter bind 데이터 체크 : " + webtoon.img)
             Glide.with(binding.root.context)
                 .load(webtoon.img)
                 .skipMemoryCache(false) // cache 사용 x, 특별한 경우(데이터가 워낙 많은 경우)에만 사용.
                 .centerInside() // 이미지 사이즈만 재조정, 직접 재조정하는 방법이 좀 더 빠름.
                 .placeholder(R.drawable.ic_launcher_foreground) // image 로드를 못 했을 경우
                 .into(binding.ivWebtoon)
-            Log.d("TAG", "bind: 이미지")
+
             binding.ivWebtoon.setOnClickListener {
-                Log.d("TAG", "bind - ivwebtoonclicklistner ")
                 val intent = Intent(Intent.ACTION_VIEW, Uri.parse(webtoon.url))
                 binding.root.context.startActivity(intent)
             }

@@ -8,13 +8,16 @@ import android.view.ViewGroup
 import android.widget.RadioGroup
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
+import androidx.lifecycle.lifecycleScope
 import androidx.viewpager2.widget.ViewPager2
 import com.example.tomicsandroidappclone.databinding.FragmentWebtoonPageBinding
 import com.example.tomicsandroidappclone.domain.di.EasyAdapter
+import com.example.tomicsandroidappclone.presentation.ui.adapter.PagingAdapter
 import com.example.tomicsandroidappclone.presentation.ui.adapter.ViewPagerDefaultToonAdapter
 import com.example.tomicsandroidappclone.presentation.ui.viewmodel.WebtoonFragmentViewModel
 import com.example.tomicsandroidappclone.presentation.util.adapter.MyEasyAdapter
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 
@@ -42,16 +45,15 @@ class WebtoonPageFragment : Fragment() {
 
         viewModel.fetchWebtoons()
 
-        Log.d("TAG", "binding run")
         viewModel.webtoonsInfo.observe(viewLifecycleOwner) { data ->
             Log.d("TAG", "binding observer1" + data[0].title)
             setAdapter()
         }
-        /* lifecycleScope.launch {
+         lifecycleScope.launch {
              viewModel.pagingData.collect{
                  PagingAdapter().submitData(it)
              }
-         }*/
+         }
 
         return binding.root
     }

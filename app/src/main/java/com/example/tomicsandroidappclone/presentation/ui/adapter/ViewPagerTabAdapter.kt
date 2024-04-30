@@ -39,13 +39,19 @@ class ViewPagerTabAdapter(
             if (webtoon.additional.up) {
                 Glide.with(binding.root.context)
                     .load(webtoon.img)
+                    .skipMemoryCache(false) // cache 사용 x
+                    .centerInside()
                     .placeholder(R.drawable.icon_not_founded)
                     .into(binding.ivToonImg)
                 binding.tvToonTitle.text = webtoon.title
             }
         }
     }
-
+    override fun onViewDetachedFromWindow(holder: ViewHolder) {
+        super.onViewDetachedFromWindow(holder)
+        Glide.with(holder.itemView.context)
+            .clear(holder.itemView)
+    }
     override fun getItemCount(): Int {
         return webtoon.size
     }

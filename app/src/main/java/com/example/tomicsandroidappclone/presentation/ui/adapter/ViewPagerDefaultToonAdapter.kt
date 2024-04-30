@@ -54,17 +54,6 @@ class ViewPagerDefaultToonAdapter(
         holder.bind()
     }
 
-    /*private fun getPartialList(holder: ViewPagerTabAdapter.ViewHolder): List<Webtoon> {
-        val startIndex = holder.adapterPosition * poolSize
-        val endIndex = minOf(startIndex + poolSize, webtoon.size)
-        if (startIndex >= webtoon.size) {
-            return emptyList()
-        }
-        Log.d("TAG", "from: $startIndex ")
-        Log.d("TAG", "to: $endIndex ")
-        return webtoon.subList(startIndex, endIndex)
-    }*/
-
     override fun getItemCount(): Int {
         return if (checkType == 0) Int.MAX_VALUE
         else getSize

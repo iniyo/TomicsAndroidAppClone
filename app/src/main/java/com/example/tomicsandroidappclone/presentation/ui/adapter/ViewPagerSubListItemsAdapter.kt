@@ -9,7 +9,6 @@ import com.bumptech.glide.Glide
 import com.example.tomicsandroidappclone.R
 import com.example.tomicsandroidappclone.databinding.PopularityToonItemsSubBinding
 import com.example.tomicsandroidappclone.domain.entity.Webtoon
-import com.example.tomicsandroidappclone.presentation.util.mapper.MyLogChecker
 
 class ViewPagerSubListItemsAdapter(
     private val webtoonList: List<Webtoon>
@@ -23,7 +22,6 @@ class ViewPagerSubListItemsAdapter(
         RecyclerView.ViewHolder(binding.root) {
         fun bind(webtoon: Webtoon, position: Int) {
 
-            MyLogChecker().logCheck("ivwebtoonclicklistner")
             binding.llTopContainer.setOnClickListener {
                 val intent = Intent(Intent.ACTION_VIEW, Uri.parse(webtoon.url))
                 binding.root.context.startActivity(intent)
@@ -36,7 +34,6 @@ class ViewPagerSubListItemsAdapter(
                 .into(binding.ivPopularity)
             binding.tvToonRank.text = position.inc().toString()
             binding.tvToonName.text = webtoon.title
-            MyLogChecker().logCheck("ivwebtoonclicklistner", webtoon)
         }
     }
 

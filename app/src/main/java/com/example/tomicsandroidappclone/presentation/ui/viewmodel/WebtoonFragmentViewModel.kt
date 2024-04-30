@@ -34,12 +34,9 @@ class WebtoonFragmentViewModel @Inject constructor(
             // !!!!! kakao를 제외한 naver, kakaoPage에는 접근이 불가. URl 권한 문제 때문으로 추정 나중에 정리하면서 문제 알아보기
             val toonResponseResult = webtoonRepository.getWebtoon(1, 3, "kakao", "sun")
             toonResponseResult.let {
-                Log.d("TAG", "fetchwebtoons 코루틴 실행: toonResponseResult.let")
                 // default kakao, mon
                 _webtoonsInfo.value = webtoonRepository.getDayByWebtoons("kakao", "mon")
                 _toonResponse.value = toonResponseResult
-                Log.d("TAG", "fetchwebtoons 코루틴 데이터 체크:" + _toonResponse.value!!.webtoons[0].title)
-                Log.d("TAG", "fetchwebtoons 코루틴 데이터 체크:" + _webtoonsInfo.value!![0].title)
             }
         }
     }

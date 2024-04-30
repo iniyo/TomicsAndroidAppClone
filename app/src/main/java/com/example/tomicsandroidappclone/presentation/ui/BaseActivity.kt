@@ -35,7 +35,7 @@ class BaseActivity : AppCompatActivity() {
     }
 
     private fun initViews() {
-        installSplashScreen()
+        /*installSplashScreen()*/ // 로딩화면
         setFlate()
         setDrawer()
         setTabNavigator()
