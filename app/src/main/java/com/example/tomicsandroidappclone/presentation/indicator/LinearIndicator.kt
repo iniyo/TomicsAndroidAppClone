@@ -1,4 +1,4 @@
-package com.example.tomicsandroidappclone.presentation.inidicator
+package com.example.tomicsandroidappclone.presentation.indicator
 
 import android.content.Context
 import android.util.AttributeSet

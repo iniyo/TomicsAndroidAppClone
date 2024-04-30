@@ -5,6 +5,7 @@ import android.os.Bundle
 import android.util.Log
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
 import androidx.core.view.GravityCompat
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.ViewModelProvider
@@ -34,6 +35,7 @@ class BaseActivity : AppCompatActivity() {
     }
 
     private fun initViews() {
+        installSplashScreen()
         setFlate()
         setDrawer()
         setTabNavigator()
