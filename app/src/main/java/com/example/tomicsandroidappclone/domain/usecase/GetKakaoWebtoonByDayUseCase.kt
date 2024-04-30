@@ -10,7 +10,9 @@ class GetKakaoWebtoonByDayUseCase(
 ) {
     private lateinit var webtoon: ArrayList<Webtoon>
 
-    suspend fun getTodayWebtoonData() {
+    // 유스케이스는 비즈니스 로직을 제공해야 하는데, "현실 문제에 대한 의사결정을 하는 가"를 생각해야 한다.
+    // 오늘의 날짜를 파악해서 해당 날짜에 맞는 웹툰을 표시한다.
+    private suspend fun getTodayWebtoonData() {
         val calendar: Calendar = Calendar.getInstance()
         val dayOfWeek: Int = calendar.get(Calendar.DAY_OF_WEEK)
 
@@ -22,9 +24,7 @@ class GetKakaoWebtoonByDayUseCase(
             Calendar.THURSDAY -> "thu"
             Calendar.FRIDAY -> "fri"
             Calendar.SATURDAY -> "sat"
-            else -> {
-                "null"
-            }
+            else -> "null"
         }
         Log.d("TAG", dayOfWeekString)
         webtoon = webtoonRepository.getDayByWebtoons("kakao", dayOfWeekString)

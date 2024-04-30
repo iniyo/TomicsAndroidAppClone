@@ -21,6 +21,11 @@ class WebtoonPagingSource @Inject constructor(private val service: WebtoonApi) :
                 updateDay = "mon"
             ) // Webtoon 목록 API 호출
             LoadResult.Page(response.webtoons, page + 1, null)
+            /*LoadResult.Page(
+                response.webtoons,
+                prevKey = if (page == 0) null else page - 1,
+                nextKey = page + 1
+            )*/
 
         } catch (e: Exception) {
             LoadResult.Error(e)
@@ -34,6 +39,5 @@ class WebtoonPagingSource @Inject constructor(private val service: WebtoonApi) :
             state.closestPageToPosition(anchorPosition)?.prevKey?.plus(1)
                 ?: state.closestPageToPosition(anchorPosition)?.nextKey?.minus(1)
         }
-
     }
 }

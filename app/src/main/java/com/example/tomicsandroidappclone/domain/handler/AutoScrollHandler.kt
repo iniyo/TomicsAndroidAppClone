@@ -1,4 +1,4 @@
-package com.example.tomicsandroidappclone.presentation.ui.adapter.handler
+package com.example.tomicsandroidappclone.domain.handler
 
 import android.animation.Animator
 import android.animation.TimeInterpolator

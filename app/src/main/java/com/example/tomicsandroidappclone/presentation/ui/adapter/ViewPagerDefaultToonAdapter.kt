@@ -47,8 +47,6 @@ class ViewPagerDefaultToonAdapter(
         return ViewHolder(binding)
     }
 
-
-
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         holder.bind()
     }
@@ -65,9 +63,8 @@ class ViewPagerDefaultToonAdapter(
     }*/
 
     override fun getItemCount(): Int {
-        val getCount = if (checkType == 0) Int.MAX_VALUE // For infinite scrolling
+        return if (checkType == 0) Int.MAX_VALUE
         else getSize
-        return getCount
     }
-    override fun getItemId(position: Int): Long = position.toLong() // Stable IDs
+    override fun getItemId(position: Int): Long = position.toLong()
 }

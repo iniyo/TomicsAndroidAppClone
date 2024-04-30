@@ -2,14 +2,13 @@
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:id="@+id/recycler_main_viewpager_container"
-    android:layout_marginTop="20dp"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    xmlns:tools="http://schemas.android.com/tools">
+    android:layout_marginTop="20dp">
 
     <include
         android:id="@+id/inclued_layout_banner"
-        layout="@layout/recycler_banner"/>
+        layout="@layout/recycler_banner" />
 
     <androidx.viewpager2.widget.ViewPager2
         android:id="@+id/vp_main"
@@ -24,7 +23,7 @@
         app:layout_constraintTop_toBottomOf="@+id/inclued_layout_banner"
         app:layout_constraintVertical_bias="0.0" />
 
-    <com.example.tomicsandroidappclone.presentation.ui.adapter.inidicator.LinearIndicator
+    <com.example.tomicsandroidappclone.presentation.inidicator.LinearIndicator
         android:id="@+id/indicator"
         android:layout_width="match_parent"
         android:layout_height="10dp"

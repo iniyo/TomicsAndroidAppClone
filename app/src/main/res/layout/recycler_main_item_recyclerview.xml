@@ -10,7 +10,7 @@
 
     <include
         android:id="@+id/inclued_layout_banner"
-        layout="@layout/recycler_banner"/>
+        layout="@layout/recycler_banner" />
 
     <ImageView
         android:id="@+id/iv_ad"

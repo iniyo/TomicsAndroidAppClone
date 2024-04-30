@@ -8,6 +8,13 @@ import com.example.tomicsandroidappclone.R
 import com.example.tomicsandroidappclone.databinding.DefaultToonItemsBinding
 import com.example.tomicsandroidappclone.domain.entity.Webtoon
 
+// 참고 사이트 : https://www.youtube.com/watch?v=ySPbJ7OCVEE
+// https://velog.io/@dlwpdlf147/Android-Paging3-%EC%98%88%EC%A0%9C%EB%A1%9C-%EC%95%8C%EC%95%84%EB%B3%B4%EA%B8%B0
+
+// PagingSource : 네트워크나 DB로부터 데이터를 로드하는 클래스
+// 언제 PagingSource로부터 얼만큼 PagingData를 가져올지 설정하는 클래스
+
+
 class ViewPagerTabAdapter(
     private val webtoon: MutableList<Webtoon> = mutableListOf() // MutableList로 변경
 ) : RecyclerView.Adapter<ViewPagerTabAdapter.ViewHolder>() {

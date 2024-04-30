@@ -26,4 +26,6 @@ class MyEasyAdapterImpl @Inject constructor() : MyEasyAdapter {
             count.inc()
         }
     }
+
+
 }

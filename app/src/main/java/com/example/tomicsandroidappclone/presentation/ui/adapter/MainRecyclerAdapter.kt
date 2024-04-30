@@ -13,7 +13,8 @@ import com.example.tomicsandroidappclone.R
 import com.example.tomicsandroidappclone.databinding.RecyclerMainItemRecyclerviewBinding
 import com.example.tomicsandroidappclone.databinding.RecyclerMainItemViewpagerBinding
 import com.example.tomicsandroidappclone.domain.entity.Webtoon
-import com.example.tomicsandroidappclone.presentation.ui.adapter.handler.AutoScrollHandler
+import com.example.tomicsandroidappclone.domain.handler.AutoScrollHandler
+import kotlin.math.absoluteValue
 
 class MainRecyclerAdapter(
     private val webtoonData: ArrayList<Webtoon>,
@@ -152,12 +153,12 @@ class MainRecyclerAdapter(
                                     Log.d("TAG", "true: ${pagePosition}")
                                     pagePosition
                                 } else {
-                                    Log.d("TAG", "false: ${ itemCount - ((-pagePosition) + 1)}")
-                                    itemCount - ((-pagePosition).inc())// 음수일 경우 역순으로 위치 계산. +1을 해야 값이 중복되지 않음.
+                                    Log.d("TAG", "false: ${ itemCount - (pagePosition.absoluteValue + 1)}")
+                                    itemCount - (pagePosition.absoluteValue.inc())// 음수일 경우 역순으로 위치 계산. +1을 해야 값이 중복되지 않음.
                                 }
                                 val indicatorPosition = normalizedPosition % 7
                                 Log.d("TAG", "onPageSelected: $indicatorPosition")
-                                binding.indicator.selectDot(indicatorPosition)
+                                binding.indicator.selectLine(indicatorPosition)
                             } ?: Log.w("TAG", "Adapter is null")
                         }
                        /* override fun onPageScrollStateChanged(state: Int) {
@@ -176,7 +177,7 @@ class MainRecyclerAdapter(
                 }
                 val webtoonListValue: List<Webtoon> = webtoonData
                 //init indicator
-                binding.indicator.createDotPanel(7, R.drawable.indicator_dot_off, R.drawable.indicator_dot_on, 0)
+                binding.indicator.createLinePanel(7, R.drawable.indicator_line_off, R.drawable.indicator_line_on, 0)
                 ViewPagerTopSlideAdapter(webtoonListValue.take(7))
             }
 

@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.coordinatorlayout.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     tools:context=".presentation.ui.fragment.WebtoonPageFragment">
 
     <com.google.android.material.appbar.AppBarLayout
@@ -19,11 +19,12 @@
 
             <ImageView
                 android:layout_width="match_parent"
-                android:layout_marginTop="45dp"
                 android:layout_height="100dp"
+                android:layout_marginTop="45dp"
+                android:importantForAccessibility="no"
                 android:scaleType="fitXY"
-                app:layout_collapseMode="parallax"
-                android:src="@drawable/icon_advertisement" />
+                android:src="@drawable/icon_advertisement"
+                app:layout_collapseMode="parallax" />
 
             <androidx.appcompat.widget.Toolbar
                 android:id="@+id/open_search_view_toolbar_container"
@@ -38,8 +39,8 @@
                 android:layout_height="wrap_content"
                 android:background="@color/white"
                 android:textSize="15sp"
-                app:layout_collapseMode="pin"
                 app:elevation="4dp"
+                app:layout_collapseMode="pin"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
                 app:tabIndicatorHeight="0dp"
@@ -49,39 +50,41 @@
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:orientation="vertical"
                 android:paddingTop="145dp"
-                app:layout_collapseMode="pin"
-                android:orientation="vertical">
+                app:layout_collapseMode="pin">
 
                 <RadioGroup
                     android:id="@+id/rg_main"
-                    android:paddingVertical="10dp"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:background="@color/white"
                     android:gravity="start"
+                    android:orientation="horizontal"
+                    android:paddingVertical="10dp"
                     app:layout_collapseMode="pin"
-                    android:orientation="horizontal">
+                    tools:ignore="UselessParent">
 
                     <androidx.appcompat.widget.AppCompatRadioButton
                         android:layout_width="wrap_content"
                         android:layout_height="20dp"
                         android:layout_marginStart="20dp"
                         android:layout_marginEnd="12dp"
-                        android:text="인기순" />
+                        android:text="@string/popularity_rank" />
 
                     <androidx.appcompat.widget.AppCompatRadioButton
-
                         android:layout_width="wrap_content"
                         android:layout_height="20dp"
                         android:layout_marginEnd="12dp"
-                        android:text="업데이트순" />
+                        android:text="@string/update_rank" />
 
                     <androidx.appcompat.widget.AppCompatRadioButton
                         android:layout_width="wrap_content"
                         android:layout_height="20dp"
-                        android:text="12시간마다 무료" />
+                        android:text="@string/free_every_12_hour" />
+
                 </RadioGroup>
+
             </LinearLayout>
 
         </com.google.android.material.appbar.CollapsingToolbarLayout>

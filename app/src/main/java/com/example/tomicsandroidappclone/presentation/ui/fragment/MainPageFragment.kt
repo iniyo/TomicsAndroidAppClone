@@ -9,6 +9,7 @@ import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import com.example.tomicsandroidappclone.R
 import com.example.tomicsandroidappclone.databinding.FragmentMainPageBinding
 import com.example.tomicsandroidappclone.domain.entity.Webtoon
@@ -17,6 +18,8 @@ import com.example.tomicsandroidappclone.presentation.ui.viewmodel.MainFragmentV
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.SupervisorJob
+import kotlin.math.max
+import kotlin.math.min
 
 @AndroidEntryPoint
 class MainPageFragment : Fragment() {
@@ -31,7 +34,7 @@ class MainPageFragment : Fragment() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        /*viewModel.fetchWebtoons() // webtoon data*/
+
     }
 
     companion object {
@@ -50,7 +53,6 @@ class MainPageFragment : Fragment() {
             Log.d("TAG", "binding run")
             viewModel.webtoonsInfo.observe(viewLifecycleOwner) {
                 // adapter 초기화는 data를 받아오고 실행되어야 한다. 따라서 couroutine이후에 adapter 초기화 코드를 실행.
-                // 문제점 = 받아오는 속도가 비교적 느려 보인다. (느리다.)
                 setAdapter(it)
             }
         }
@@ -78,8 +80,8 @@ class MainPageFragment : Fragment() {
         binding.rvMainPage.apply {
             this.adapter = mainRecyclerAdapter
             layoutManager = LinearLayoutManager(binding.root.context)
-        }
 
+        }
     }
 
 }

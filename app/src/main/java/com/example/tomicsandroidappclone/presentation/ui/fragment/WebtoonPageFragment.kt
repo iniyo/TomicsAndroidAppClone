@@ -18,8 +18,6 @@ import dagger.hilt.android.AndroidEntryPoint
 import javax.inject.Inject
 
 
-private const val ARG_PARAM1 = "tabItems"
-
 @AndroidEntryPoint
 class WebtoonPageFragment : Fragment() {
 
@@ -44,13 +42,18 @@ class WebtoonPageFragment : Fragment() {
 
         viewModel.fetchWebtoons()
 
-        binding.run {
-            Log.d("TAG", "binding run")
-            viewModel.webtoonsInfo.observe(viewLifecycleOwner) { data ->
-                Log.d("TAG", "binding observer1" + data[0].title)
-                setAdapter()
-            }
+        Log.d("TAG", "binding run")
+        viewModel.webtoonsInfo.observe(viewLifecycleOwner) { data ->
+            Log.d("TAG", "binding observer1" + data[0].title)
+            setAdapter()
         }
+        /* lifecycleScope.launch {
+             viewModel.pagingData.collect{
+                 PagingAdapter().submitData(it)
+             }
+         }*/
+
+
         return binding.root
     }
 
@@ -60,6 +63,8 @@ class WebtoonPageFragment : Fragment() {
     }
 
     companion object {
+        private const val ARG_PARAM1 = "tabItems"
+
         @JvmStatic
         fun newInstance(tabItems: Array<String>) =
             WebtoonPageFragment().apply {
@@ -111,7 +116,7 @@ class WebtoonPageFragment : Fragment() {
         binding.vpWebtoonPage.apply {
             adapter = ViewPagerDefaultToonAdapter(webtoons, int, tabItems!!.size)
             orientation = ViewPager2.ORIENTATION_HORIZONTAL
-            offscreenPageLimit = 9 // view pager 양 옆 page 미리 생성 5 = 최악의 경우 10개가 생성.
+            offscreenPageLimit = 9 // view pager 양 옆 page 미리 생성
         }
     }
 }

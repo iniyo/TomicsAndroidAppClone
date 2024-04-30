@@ -4,6 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools">
 
     <data>
+
         <variable
             name="viewModel"
             type="com.example.tomicsandroidappclone.presentation.ui.viewmodel.BaseViewModel" />
@@ -34,17 +35,19 @@
                     android:id="@+id/iv_advertisement"
                     android:layout_width="match_parent"
                     android:layout_height="30dp"
+                    android:importantForAccessibility="no"
                     android:scaleType="fitXY"
-                    android:src="@drawable/icon_advertisement"/>
+                    android:src="@drawable/icon_advertisement" />
 
                 <ImageView
                     android:id="@+id/iv_add_close"
                     android:layout_width="wrap_content"
-                    android:layout_centerInParent="true"
                     android:layout_height="wrap_content"
-                    android:layout_marginEnd="5dp"
                     android:layout_alignParentEnd="true"
-                    android:src="@drawable/icon_crossline_25x25"/>
+                    android:layout_centerInParent="true"
+                    android:layout_marginEnd="5dp"
+                    android:importantForAccessibility="no"
+                    android:src="@drawable/icon_crossline_25x25" />
             </RelativeLayout>
 
             <LinearLayout
@@ -69,6 +72,7 @@
                         android:layout_width="22dp"
                         android:layout_height="22dp"
                         android:background="@color/white"
+                        android:importantForAccessibility="no"
                         android:src="@drawable/icon_drawer_tab" />
 
                     <ImageView
@@ -76,6 +80,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginStart="35dp"
+                        android:importantForAccessibility="no"
                         android:scaleType="fitXY"
                         android:src="@drawable/icon_tomics_logo" />
 
@@ -87,6 +92,7 @@
                     <ImageView
                         android:layout_width="22dp"
                         android:layout_height="22dp"
+                        android:importantForAccessibility="no"
                         android:scaleType="fitXY"
                         android:src="@drawable/icon_bookmark" />
 
@@ -94,6 +100,7 @@
                         android:layout_width="22dp"
                         android:layout_height="22dp"
                         android:layout_marginStart="10dp"
+                        android:importantForAccessibility="no"
                         android:scaleType="fitXY"
                         android:src="@drawable/icon_cache" />
 
@@ -101,6 +108,7 @@
                         android:layout_width="22dp"
                         android:layout_height="22dp"
                         android:layout_marginStart="10dp"
+                        android:importantForAccessibility="no"
                         android:scaleType="fitXY"
                         android:src="@drawable/icon_search" />
                 </LinearLayout>
@@ -144,8 +152,7 @@
                     <RelativeLayout
                         android:id="@+id/rl_serialize"
                         android:layout_width="30dp"
-                        android:layout_height="match_parent"
-                        android:layout_toEndOf="@+id/rl_free_webtoon">
+                        android:layout_height="match_parent">
 
                         <TextView
                             android:id="@+id/tv_serialize"
@@ -171,8 +178,7 @@
                     <RelativeLayout
                         android:id="@+id/rl_top_hundred"
                         android:layout_width="60dp"
-                        android:layout_height="match_parent"
-                        android:layout_toEndOf="@+id/rl_serialize">
+                        android:layout_height="match_parent">
 
                         <TextView
                             android:id="@+id/tv_top_hundred"
@@ -197,8 +203,7 @@
                     <RelativeLayout
                         android:id="@+id/rl_ended_webtoon"
                         android:layout_width="30dp"
-                        android:layout_height="match_parent"
-                        android:layout_toEndOf="@+id/rl_top_hundred">
+                        android:layout_height="match_parent">
 
                         <TextView
                             android:id="@+id/tv_ended_webtoon"
@@ -232,8 +237,10 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_alignParentEnd="true"
+                            android:importantForAccessibility="no"
                             android:paddingEnd="3dp"
-                            android:src="@drawable/icon_hot_27x16" />
+                            android:src="@drawable/icon_hot_27x16"
+                            tools:ignore="RtlSymmetry" />
 
                         <TextView
                             android:id="@+id/tv_hot"
@@ -255,18 +262,19 @@
 
             </LinearLayout>
 
-
             <androidx.fragment.app.FragmentContainerView
                 android:id="@+id/fcv_main"
-                android:layout_below="@+id/ll_top_container"
                 android:name="com.example.tomicsandroidappclone.presentation.ui.fragment.MainPageFragment"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
+                android:layout_below="@+id/ll_top_container"
                 android:layout_alignParentBottom="true" />
 
-
         </RelativeLayout>
-        <include android:id="@+id/activity_drawer" layout="@layout/activity_drawer"/>
+
+        <include
+            android:id="@+id/activity_drawer"
+            layout="@layout/activity_drawer" />
 
     </androidx.drawerlayout.widget.DrawerLayout>
 

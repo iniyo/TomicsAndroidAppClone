@@ -16,15 +16,9 @@ class PagingRepository @Inject constructor(
 ) {
 
     fun getPagingData(): Flow<PagingData<Webtoon>> {
-        return Pager(
-            config = PagingConfig(pageSize = 10),
-            pagingSourceFactory = { WebtoonPagingSource(service) }
-        ).flow.map { pagingData ->
-            pagingData.map { webtoon ->
-                // Webfont 데이터 변환 또는 처리
-                webtoon
-            }
-        }
+        return Pager(PagingConfig(pageSize = 10)) {
+            WebtoonPagingSource(service)
+        }.flow
     }
 
 }

@@ -5,6 +5,8 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import androidx.paging.cachedIn
+import com.example.tomicsandroidappclone.data.repository.PagingRepository
 import com.example.tomicsandroidappclone.data.repository.WebtoonRepository
 import com.example.tomicsandroidappclone.domain.entity.ToonResponse
 import com.example.tomicsandroidappclone.domain.entity.Webtoon
@@ -15,8 +17,11 @@ import javax.inject.Inject
 
 @HiltViewModel
 class WebtoonFragmentViewModel @Inject constructor(
+    private val pRepsitory: PagingRepository,
     private val webtoonRepository: WebtoonRepository
 ) : ViewModel() {
+    val pagingData = pRepsitory.getPagingData().cachedIn(viewModelScope)
+
     private val _toonResponse = MutableLiveData<ToonResponse>() // webtoon 전체 정보
     val toonResponse: LiveData<ToonResponse> = _toonResponse
     private val _webtoonsInfo = MutableLiveData<ArrayList<Webtoon>>()

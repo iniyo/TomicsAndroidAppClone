@@ -1,21 +1,22 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/rl_default_toon_size"
     android:layout_width="120dp"
+    android:layout_height="wrap_content"
     android:paddingEnd="5dp"
     android:paddingBottom="5dp"
-    android:id="@+id/rl_default_toon_size"
-    android:layout_height="wrap_content"
     app:layout_constraintEnd_toEndOf="parent"
     app:layout_constraintStart_toStartOf="parent"
-    app:layout_constraintTop_toTopOf="parent">
+    app:layout_constraintTop_toTopOf="parent"
+    tools:ignore="RtlSymmetry">
 
     <ImageView
         android:id="@+id/iv_toon_img"
         android:layout_width="match_parent"
         android:layout_height="160dp"
+        android:importantForAccessibility="no"
         android:scaleType="fitXY"
         android:src="@drawable/icon_error"
         app:layout_constraintEnd_toEndOf="parent"
@@ -31,18 +32,18 @@
         android:ellipsize="end"
         android:gravity=""
         android:maxLines="1"
-        android:text="키다리 아가씨"
+        android:text=""
         android:textColor="@color/black"
         android:textStyle="bold" />
 
     <TextView
-        android:gravity="center"
         android:id="@+id/tv_episodes"
         android:layout_width="wrap_content"
         android:layout_height="25dp"
         android:layout_below="@+id/tv_toon_title"
         android:layout_marginEnd="6dp"
-        android:text="28화"
+        android:gravity="center"
+        android:text=""
         android:textSize="12sp" />
 
     <TextView
@@ -50,9 +51,9 @@
         android:layout_width="wrap_content"
         android:layout_height="25dp"
         android:layout_below="@+id/tv_toon_title"
-        android:layout_toRightOf="@+id/tv_episodes"
+        android:layout_toEndOf="@+id/tv_episodes"
         android:gravity="center"
-        android:text="드라마"
+        android:text=""
         android:textColor="@color/tomics_default_tag_color"
         android:textSize="12sp" />
 </RelativeLayout>
