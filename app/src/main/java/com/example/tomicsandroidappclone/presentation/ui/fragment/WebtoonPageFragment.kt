@@ -13,10 +13,10 @@ import androidx.viewpager2.widget.ViewPager2
 import com.example.tomicsandroidappclone.databinding.FragmentWebtoonPageBinding
 import com.example.tomicsandroidappclone.domain.di.EasyAdapter
 import com.example.tomicsandroidappclone.presentation.ui.adapter.PagingAdapter
-import com.example.tomicsandroidappclone.presentation.ui.adapter.ViewPagerDefaultToonAdapter
 import com.example.tomicsandroidappclone.presentation.ui.viewmodel.WebtoonFragmentViewModel
 import com.example.tomicsandroidappclone.presentation.util.adapter.MyEasyAdapter
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
@@ -43,17 +43,21 @@ class WebtoonPageFragment : Fragment() {
     ): View {
         binding = FragmentWebtoonPageBinding.inflate(layoutInflater, container, false)
 
-        viewModel.fetchWebtoons()
+        /*viewModel.webtoonsInfo.observe(viewLifecycleOwner) {
+            setAdapter(it)
+        }*/
 
-        viewModel.webtoonsInfo.observe(viewLifecycleOwner) { data ->
-            Log.d("TAG", "binding observer1" + data[0].title)
-            setAdapter()
+        binding.vpWebtoonPage.apply {
+            adapter = PagingAdapter()
+            orientation = ViewPager2.ORIENTATION_HORIZONTAL
+            offscreenPageLimit = 7 // view pager 양 옆 page 미리 생성
         }
-         lifecycleScope.launch {
-             viewModel.pagingData.collect{
-                 PagingAdapter().submitData(it)
-             }
-         }
+
+        lifecycleScope.launch {
+            viewModel.pagingData.collectLatest {
+                PagingAdapter().submitData(it)
+            }
+        }
 
         return binding.root
     }
@@ -97,17 +101,18 @@ class WebtoonPageFragment : Fragment() {
             if (tabItems!![0] != "전체") {
                 binding.rgMain.visibility = RadioGroup.GONE
             } else {
-                binding.rgMain.setOnCheckedChangeListener { radioGroup, _ ->
-                    radioGroup.check(0)
-                    radioGroup.clearAnimation()
-                    radioGroup.jumpDrawablesToCurrentState()
+                binding.rgMain.apply {
+                    check(0)
+                    setOnCheckedChangeListener { radioGroup, _ ->
+                        radioGroup.clearAnimation()
+                        radioGroup.jumpDrawablesToCurrentState()
+                    }
                 }
             }
         }
     }
 
-    private fun setAdapter() {
-        val webtoons = viewModel.getWebtoons()
+    /*private fun setAdapter(webtoons: ArrayList<Webtoon>) {
         val int = if (tabItems!![0] != "뜨는 한 컷") {
             1
         } else {
@@ -117,8 +122,7 @@ class WebtoonPageFragment : Fragment() {
         binding.vpWebtoonPage.apply {
             adapter = ViewPagerDefaultToonAdapter(webtoons, int, tabItems!!.size)
             orientation = ViewPager2.ORIENTATION_HORIZONTAL
-            offscreenPageLimit = 9 // view pager 양 옆 page 미리 생성
-
+            offscreenPageLimit = 7 // view pager 양 옆 page 미리 생성
         }
-    }
+    }*/
 }

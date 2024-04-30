@@ -24,7 +24,7 @@ class MainFragmentViewModel @Inject constructor(
         fetchData()
     }
 
-    fun fetchData() {
+    private fun fetchData() {
         viewModelScope.launch {
             try {
                 _webtoonsInfo.postValue(getKakaoWebtoonByDayUseCase())
