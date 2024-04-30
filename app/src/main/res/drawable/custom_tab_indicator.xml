@@ -1,7 +1,9 @@
 <!-- res/drawable/custom_tab_indicator.xml -->
 <!-- indicator_drawable.xml -->
 <layer-list xmlns:android="http://schemas.android.com/apk/res/android">
-    <item android:width="30dp" android:height="4dp">
+    <item
+        android:width="30dp"
+        android:height="2dp">
         <shape android:shape="rectangle">
             <solid android:color="@color/tomics_red" />
         </shape>

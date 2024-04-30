@@ -39,6 +39,7 @@ class AutoScrollHandler(private val viewPager: ViewPager2) : Handler(Looper.getM
         }
     }
 
+    // setCurrentItem Extension
     private fun ViewPager2.setCurrentItem(
         item: Int,
         duration: Long,

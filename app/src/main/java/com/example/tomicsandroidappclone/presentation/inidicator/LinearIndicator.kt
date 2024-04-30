@@ -6,7 +6,7 @@ import android.util.TypedValue
 import android.widget.ImageView
 import android.widget.LinearLayout
 
-class LinearIndicator: LinearLayout {
+class LinearIndicator : LinearLayout {
 
     private var mContext: Context? = null
 
@@ -17,7 +17,8 @@ class LinearIndicator: LinearLayout {
 
     // 4.5dp 를 픽셀 단위로 바꿉니다.
     private val temp = TypedValue.applyDimension(
-        TypedValue.COMPLEX_UNIT_DIP, 4.5f, resources.displayMetrics)
+        TypedValue.COMPLEX_UNIT_DIP, 4.5f, resources.displayMetrics
+    )
 
     constructor(context: Context) : super(context) {
 
@@ -45,7 +46,14 @@ class LinearIndicator: LinearLayout {
 
         for (i in 0 until count) {
 
-            imageLine.add(ImageView(mContext).apply { setPadding(temp.toInt(), 0, temp.toInt(), 0) })
+            imageLine.add(ImageView(mContext).apply {
+                setPadding(
+                    temp.toInt(),
+                    0,
+                    temp.toInt(),
+                    0
+                )
+            })
 
             this.addView(imageLine[i])
         }

@@ -66,5 +66,6 @@ class ViewPagerDefaultToonAdapter(
         return if (checkType == 0) Int.MAX_VALUE
         else getSize
     }
+
     override fun getItemId(position: Int): Long = position.toLong()
 }

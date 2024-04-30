@@ -16,7 +16,6 @@ import javax.inject.Singleton
 // 외부 라이브러리에서 제공하는 클래스라 프로젝트 내에서 소유할 수 없는 경우(inject 주입이 안되는 경우)
 // 혹은 Builder 패턴 등으로 인스턴스를 생성해야 하는 경우, 종속성 객체를 생성, 제공하는 메서드를 정의할 때 사용
 
-
 @Module
 @InstallIn(SingletonComponent::class)
 object NetworkModule {

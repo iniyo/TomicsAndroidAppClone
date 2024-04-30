@@ -8,7 +8,6 @@ import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.example.tomicsandroidappclone.R
 import com.example.tomicsandroidappclone.databinding.DefaultToonItemsBinding
-import com.example.tomicsandroidappclone.databinding.PopularityToonItemsBinding
 import com.example.tomicsandroidappclone.domain.entity.Webtoon
 
 class PagingAdapter : PagingDataAdapter<Webtoon, PagingAdapter.PagingViewHolder>(diffCallback) {

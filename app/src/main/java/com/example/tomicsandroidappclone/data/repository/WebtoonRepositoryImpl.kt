@@ -6,7 +6,6 @@ import com.example.tomicsandroidappclone.domain.entity.Webtoon
 import javax.inject.Inject
 import javax.inject.Singleton
 
-
 @Singleton // For Hilt
 class WebtoonRepositoryImpl @Inject constructor(private val api: WebtoonApi) : WebtoonRepository {
     override suspend fun getWebtoon(

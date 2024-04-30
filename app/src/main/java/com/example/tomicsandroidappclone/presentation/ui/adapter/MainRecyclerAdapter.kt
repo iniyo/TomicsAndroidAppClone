@@ -25,7 +25,12 @@ class MainRecyclerAdapter(
     enum class ViewType {
         TYPE_VIEWPAGER, TYPE_RECYCLER
     }
-    data class MainItem(val viewType: ViewType, val webtoonData: ArrayList<Webtoon>, val choose: Int)
+
+    data class MainItem(
+        val viewType: ViewType,
+        val webtoonData: ArrayList<Webtoon>,
+        val choose: Int
+    )
 
     val itemList = listOf(
         // viewpager choose -1=top slide, 0=nested recycler
@@ -130,14 +135,15 @@ class MainRecyclerAdapter(
             -1 -> {
                 myHandler = AutoScrollHandler(binding.vpMain)
                 val interval = 3000
-                /*myHandler.startAutoScroll(interval)*/
+                myHandler.startAutoScroll(interval)
                 binding.incluedLayoutBanner.linearContainer.visibility = View.GONE
 
                 binding.vpMain.apply {
 
                     setPageTransformer { page, position ->
                         val pagePosition = position % adapter!!.itemCount
-                        val realPosition = if (pagePosition < 0) pagePosition + adapter!!.itemCount else pagePosition
+                        val realPosition =
+                            if (pagePosition < 0) pagePosition + adapter!!.itemCount else pagePosition
                         // pagePosition 값을 사용하여 page.tag에 값을 설정
                         page.tag = realPosition
                     }
@@ -148,12 +154,14 @@ class MainRecyclerAdapter(
                                 val itemCount = adapter.itemCount // int.maxvalue
                                 val pagePosition = position - (Int.MAX_VALUE / 2)
                                 Log.d("TAG", "position: $position")
-                                Log.d("TAG", "pagePosition: ${pagePosition}")
                                 val normalizedPosition = if (pagePosition >= 0) {
-                                    Log.d("TAG", "true: ${pagePosition}")
+                                    Log.d("TAG", "true: $pagePosition")
                                     pagePosition
                                 } else {
-                                    Log.d("TAG", "false: ${ itemCount - (pagePosition.absoluteValue + 1)}")
+                                    Log.d(
+                                        "TAG",
+                                        "false: ${itemCount - (pagePosition.absoluteValue + 1)}"
+                                    )
                                     itemCount - (pagePosition.absoluteValue.inc())// 음수일 경우 역순으로 위치 계산. +1을 해야 값이 중복되지 않음.
                                 }
                                 val indicatorPosition = normalizedPosition % 7
@@ -161,23 +169,31 @@ class MainRecyclerAdapter(
                                 binding.indicator.selectLine(indicatorPosition)
                             } ?: Log.w("TAG", "Adapter is null")
                         }
-                       /* override fun onPageScrollStateChanged(state: Int) {
+
+                        override fun onPageScrollStateChanged(state: Int) {
                             super.onPageScrollStateChanged(state)
                             when (state) {
                                 ViewPager2.SCROLL_STATE_IDLE -> {
                                     myHandler.startAutoScroll(interval)
                                 }
+
                                 ViewPager2.SCROLL_STATE_DRAGGING -> {
                                     myHandler.stopAutoScroll()
                                 }
+
                                 else -> Log.d("TAG", "pageScrollState 예외 상태")
                             }
-                        }*/
+                        }
                     })
                 }
                 val webtoonListValue: List<Webtoon> = webtoonData
                 //init indicator
-                binding.indicator.createLinePanel(7, R.drawable.indicator_line_off, R.drawable.indicator_line_on, 0)
+                binding.indicator.createLinePanel(
+                    7,
+                    R.drawable.indicator_line_off,
+                    R.drawable.indicator_line_on,
+                    0
+                )
                 ViewPagerTopSlideAdapter(webtoonListValue.take(7))
             }
 
@@ -231,6 +247,7 @@ class MainRecyclerAdapter(
                 count.inc()
                 null
             }
+
             3 -> {
                 binding.constraintDfContainer.apply {
                     setBackgroundColor(Color.BLUE)
@@ -239,6 +256,7 @@ class MainRecyclerAdapter(
                 count.inc()
                 RecyclerDefaultToonAdapter(webtoonData, choose)
             }
+
             else -> {
                 binding.incluedLayoutBanner.tvTag.text = bannerItems[count]
                 count.inc()

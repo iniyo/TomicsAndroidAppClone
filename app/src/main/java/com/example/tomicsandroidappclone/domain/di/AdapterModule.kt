@@ -19,7 +19,6 @@ annotation class NotEasyAdapter
 @InstallIn(ActivityComponent::class)
 abstract class AdapterModule {
 
-
     @EasyAdapter
     @Binds
     abstract fun bindingAdapterRepository(adapterImpl: MyEasyAdapterImpl): MyEasyAdapter
