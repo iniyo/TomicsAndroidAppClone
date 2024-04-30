@@ -21,7 +21,7 @@ import javax.inject.Inject
 class BaseActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityMainBinding
-    // ViewModel 인스턴스를 만들려면 Provider가 필요 this는 owner 즉, 현재 사용되는 앱 컴포넌트를 뜻함. -> BaseViewModel
+    // ViewModel 인스턴스를 만들려면 Provider가 필요 this는 owner 즉, 현재 사용되는 앱 컴포넌트를 뜻함. -> BaseActivity
     private val baseViewModel: BaseViewModel by lazy { ViewModelProvider(this)[BaseViewModel::class.java] }
     @Inject lateinit var navigator: AppNavigator
 
