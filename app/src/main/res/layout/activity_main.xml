@@ -168,7 +168,7 @@
                             android:layout_width="match_parent"
                             android:layout_height="3dp"
                             android:layout_alignParentBottom="true"
-                            android:background="@color/white" />
+                            android:background="@drawable/selector_tab_main_under" />
                     </RelativeLayout>
 
                     <Space
@@ -190,10 +190,12 @@
                             android:textSize="16sp" />
 
                         <View
+                            android:id="@+id/v_hundred_under_color_bar"
                             android:layout_width="match_parent"
                             android:layout_height="3dp"
                             android:layout_alignParentBottom="true"
-                            android:background="@color/white" />
+                            android:background="@drawable/selector_tab_main_under" />
+
                     </RelativeLayout>
 
                     <Space
@@ -215,10 +217,12 @@
                             android:textSize="16sp" />
 
                         <View
+                            android:id="@+id/v_ended_webtoon_under_color_bar"
                             android:layout_width="match_parent"
                             android:layout_height="3dp"
                             android:layout_alignParentBottom="true"
-                            android:background="@color/white" />
+                            android:background="@drawable/selector_tab_main_under" />
+
                     </RelativeLayout>
 
                     <Space
@@ -252,10 +256,12 @@
                             android:textSize="16sp" />
 
                         <View
+                            android:id="@+id/v_hot_webtoon_under_color_bar"
                             android:layout_width="match_parent"
                             android:layout_height="3dp"
                             android:layout_alignParentBottom="true"
-                            android:background="@color/white" />
+                            android:background="@drawable/selector_tab_main_under" />
+
                     </RelativeLayout>
 
                 </LinearLayout>

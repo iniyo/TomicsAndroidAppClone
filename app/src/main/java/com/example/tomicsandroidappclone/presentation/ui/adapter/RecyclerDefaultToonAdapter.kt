@@ -19,6 +19,11 @@ class RecyclerDefaultToonAdapter(
 ) : ListAdapter<Webtoon, RecyclerDefaultToonAdapter.ViewHolder>(ItemCallback()) {
     private lateinit var mapper: MyGraphicMapper
 
+    init {
+        setHasStableIds(true) // 각 아이템 position에 지정된 id를 기준으로 상황에 따라 bind호출을 제외.
+    }
+
+    override fun getItemId(position: Int): Long = position.toLong()
     inner class ViewHolder(val binding: DefaultToonItemsBinding) :
         RecyclerView.ViewHolder(binding.root) {
         fun bind(webtoon: Webtoon) {

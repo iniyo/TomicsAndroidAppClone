@@ -13,6 +13,9 @@ class ViewPagerDefaultToonAdapter(
     private val checkType: Int,
     private val getSize: Int
 ) : RecyclerView.Adapter<ViewPagerDefaultToonAdapter.ViewHolder>() {
+    init {
+        setHasStableIds(true) // 각 아이템 position에 지정된 id를 기준으로 상황에 따라 bind호출을 제외.
+    }
 
     inner class ViewHolder(val binding: PopularityToonItemsBinding) :
         RecyclerView.ViewHolder(binding.root) {

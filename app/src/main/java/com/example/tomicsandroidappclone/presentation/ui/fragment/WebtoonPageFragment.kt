@@ -53,7 +53,6 @@ class WebtoonPageFragment : Fragment() {
              }
          }*/
 
-
         return binding.root
     }
 
@@ -117,6 +116,7 @@ class WebtoonPageFragment : Fragment() {
             adapter = ViewPagerDefaultToonAdapter(webtoons, int, tabItems!!.size)
             orientation = ViewPager2.ORIENTATION_HORIZONTAL
             offscreenPageLimit = 9 // view pager 양 옆 page 미리 생성
+
         }
     }
 }

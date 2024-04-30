@@ -28,9 +28,13 @@ class AutoScrollHandler(private val viewPager: ViewPager2) : Handler(Looper.getM
     override fun handleMessage(msg: Message) {
         super.handleMessage(msg)
 
-        val currentItem = viewPager.currentItem
-        viewPager.setCurrentItem(currentItem + 1, 400)
-        Log.d("TAG", "handle currentItem$currentItem")
+        if (isAutoScroll && viewPager.isAttachedToWindow) { // 컴포넌트가 화면에 붙어있는지 확인
+            val currentItem = viewPager.currentItem
+            viewPager.setCurrentItem(currentItem + 1, 400)
+            Log.d("TAG", "handle currentItem$currentItem")
+        } else {
+            stopAutoScroll() // 핸들러 로직 중지
+        }
     }
 
     private fun postAutoScroll(interval: Int) {

@@ -16,12 +16,20 @@ import com.example.tomicsandroidappclone.domain.entity.Webtoon
 import com.example.tomicsandroidappclone.domain.handler.AutoScrollHandler
 import kotlin.math.absoluteValue
 
+// 참고사이트 : https://gift123.tistory.com/67 - 중요
+// https://ppizil.tistory.com/entry/%EC%95%88%EB%93%9C%EB%A1%9C%EC%9D%B4%EB%93%9C-Recyclerview-%EC%A0%9C%EB%8C%80%EB%A1%9C-%EC%95%8C%EA%B3%A0-%EC%93%B0%EC%9E%90
+// 나중에 ListAdapter와 DiffUtill로 변경.
 class MainRecyclerAdapter(
     private val webtoonData: ArrayList<Webtoon>,
     private val context: Context
 ) : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
     private lateinit var myHandler: AutoScrollHandler
 
+    init {
+        setHasStableIds(true) // 각 아이템 position에 지정된 id를 기준으로 상황에 따라 bind호출을 제외.
+    }
+
+    override fun getItemId(position: Int): Long = position.toLong()
     enum class ViewType {
         TYPE_VIEWPAGER, TYPE_RECYCLER
     }
@@ -68,6 +76,7 @@ class MainRecyclerAdapter(
         }
     }
 
+    // bindViewHolder는 최대한 가공된 데이터를 set하는 역할만.
     override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
         Log.d("TAG", "MainPage onBindViewHolder: 실행")
         val id = getItemId(position)

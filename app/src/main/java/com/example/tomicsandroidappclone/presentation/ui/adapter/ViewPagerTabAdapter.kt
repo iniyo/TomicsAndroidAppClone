@@ -18,7 +18,11 @@ import com.example.tomicsandroidappclone.domain.entity.Webtoon
 class ViewPagerTabAdapter(
     private val webtoon: MutableList<Webtoon> = mutableListOf() // MutableList로 변경
 ) : RecyclerView.Adapter<ViewPagerTabAdapter.ViewHolder>() {
+    init {
+        setHasStableIds(true) // 각 아이템 position에 지정된 id를 기준으로 상황에 따라 bind호출을 제외.
+    }
 
+    override fun getItemId(position: Int): Long = position.toLong()
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         val binding =
             DefaultToonItemsBinding.inflate(LayoutInflater.from(parent.context), parent, false)

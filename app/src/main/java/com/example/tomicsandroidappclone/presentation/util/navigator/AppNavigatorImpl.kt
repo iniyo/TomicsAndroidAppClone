@@ -17,8 +17,12 @@
 
 package com.example.tomicsandroidappclone.presentation.util.navigator
 
+import android.content.Intent
+import android.os.Handler
+import android.os.Looper
 import androidx.fragment.app.FragmentActivity
 import com.example.tomicsandroidappclone.R
+import com.example.tomicsandroidappclone.presentation.ui.BaseActivity
 import com.example.tomicsandroidappclone.presentation.ui.fragment.MainPageFragment
 import com.example.tomicsandroidappclone.presentation.ui.fragment.WebtoonPageFragment
 import javax.inject.Inject
@@ -38,5 +42,9 @@ class AppNavigatorImpl @Inject constructor(private val activity: FragmentActivit
             .replace(R.id.fcv_main, fragment)
             .addToBackStack(fragment::class.java.canonicalName)
             .commit()
+    }
+
+    override fun navigateTo(screen: Activitys) {
+        // not yet
     }
 }

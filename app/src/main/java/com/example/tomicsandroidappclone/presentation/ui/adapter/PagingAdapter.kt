@@ -20,8 +20,10 @@ class PagingAdapter : PagingDataAdapter<Webtoon, PagingAdapter.PagingViewHolder>
             if (webtoon.additional.up) {
                 Glide.with(binding.root.context)
                     .load(webtoon.img)
+                    .skipMemoryCache(false)
                     .placeholder(R.drawable.icon_not_founded)
                     .into(binding.ivToonImg)
+
                 binding.tvToonTitle.text = webtoon.title
             }
         }

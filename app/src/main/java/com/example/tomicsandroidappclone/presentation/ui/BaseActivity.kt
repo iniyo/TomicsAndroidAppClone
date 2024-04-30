@@ -21,9 +21,11 @@ import javax.inject.Inject
 class BaseActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityMainBinding
+
     // ViewModel 인스턴스를 만들려면 Provider가 필요 this는 owner 즉, 현재 사용되는 앱 컴포넌트를 뜻함. -> BaseActivity
     private val baseViewModel: BaseViewModel by lazy { ViewModelProvider(this)[BaseViewModel::class.java] }
-    @Inject lateinit var navigator: AppNavigator
+    @Inject
+    lateinit var navigator: AppNavigator
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -32,7 +34,6 @@ class BaseActivity : AppCompatActivity() {
     }
 
     private fun initViews() {
-
         setFlate()
         setDrawer()
         setTabNavigator()
@@ -44,38 +45,64 @@ class BaseActivity : AppCompatActivity() {
     }
 
     private fun setDrawer() {
-        binding.ivDrawer.setOnClickListener {
-            if (binding.dlMain.isDrawerOpen(GravityCompat.START)) {
-                binding.dlMain.closeDrawer(GravityCompat.START)
-            } else {
-                binding.dlMain.openDrawer(GravityCompat.START)
+        binding.apply{
+            ivDrawer.setOnClickListener {
+                if (binding.dlMain.isDrawerOpen(GravityCompat.START)) {
+                    binding.dlMain.closeDrawer(GravityCompat.START)
+                } else {
+                    binding.dlMain.openDrawer(GravityCompat.START)
+                }
             }
-        }
-        binding.ivTomicsLogo.setOnClickListener {
-            navigator.navigateTo(Fragments.MAIN_PAGE, setTabItems(binding.tvFreeWebtoon) )
-        }
-        binding.activityDrawer.ivCloseDrawer.setOnClickListener {
-            binding.dlMain.closeDrawer(GravityCompat.START)
+            ivTomicsLogo.setOnClickListener {
+                navigator.navigateTo(Fragments.MAIN_PAGE, setTabItems(binding.tvFreeWebtoon))
+            }
+            activityDrawer.ivCloseDrawer.setOnClickListener {
+                binding.dlMain.closeDrawer(GravityCompat.START)
+            }
         }
     }
 
     private fun setTabNavigator() {
-        binding.run {
+        binding.apply {
+            // 각 탭에 대한 클릭 리스너 설정
             listOf(
-                rlFreeWebtoon to tvFreeWebtoon,
-                rlSerialize to tvSerialize,
-                rlTopHundred to tvTopHundred,
-                rlEndedWebtoon to tvEndedWebtoon,
-                rlHotWebtoon to tvHot).forEach { (view, textView) ->
-                view.setOnClickListener {
+                tvFreeWebtoon,
+                tvSerialize,
+                tvTopHundred,
+                tvEndedWebtoon,
+                tvHot
+            ).forEach { textView ->
+                textView.setOnClickListener { clickedView ->
+                    // 클릭된 텍스트 뷰와 해당하는 하단 바 뷰를 찾아서 isSelected 설정
+                    val selectedBarView = when (clickedView) {
+                        tvFreeWebtoon -> vFreeWebtoonUnderColorBar
+                        tvSerialize -> vSerializeUnderColorBar
+                        tvTopHundred -> vHundredUnderColorBar
+                        tvEndedWebtoon -> vEndedWebtoonUnderColorBar
+                        tvHot -> vHotWebtoonUnderColorBar
+                        else -> null
+                    }
+
+                    // 모든 하단 바 뷰에 대해 isSelected를 false로 설정
+                    listOf(
+                        vFreeWebtoonUnderColorBar,
+                        vSerializeUnderColorBar,
+                        vHundredUnderColorBar,
+                        vEndedWebtoonUnderColorBar,
+                        vHotWebtoonUnderColorBar
+                    ).forEach { barView ->
+                        barView.isSelected = barView == selectedBarView
+                    }
+
+                    // 해당 탭 아이템에 대한 웹툰 페이지로 탐색
                     navigator.navigateTo(Fragments.WEBTOON_PAGE, setTabItems(textView))
                 }
             }
         }
     }
 
-    private fun setTabItems(textView: TextView) : Array<String> {
-        val arrayString = when(textView.text){
+    private fun setTabItems(textView: TextView): Array<String> {
+        val arrayString = when (textView.text) {
             "나만무료" -> resources.getStringArray(R.array.free_webtoon_tab_items)
             "연재" -> resources.getStringArray(R.array.serialize_tab_items)
             "TOP100" -> resources.getStringArray(R.array.top_webtoon_items)
