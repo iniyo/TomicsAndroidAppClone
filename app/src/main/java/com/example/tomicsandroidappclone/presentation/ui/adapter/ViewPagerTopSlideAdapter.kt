@@ -4,6 +4,8 @@ import android.content.Intent
 import android.net.Uri
 import android.view.LayoutInflater
 import android.view.ViewGroup
+import androidx.recyclerview.widget.DiffUtil
+import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.example.tomicsandroidappclone.R
@@ -12,7 +14,7 @@ import com.example.tomicsandroidappclone.domain.entity.Webtoon
 
 class ViewPagerTopSlideAdapter(
     private val webtoonList: List<Webtoon>
-) : RecyclerView.Adapter<ViewPagerTopSlideAdapter.ViewHolder>() {
+) : ListAdapter<Webtoon, ViewPagerTopSlideAdapter.ViewHolder>(diffCallback) {
     init {
         setHasStableIds(true) // 각 아이템 position에 지정된 id를 기준으로 상황에 따라 bind호출을 제외.
     }
@@ -62,5 +64,17 @@ class ViewPagerTopSlideAdapter(
 
     override fun getItemCount(): Int {
         return Int.MAX_VALUE
+    }
+
+    companion object {
+        private val diffCallback = object : DiffUtil.ItemCallback<Webtoon>() {
+            override fun areItemsTheSame(oldItem: Webtoon, newItem: Webtoon): Boolean {
+                return oldItem._id === newItem._id // Referential equality
+            }
+
+            override fun areContentsTheSame(oldItem: Webtoon, newItem: Webtoon): Boolean {
+                return oldItem == newItem // == Structural equality
+            }
+        }
     }
 }
