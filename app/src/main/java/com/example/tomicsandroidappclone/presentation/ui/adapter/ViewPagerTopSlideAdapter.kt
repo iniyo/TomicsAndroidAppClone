@@ -62,6 +62,7 @@ class ViewPagerTopSlideAdapter(
             .clear(holder.itemView)
     }
 
+    // ListAdapter의 경우 아이템 개수를 컨트롤 하지 않아도 되지만 infinite scroll을 위해 getItemCount override
     override fun getItemCount(): Int {
         return Int.MAX_VALUE
     }
