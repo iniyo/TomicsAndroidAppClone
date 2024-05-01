@@ -12,7 +12,9 @@ import androidx.lifecycle.lifecycleScope
 import androidx.viewpager2.widget.ViewPager2
 import com.example.tomicsandroidappclone.databinding.FragmentWebtoonPageBinding
 import com.example.tomicsandroidappclone.domain.di.EasyAdapter
+import com.example.tomicsandroidappclone.domain.entity.Webtoon
 import com.example.tomicsandroidappclone.presentation.ui.adapter.PagingAdapter
+import com.example.tomicsandroidappclone.presentation.ui.adapter.ViewPagerDefaultToonAdapter
 import com.example.tomicsandroidappclone.presentation.ui.viewmodel.WebtoonFragmentViewModel
 import com.example.tomicsandroidappclone.presentation.util.adapter.MyEasyAdapter
 import dagger.hilt.android.AndroidEntryPoint
@@ -43,14 +45,8 @@ class WebtoonPageFragment : Fragment() {
     ): View {
         binding = FragmentWebtoonPageBinding.inflate(layoutInflater, container, false)
 
-        /*viewModel.webtoonsInfo.observe(viewLifecycleOwner) {
+        viewModel.webtoonsInfo.observe(viewLifecycleOwner) {
             setAdapter(it)
-        }*/
-
-        binding.vpWebtoonPage.apply {
-            adapter = PagingAdapter()
-            orientation = ViewPager2.ORIENTATION_HORIZONTAL
-            offscreenPageLimit = 7 // view pager 양 옆 page 미리 생성
         }
 
         lifecycleScope.launch {
@@ -112,17 +108,16 @@ class WebtoonPageFragment : Fragment() {
         }
     }
 
-    /*private fun setAdapter(webtoons: ArrayList<Webtoon>) {
+    private fun setAdapter(webtoons: ArrayList<Webtoon>) {
         val int = if (tabItems!![0] != "뜨는 한 컷") {
             1
         } else {
             0
         }
-
         binding.vpWebtoonPage.apply {
             adapter = ViewPagerDefaultToonAdapter(webtoons, int, tabItems!!.size)
             orientation = ViewPager2.ORIENTATION_HORIZONTAL
-            offscreenPageLimit = 7 // view pager 양 옆 page 미리 생성
+            offscreenPageLimit = 1 // view pager 양 옆 page 미리 생성
         }
-    }*/
+    }
 }

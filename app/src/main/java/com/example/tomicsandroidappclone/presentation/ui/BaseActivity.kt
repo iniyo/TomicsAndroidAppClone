@@ -3,17 +3,18 @@ package com.example.tomicsandroidappclone.presentation.ui
 
 import android.os.Bundle
 import android.util.Log
+import android.view.View
+import android.view.ViewGroup
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
 import androidx.core.view.GravityCompat
-import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.ViewModelProvider
 import com.example.tomicsandroidappclone.R
 import com.example.tomicsandroidappclone.databinding.ActivityMainBinding
+import com.example.tomicsandroidappclone.presentation.ui.viewmodel.BaseViewModel
 import com.example.tomicsandroidappclone.presentation.util.navigator.AppNavigator
 import com.example.tomicsandroidappclone.presentation.util.navigator.Fragments
-import com.example.tomicsandroidappclone.presentation.ui.viewmodel.BaseViewModel
 import dagger.hilt.android.AndroidEntryPoint
 import javax.inject.Inject
 
@@ -22,9 +23,9 @@ import javax.inject.Inject
 class BaseActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityMainBinding
-
-    // ViewModel 인스턴스를 만들려면 Provider가 필요 this는 owner 즉, 현재 사용되는 앱 컴포넌트를 뜻함. -> BaseActivity
     private val baseViewModel: BaseViewModel by lazy { ViewModelProvider(this)[BaseViewModel::class.java] }
+    // ViewModel 인스턴스를 만들려면 Provider가 필요 this는 owner 즉, 현재 사용되는 앱 컴포넌트를 뜻함. -> BaseActivity
+
     @Inject
     lateinit var navigator: AppNavigator
 
@@ -35,19 +36,29 @@ class BaseActivity : AppCompatActivity() {
     }
 
     private fun initViews() {
-        /*installSplashScreen()*/ // 로딩화면
+        setData()
         setFlate()
         setDrawer()
         setTabNavigator()
     }
 
+    private fun setData() {
+        var loaded = false // Initialize a flag to track data loading status
+        baseViewModel.webtoonsInfo.observe(this) { data ->
+            loaded = if (data.isNotEmpty()) true else false
+        }
+        installSplashScreen().setKeepOnScreenCondition { loaded }
+    }
+
     private fun setFlate() {
-        binding = DataBindingUtil.setContentView(this, R.layout.activity_main) // databinding으로 set
-        binding.viewModel = baseViewModel // ViewModel 연동
+        binding = ActivityMainBinding.inflate(layoutInflater)
+        setContentView(binding.root)
+        /*DataBindingUtil.setContentView(this, R.layout.activity_main) // databinding으로 set
+        binding.viewModel = baseViewModel // ViewModel 연동*/
     }
 
     private fun setDrawer() {
-        binding.apply{
+        binding.apply {
             ivDrawer.setOnClickListener {
                 if (binding.dlMain.isDrawerOpen(GravityCompat.START)) {
                     binding.dlMain.closeDrawer(GravityCompat.START)
@@ -65,6 +76,7 @@ class BaseActivity : AppCompatActivity() {
     }
 
     private fun setTabNavigator() {
+
         binding.apply {
             // 각 탭에 대한 클릭 리스너 설정
             listOf(
@@ -75,6 +87,7 @@ class BaseActivity : AppCompatActivity() {
                 tvHot
             ).forEach { textView ->
                 textView.setOnClickListener { clickedView ->
+
                     // 클릭된 텍스트 뷰와 해당하는 하단 바 뷰를 찾아서 isSelected 설정
                     val selectedBarView = when (clickedView) {
                         tvFreeWebtoon -> vFreeWebtoonUnderColorBar
@@ -98,6 +111,14 @@ class BaseActivity : AppCompatActivity() {
 
                     // 해당 탭 아이템에 대한 웹툰 페이지로 탐색
                     navigator.navigateTo(Fragments.WEBTOON_PAGE, setTabItems(textView))
+
+                    // 텍스트뷰 크기 측정 후 하단 바 크기 조정
+                    textView.post {
+                        val underColorBar = findViewById<View>(R.id.v_hot_webtoon_under_color_bar)
+                        val layoutParams = underColorBar.layoutParams as ViewGroup.LayoutParams
+                        layoutParams.width = textView.textSize.toInt()
+                        underColorBar.layoutParams = layoutParams
+                    }
                 }
             }
         }

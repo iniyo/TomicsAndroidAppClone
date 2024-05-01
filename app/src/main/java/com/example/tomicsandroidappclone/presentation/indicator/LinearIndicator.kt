@@ -5,6 +5,7 @@ import android.util.AttributeSet
 import android.util.TypedValue
 import android.widget.ImageView
 import android.widget.LinearLayout
+import com.example.tomicsandroidappclone.presentation.util.mapper.MyGraphicMapper
 
 class LinearIndicator : LinearLayout {
 
@@ -15,10 +16,8 @@ class LinearIndicator : LinearLayout {
 
     private var imageLine: MutableList<ImageView> = mutableListOf()
 
-    // 4.5dp 를 픽셀 단위로 바꿉니다.
-    private val temp = TypedValue.applyDimension(
-        TypedValue.COMPLEX_UNIT_DIP, 4.5f, resources.displayMetrics
-    )
+    // 픽셀 단위로
+    private val temp = MyGraphicMapper().dp2px(2f)
 
     constructor(context: Context) : super(context) {
 

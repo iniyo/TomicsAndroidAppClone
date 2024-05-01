@@ -22,18 +22,21 @@ class ViewPagerSubListItemsAdapter(
         RecyclerView.ViewHolder(binding.root) {
         fun bind(webtoon: Webtoon, position: Int) {
 
-            binding.llTopContainer.setOnClickListener {
-                val intent = Intent(Intent.ACTION_VIEW, Uri.parse(webtoon.url))
-                binding.root.context.startActivity(intent)
+            binding.run {
+                llTopContainer.setOnClickListener {
+                    val intent = Intent(Intent.ACTION_VIEW, Uri.parse(webtoon.url))
+                    binding.root.context.startActivity(intent)
+                }
+                tvAuthor.text = webtoon.author
+                tvToonRank.text = position.inc().toString()
+                tvToonName.text = webtoon.title
+                Glide.with(binding.root.context)
+                    .load(webtoon.img)
+                    .skipMemoryCache(false) // cache 사용 x
+                    .centerInside()
+                    .placeholder(R.drawable.ic_launcher_foreground) // image 로드를 못 했을 경우
+                    .into(ivPopularity)
             }
-            Glide.with(binding.root.context)
-                .load(webtoon.img)
-                .skipMemoryCache(false) // cache 사용 x
-                .centerInside()
-                .placeholder(R.drawable.ic_launcher_foreground) // image 로드를 못 했을 경우
-                .into(binding.ivPopularity)
-            binding.tvToonRank.text = position.inc().toString()
-            binding.tvToonName.text = webtoon.title
         }
     }
 

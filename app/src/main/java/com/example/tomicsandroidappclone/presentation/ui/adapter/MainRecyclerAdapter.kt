@@ -24,6 +24,10 @@ class MainRecyclerAdapter(
     private val context: Context
 ) : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
     private lateinit var myHandler: AutoScrollHandler
+    private val count = 0
+    /*private val recyclerViewPool0 = RecyclerView.RecycledViewPool().apply {
+        setMaxRecycledViews(0, 20)
+    }*/
 
     init {
         setHasStableIds(true) // 각 아이템 position에 지정된 id를 기준으로 상황에 따라 bind호출을 제외.
@@ -79,9 +83,6 @@ class MainRecyclerAdapter(
     // bindViewHolder는 최대한 가공된 데이터를 set하는 역할만.
     override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
         Log.d("TAG", "MainPage onBindViewHolder: 실행")
-        val id = getItemId(position)
-        Log.d("TAG", "MainPage onBindViewHolder: $id")
-
         val viewType = getItemViewType(position) // ViewType 추출
         when (ViewType.entries[viewType]) {
             ViewType.TYPE_VIEWPAGER -> (holder as ViewPagerViewHolder).bind(position)
@@ -101,26 +102,23 @@ class MainRecyclerAdapter(
     }*/
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
-        Log.d("TAG", "MainPage onCreateViewHolder: 실행")
+        Log.d("TAG", "MainPage onCreateViewHolder count: ${count.inc()}")
         return when (ViewType.entries[viewType]) {
             ViewType.TYPE_VIEWPAGER -> {
-                ViewPagerViewHolder(
-                    RecyclerMainItemViewpagerBinding.inflate(
-                        LayoutInflater.from(
-                            parent.context
-                        )
+                val view = RecyclerMainItemViewpagerBinding.inflate(
+                    LayoutInflater.from(
+                        parent.context
                     )
                 )
+                ViewPagerViewHolder(view)
             }
-
             ViewType.TYPE_RECYCLER -> {
-                RecyclerViewHolder(
-                    RecyclerMainItemRecyclerviewBinding.inflate(
-                        LayoutInflater.from(
-                            parent.context
-                        )
+                val view = RecyclerMainItemRecyclerviewBinding.inflate(
+                    LayoutInflater.from(
+                        parent.context
                     )
                 )
+                RecyclerViewHolder(view)
             }
         }
     }
@@ -281,8 +279,11 @@ class MainRecyclerAdapter(
                     binding.rvMainDefaultList.context,
                     LinearLayoutManager.HORIZONTAL,
                     false
-                )
-                setItemViewCacheSize(5) // 아이템 화면 밖으로 사라져도, n만큼의 항목을 계속 유지 -> 캐싱해두는것. onBind를 실행하지 않아도 됨.
+                ).apply{
+                    recycleChildrenOnDetach = true
+                }
+                /*setRecycledViewPool(recyclerViewPool)*/
+                setItemViewCacheSize(itemList.size) // 아이템 화면 밖으로 사라져도, n만큼의 항목을 계속 유지 -> 캐싱해두는것. onBind를 실행하지 않아도 됨.
                 setHasFixedSize(true)
             }
         }

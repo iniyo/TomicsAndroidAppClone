@@ -22,8 +22,9 @@
 
         <activity
             android:name=".presentation.ui.BaseActivity"
-            android:exported="true">
-            <!--android:theme="@style/AppTheme.Splash"-->
+            android:exported="true"
+            android:theme="@style/AppTheme.Splash">
+
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 

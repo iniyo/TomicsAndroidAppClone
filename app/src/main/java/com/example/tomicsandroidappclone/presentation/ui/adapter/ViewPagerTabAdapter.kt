@@ -1,5 +1,6 @@
 package com.example.tomicsandroidappclone.presentation.ui.adapter
 
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
@@ -21,7 +22,8 @@ class ViewPagerTabAdapter(
     init {
         setHasStableIds(true) // 각 아이템 position에 지정된 id를 기준으로 상황에 따라 bind호출을 제외.
     }
-
+    private val countAttached = 0
+    private val countDetached = 0
     override fun getItemId(position: Int): Long = position.toLong()
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         val binding =
@@ -32,7 +34,9 @@ class ViewPagerTabAdapter(
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         holder.bind(webtoon[position])
     }
-
+    override fun onViewAttachedToWindow(holder: ViewHolder) {
+        Log.d("TAG", "onViewAttachedToWindow: ${countAttached.inc()} ")
+    }
     class ViewHolder(val binding: DefaultToonItemsBinding) :
         RecyclerView.ViewHolder(binding.root) {
         fun bind(webtoon: Webtoon) {
@@ -48,7 +52,7 @@ class ViewPagerTabAdapter(
         }
     }
     override fun onViewDetachedFromWindow(holder: ViewHolder) {
-        super.onViewDetachedFromWindow(holder)
+        Log.d("TAG", "onViewDetachedFromWindow: ${countDetached.inc()} ")
         Glide.with(holder.itemView.context)
             .clear(holder.itemView)
     }

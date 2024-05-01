@@ -1,5 +1,6 @@
 package com.example.tomicsandroidappclone.presentation.ui.adapter
 
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.GridLayoutManager
@@ -13,6 +14,11 @@ class ViewPagerDefaultToonAdapter(
     private val checkType: Int,
     private val getSize: Int
 ) : RecyclerView.Adapter<ViewPagerDefaultToonAdapter.ViewHolder>() {
+
+    // recyclerViewPool
+    private val recyclerViewPool = RecyclerView.RecycledViewPool().apply {
+        setMaxRecycledViews(2, 100)
+    }
     init {
         setHasStableIds(true) // 각 아이템 position에 지정된 id를 기준으로 상황에 따라 bind호출을 제외.
     }
@@ -30,15 +36,20 @@ class ViewPagerDefaultToonAdapter(
                     0 -> ViewPagerSubListItemsAdapter(webtoonList)
                     else -> ViewPagerTabAdapter(webtoonList)
                 }
+                if (checkType != 0) {
+                    setRecycledViewPool(recyclerViewPool)
+                }
             }
         }
     }
 
     override fun onAttachedToRecyclerView(recyclerView: RecyclerView) {
-        super.onAttachedToRecyclerView(recyclerView)
         if (checkType == 0) {
             recyclerView.scrollToPosition(Int.MAX_VALUE / 2)
         }
+    }
+    override fun onDetachedFromRecyclerView(recyclerView: RecyclerView) {
+        Log.d("TAG", "onAttachedToRecyclerView: ")
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {

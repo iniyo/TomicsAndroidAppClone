@@ -125,6 +125,7 @@
                         android:id="@+id/rl_free_webtoon"
                         android:layout_width="60dp"
                         android:layout_height="match_parent"
+                        android:layout_weight="1"
                         android:gravity="bottom">
 
                         <TextView
@@ -132,6 +133,7 @@
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:layout_centerInParent="true"
+                            android:gravity="center"
                             android:text="@string/free_webtoon"
                             android:textColor="@color/black"
                             android:textSize="16sp" />
@@ -145,20 +147,19 @@
 
                     </RelativeLayout>
 
-                    <Space
-                        android:layout_width="30dp"
-                        android:layout_height="match_parent" />
 
                     <RelativeLayout
                         android:id="@+id/rl_serialize"
                         android:layout_width="30dp"
-                        android:layout_height="match_parent">
+                        android:layout_height="match_parent"
+                        android:layout_weight="1">
 
                         <TextView
                             android:id="@+id/tv_serialize"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:layout_centerInParent="true"
+                            android:gravity="center"
                             android:text="@string/serialize"
                             android:textColor="@color/black"
                             android:textSize="16sp" />
@@ -171,20 +172,18 @@
                             android:background="@drawable/selector_tab_main_under" />
                     </RelativeLayout>
 
-                    <Space
-                        android:layout_width="30dp"
-                        android:layout_height="match_parent" />
-
                     <RelativeLayout
                         android:id="@+id/rl_top_hundred"
                         android:layout_width="60dp"
-                        android:layout_height="match_parent">
+                        android:layout_height="match_parent"
+                        android:layout_weight="1">
 
                         <TextView
                             android:id="@+id/tv_top_hundred"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:layout_centerInParent="true"
+                            android:gravity="center"
                             android:text="@string/top_hundred"
                             android:textColor="@color/black"
                             android:textSize="16sp" />
@@ -198,20 +197,18 @@
 
                     </RelativeLayout>
 
-                    <Space
-                        android:layout_width="30dp"
-                        android:layout_height="match_parent" />
-
                     <RelativeLayout
                         android:id="@+id/rl_ended_webtoon"
                         android:layout_width="30dp"
-                        android:layout_height="match_parent">
+                        android:layout_height="match_parent"
+                        android:layout_weight="1">
 
                         <TextView
                             android:id="@+id/tv_ended_webtoon"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:layout_centerInParent="true"
+                            android:gravity="center"
                             android:text="@string/ended_webtoon"
                             android:textColor="@color/black"
                             android:textSize="16sp" />
@@ -225,14 +222,11 @@
 
                     </RelativeLayout>
 
-                    <Space
-                        android:layout_width="30dp"
-                        android:layout_height="match_parent" />
-
                     <RelativeLayout
                         android:id="@+id/rl_hot_webtoon"
                         android:layout_width="60dp"
                         android:layout_height="match_parent"
+                        android:layout_weight="1"
                         android:orientation="vertical"
                         android:paddingTop="6dp">
 
@@ -242,7 +236,7 @@
                             android:layout_height="wrap_content"
                             android:layout_alignParentEnd="true"
                             android:importantForAccessibility="no"
-                            android:paddingEnd="3dp"
+                            android:paddingEnd="18dp"
                             android:src="@drawable/icon_hot_27x16"
                             tools:ignore="RtlSymmetry" />
 
@@ -251,6 +245,7 @@
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:layout_centerInParent="true"
+                            android:gravity="center"
                             android:text="@string/one_cut"
                             android:textColor="@color/black"
                             android:textSize="16sp" />
@@ -258,7 +253,8 @@
                         <View
                             android:id="@+id/v_hot_webtoon_under_color_bar"
                             android:layout_width="match_parent"
-                            android:layout_height="3dp"
+                            android:layout_height="2dp"
+                            android:foregroundGravity="center"
                             android:layout_alignParentBottom="true"
                             android:background="@drawable/selector_tab_main_under" />
 

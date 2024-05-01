@@ -91,19 +91,12 @@
 
     </com.google.android.material.appbar.AppBarLayout>
 
-    <androidx.core.widget.NestedScrollView
+    <androidx.viewpager2.widget.ViewPager2
+        android:id="@+id/vp_webtoon_page"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        app:layout_behavior="com.google.android.material.appbar.AppBarLayout$ScrollingViewBehavior">
-
-        <androidx.viewpager2.widget.ViewPager2
-            android:id="@+id/vp_webtoon_page"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:paddingStart="10dp"
-            app:layout_behavior="@string/appbar_scrolling_view_behavior"
-            tools:ignore="RtlSymmetry" />
-
-    </androidx.core.widget.NestedScrollView>
+        android:paddingStart="10dp"
+        app:layout_behavior="@string/appbar_scrolling_view_behavior"
+        tools:ignore="RtlSymmetry" />
 
 </androidx.coordinatorlayout.widget.CoordinatorLayout>

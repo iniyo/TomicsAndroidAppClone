@@ -5,7 +5,7 @@
     <solid android:color="@color/tomics_gray" />
 
     <size
-        android:width="20dp"
+        android:width="25dp"
         android:height="1dp" />
 
 </shape>

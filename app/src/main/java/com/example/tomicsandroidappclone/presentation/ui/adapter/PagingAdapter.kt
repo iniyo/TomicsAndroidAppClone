@@ -23,7 +23,6 @@ class PagingAdapter : PagingDataAdapter<Webtoon, PagingAdapter.PagingViewHolder>
                     .skipMemoryCache(false)
                     .placeholder(R.drawable.icon_not_founded)
                     .into(binding.ivToonImg)
-
                 binding.tvToonTitle.text = webtoon.title
             }
         }
