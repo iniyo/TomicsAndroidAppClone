@@ -1,4 +1,4 @@
-package com.example.tomicsandroidappclone.domain.entity
+package com.example.tomicsandroidappclone.domain.model
 
 data class ToonResponse(
     val totalWebtoonCount: Int,

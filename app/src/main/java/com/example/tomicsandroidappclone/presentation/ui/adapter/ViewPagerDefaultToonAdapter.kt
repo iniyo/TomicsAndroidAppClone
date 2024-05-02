@@ -7,7 +7,7 @@ import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.tomicsandroidappclone.databinding.PopularityToonItemsBinding
-import com.example.tomicsandroidappclone.domain.entity.Webtoon
+import com.example.tomicsandroidappclone.domain.model.Webtoon
 
 class ViewPagerDefaultToonAdapter(
     private val webtoonList: ArrayList<Webtoon>,
@@ -31,25 +31,26 @@ class ViewPagerDefaultToonAdapter(
                     0 -> LinearLayoutManager(context, LinearLayoutManager.VERTICAL, false)
                     1 -> GridLayoutManager(context, 3)
                     else -> GridLayoutManager(context, 2)
-                }
+                }/*.apply{
+                    recycleChildrenOnDetach = true
+                }*/
                 adapter = when (checkType) {
                     0 -> ViewPagerSubListItemsAdapter(webtoonList)
                     else -> ViewPagerTabAdapter(webtoonList)
                 }
-                if (checkType != 0) {
-                    setRecycledViewPool(recyclerViewPool)
-                }
+                setRecycledViewPool(recyclerViewPool)
             }
         }
     }
 
     override fun onAttachedToRecyclerView(recyclerView: RecyclerView) {
+        Log.d("TAG", "onAttachedToRecyclerView: ")
         if (checkType == 0) {
             recyclerView.scrollToPosition(Int.MAX_VALUE / 2)
         }
     }
     override fun onDetachedFromRecyclerView(recyclerView: RecyclerView) {
-        Log.d("TAG", "onAttachedToRecyclerView: ")
+        Log.d("TAG", "onDetachedFromRecyclerView: ")
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {

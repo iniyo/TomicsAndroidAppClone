@@ -12,8 +12,8 @@ import androidx.viewpager2.widget.ViewPager2
 import com.example.tomicsandroidappclone.R
 import com.example.tomicsandroidappclone.databinding.RecyclerMainItemRecyclerviewBinding
 import com.example.tomicsandroidappclone.databinding.RecyclerMainItemViewpagerBinding
-import com.example.tomicsandroidappclone.domain.entity.Webtoon
-import com.example.tomicsandroidappclone.domain.handler.AutoScrollHandler
+import com.example.tomicsandroidappclone.domain.model.Webtoon
+import com.example.tomicsandroidappclone.presentation.util.handler.AutoScrollHandler
 import kotlin.math.absoluteValue
 
 // 참고사이트 : https://gift123.tistory.com/67 - 중요
@@ -24,7 +24,7 @@ class MainRecyclerAdapter(
     private val context: Context
 ) : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
     private lateinit var myHandler: AutoScrollHandler
-    private val count = 0
+    private var count = 0
     /*private val recyclerViewPool0 = RecyclerView.RecycledViewPool().apply {
         setMaxRecycledViews(0, 20)
     }*/
@@ -241,7 +241,6 @@ class MainRecyclerAdapter(
     ) {
         val context = binding.root.context
         val bannerItems = context.resources.getStringArray(R.array.banner_items)
-        val count = 0
 
         binding.ivAd.visibility = View.GONE
 
@@ -250,23 +249,21 @@ class MainRecyclerAdapter(
             -1 -> {
                 binding.ivAd.visibility = View.VISIBLE
                 binding.incluedLayoutBanner.linearContainer.visibility = View.GONE
-                binding.incluedLayoutBanner.tvTag.text = bannerItems[count]
-                count.inc()
+                binding.incluedLayoutBanner.tvTag.text = bannerItems[count.inc()]
                 null
             }
 
             3 -> {
                 binding.constraintDfContainer.apply {
                     setBackgroundColor(Color.BLUE)
-                    binding.incluedLayoutBanner.tvTag.text = bannerItems[count]
+                    binding.incluedLayoutBanner.tvTag.text = bannerItems[count.inc()]
                 }
-                count.inc()
                 RecyclerDefaultToonAdapter(webtoonData, choose)
             }
 
             else -> {
-                binding.incluedLayoutBanner.tvTag.text = bannerItems[count]
-                count.inc()
+                binding.incluedLayoutBanner.tvTag.text = bannerItems[count.inc()]
+
                 RecyclerDefaultToonAdapter(webtoonData, choose)
             }
         }
@@ -279,9 +276,9 @@ class MainRecyclerAdapter(
                     binding.rvMainDefaultList.context,
                     LinearLayoutManager.HORIZONTAL,
                     false
-                ).apply{
+                )/*.apply{
                     recycleChildrenOnDetach = true
-                }
+                }*/
                 /*setRecycledViewPool(recyclerViewPool)*/
                 setItemViewCacheSize(itemList.size) // 아이템 화면 밖으로 사라져도, n만큼의 항목을 계속 유지 -> 캐싱해두는것. onBind를 실행하지 않아도 됨.
                 setHasFixedSize(true)

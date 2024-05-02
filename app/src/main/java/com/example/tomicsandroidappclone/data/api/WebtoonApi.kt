@@ -1,6 +1,7 @@
 package com.example.tomicsandroidappclone.data.api
 
-import com.example.tomicsandroidappclone.domain.entity.ToonResponse
+import com.example.tomicsandroidappclone.domain.model.ToonResponse
+import com.example.tomicsandroidappclone.domain.model.Webtoon
 import retrofit2.http.GET
 import retrofit2.http.Query
 
@@ -19,5 +20,11 @@ interface WebtoonApi {
     suspend fun getSearch(
         @Query("keyword") keyword: String
     ): ToonResponse
+
+    @GET("webtoons")
+    fun getWebtoons(
+        @Query("page") page: Int,
+        @Query("pageSize") pageSize: Int
+    ): ArrayList<Webtoon>
 
 }

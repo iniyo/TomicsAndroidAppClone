@@ -5,9 +5,14 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import androidx.paging.Pager
+import androidx.paging.PagingConfig
 import androidx.paging.cachedIn
+import com.example.tomicsandroidappclone.data.api.WebtoonApi
+import com.example.tomicsandroidappclone.data.database.WebtoonPagingSource
+import com.example.tomicsandroidappclone.data.repository.PagingRepository
 import com.example.tomicsandroidappclone.data.repository.WebtoonRepository
-import com.example.tomicsandroidappclone.domain.entity.Webtoon
+import com.example.tomicsandroidappclone.domain.model.Webtoon
 import com.example.tomicsandroidappclone.domain.usecase.GetKakaoWebtoonByDayUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
@@ -15,11 +20,12 @@ import javax.inject.Inject
 
 @HiltViewModel
 class BaseViewModel @Inject constructor(
-    private val getKakaoWebtoonByDayUseCase: GetKakaoWebtoonByDayUseCase
+    private val getKakaoWebtoonByDayUseCase: GetKakaoWebtoonByDayUseCase,
+    private val pRepsitory: PagingRepository,
 ) : ViewModel() {
-    /*val pagingData = pRepsitory.getPagingData().cachedIn(viewModelScope)*/
+    val pagingData = pRepsitory.getPagingData().cachedIn(viewModelScope)
 
-    private val _webtoonsInfo = MutableLiveData<ArrayList<Webtoon>>()
+    private val _webtoonsInfo = MutableLiveData<ArrayList<Webtoon>>() // chrl
     val webtoonsInfo: LiveData<ArrayList<Webtoon>> = _webtoonsInfo
 
     init {

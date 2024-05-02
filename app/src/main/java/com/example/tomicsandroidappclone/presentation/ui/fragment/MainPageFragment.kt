@@ -9,7 +9,7 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.tomicsandroidappclone.databinding.FragmentMainPageBinding
-import com.example.tomicsandroidappclone.domain.entity.Webtoon
+import com.example.tomicsandroidappclone.domain.model.Webtoon
 import com.example.tomicsandroidappclone.presentation.ui.adapter.MainRecyclerAdapter
 import com.example.tomicsandroidappclone.presentation.ui.viewmodel.BaseViewModel
 import dagger.hilt.android.AndroidEntryPoint
@@ -34,17 +34,28 @@ class MainPageFragment : Fragment() {
     ): View {
         Log.d("TAG", "main fragment onCreateView 실행")
         binding = FragmentMainPageBinding.inflate(inflater, container, false)
-
         return try {
             viewModel.webtoonsInfo.observe(viewLifecycleOwner) {
                 // observing.. adapter 초기화 코드를 실행.
                 setAdapter(it)
             }
+            /* val aadapter = PagingAdapter()
+             binding.rvMainPage.apply {
+                 adapter = aadapter
+                 layoutManager = LinearLayoutManager(binding.root.context)
+             }
+             lifecycleScope.launch {
+                 viewModel.pagingData.collectLatest { pagingData ->
+                     Log.d("TAG", "main fragment pagingData: ${pagingData}")
+                     aadapter.submitData(pagingData)
+                 }
+             }*/
             binding.root
         } catch (e: Exception) {
             Log.e("TAG", "main fragment onCreateView: ${e.message}")
             binding.root
         }
+
     }
 
     override fun onDestroy() {
@@ -76,10 +87,10 @@ class MainPageFragment : Fragment() {
             this.adapter = mainRecyclerAdapter
             layoutManager = LinearLayoutManager(binding.root.context)
             /*layoutManager = PreCacheLayoutManager(binding.root.context, 600)*/
-            /*setItemViewCacheSize(6) // UI가 화면에서 사라졌을 때 pool에 들어가지 않고 cache됨. 따라서 bindHolder 호출 없이 보여짐.*/
+            setItemViewCacheSize(6)  // UI가 화면에서 사라졌을 때 pool에 들어가지 않고 cache됨. 따라서 bindHolder 호출 없이 보여짐.
             /*isNestedScrollingEnabled = false*/
         }
+
     }
 }
-
 

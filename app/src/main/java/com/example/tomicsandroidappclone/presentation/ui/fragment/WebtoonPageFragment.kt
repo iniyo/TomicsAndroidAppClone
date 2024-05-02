@@ -8,18 +8,14 @@ import android.view.ViewGroup
 import android.widget.RadioGroup
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
-import androidx.lifecycle.lifecycleScope
 import androidx.viewpager2.widget.ViewPager2
 import com.example.tomicsandroidappclone.databinding.FragmentWebtoonPageBinding
 import com.example.tomicsandroidappclone.domain.di.EasyAdapter
-import com.example.tomicsandroidappclone.domain.entity.Webtoon
-import com.example.tomicsandroidappclone.presentation.ui.adapter.PagingAdapter
+import com.example.tomicsandroidappclone.domain.model.Webtoon
 import com.example.tomicsandroidappclone.presentation.ui.adapter.ViewPagerDefaultToonAdapter
-import com.example.tomicsandroidappclone.presentation.ui.viewmodel.WebtoonFragmentViewModel
+import com.example.tomicsandroidappclone.presentation.ui.viewmodel.BaseViewModel
 import com.example.tomicsandroidappclone.presentation.util.adapter.MyEasyAdapter
 import dagger.hilt.android.AndroidEntryPoint
-import kotlinx.coroutines.flow.collectLatest
-import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 
@@ -29,7 +25,7 @@ class WebtoonPageFragment : Fragment() {
     @EasyAdapter
     @Inject
     lateinit var myEasyAdapter: MyEasyAdapter
-    private val viewModel: WebtoonFragmentViewModel by lazy { ViewModelProvider(this)[WebtoonFragmentViewModel::class.java] }
+    private val viewModel: BaseViewModel by lazy { ViewModelProvider(requireActivity())[BaseViewModel::class.java] }
     private lateinit var binding: FragmentWebtoonPageBinding
     private var tabItems: Array<String>? = null
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -49,11 +45,11 @@ class WebtoonPageFragment : Fragment() {
             setAdapter(it)
         }
 
-        lifecycleScope.launch {
+        /*lifecycleScope.launch {
             viewModel.pagingData.collectLatest {
                 PagingAdapter().submitData(it)
             }
-        }
+        }*/
 
         return binding.root
     }

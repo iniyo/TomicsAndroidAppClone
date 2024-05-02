@@ -5,7 +5,7 @@ import androidx.paging.PagingConfig
 import androidx.paging.PagingData
 import com.example.tomicsandroidappclone.data.api.WebtoonApi
 import com.example.tomicsandroidappclone.data.database.WebtoonPagingSource
-import com.example.tomicsandroidappclone.domain.entity.Webtoon
+import com.example.tomicsandroidappclone.domain.model.Webtoon
 import kotlinx.coroutines.flow.Flow
 import javax.inject.Inject
 

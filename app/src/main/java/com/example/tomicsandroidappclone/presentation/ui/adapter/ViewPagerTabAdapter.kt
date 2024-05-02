@@ -7,7 +7,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.example.tomicsandroidappclone.R
 import com.example.tomicsandroidappclone.databinding.DefaultToonItemsBinding
-import com.example.tomicsandroidappclone.domain.entity.Webtoon
+import com.example.tomicsandroidappclone.domain.model.Webtoon
 
 // 참고 사이트 : https://www.youtube.com/watch?v=ySPbJ7OCVEE
 // https://velog.io/@dlwpdlf147/Android-Paging3-%EC%98%88%EC%A0%9C%EB%A1%9C-%EC%95%8C%EC%95%84%EB%B3%B4%EA%B8%B0

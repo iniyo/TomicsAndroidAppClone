@@ -9,7 +9,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.example.tomicsandroidappclone.R
 import com.example.tomicsandroidappclone.databinding.DefaultToonItemsBinding
-import com.example.tomicsandroidappclone.domain.entity.Webtoon
+import com.example.tomicsandroidappclone.domain.model.Webtoon
 import com.example.tomicsandroidappclone.presentation.util.mapper.MyGraphicMapper
 
 
@@ -96,6 +96,12 @@ class RecyclerDefaultToonAdapter(
         override fun areItemsTheSame(oldItem: Webtoon, newItem: Webtoon): Boolean {
             return oldItem == newItem
         }
+    }
+
+    override fun onViewDetachedFromWindow(holder: RecyclerDefaultToonAdapter.ViewHolder) {
+        super.onViewDetachedFromWindow(holder)
+        Glide.with(holder.itemView.context)
+            .clear(holder.itemView)
     }
 
     override fun getItemCount(): Int = webtoonList.size

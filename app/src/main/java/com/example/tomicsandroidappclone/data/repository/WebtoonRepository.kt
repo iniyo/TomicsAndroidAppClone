@@ -1,7 +1,7 @@
 package com.example.tomicsandroidappclone.data.repository
 
-import com.example.tomicsandroidappclone.domain.entity.ToonResponse
-import com.example.tomicsandroidappclone.domain.entity.Webtoon
+import com.example.tomicsandroidappclone.domain.model.ToonResponse
+import com.example.tomicsandroidappclone.domain.model.Webtoon
 
 
 interface WebtoonRepository {

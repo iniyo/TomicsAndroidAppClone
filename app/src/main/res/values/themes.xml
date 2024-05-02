@@ -9,9 +9,10 @@
     <style name="Theme.TomicsAndroidAppClone" parent="Base.Theme.TomicsAndroidAppClone" />
 
     <style name="AppTheme.Splash" parent="Theme.SplashScreen">
-        <item name="windowSplashScreenBackground">@color/black</item> <!-- Splash Screen 배경 설정 -->
-        <item name="windowSplashScreenAnimatedIcon">@drawable/icon_search</item> <!-- Splash Screen 아이콘 설정 -->
-        <item name="windowSplashScreenAnimationDuration">1000</item> <!-- Splash Screen 보여줄 시간 -->
+        <item name="windowSplashScreenBackground">@style/Widget.ProgressBar.Horizontal</item> <!-- Splash Screen 배경 설정 -->
+        <!--<item name="windowSplashScreenAnimatedIcon">@drawable/progress_bar_drawable</item>--> <!-- Splash Screen 아이콘 설정 -->
+        <item name="android:progressBarStyle">@style/Widget.ProgressBar.Horizontal</item>
+        <!-- <item name="windowSplashScreenAnimationDuration"></item> --><!-- Splash Screen 보여줄 시간 -->
         <item name="postSplashScreenTheme">@style/Base.Theme.TomicsAndroidAppClone</item> <!-- Splash Screen 보여주고 난 후 다음에 나올 화면의 테마 설정 -->
     </style>
 </resources>

@@ -4,29 +4,27 @@ import android.util.Log
 import androidx.paging.PagingSource
 import androidx.paging.PagingState
 import com.example.tomicsandroidappclone.data.api.WebtoonApi
-import com.example.tomicsandroidappclone.domain.entity.Webtoon
+import com.example.tomicsandroidappclone.domain.model.Webtoon
 import javax.inject.Inject
 
 // 참고 사이트 : https://leveloper.tistory.com/202
 class WebtoonPagingSource @Inject constructor(private val service: WebtoonApi) : PagingSource<Int, Webtoon>() {
 
     override suspend fun load(params: LoadParams<Int>): LoadResult<Int, Webtoon> {
-        Log.d("TAG", "WebtonnPagingSource: load 실행. ")
+        Log.d("TAG", "load data ")
         return try {
-            val page = params.key ?: 1 // 시작 페이지 번호 (기본값: 1)
-            val pageSize = params.loadSize // 한 페이지당 로드할 데이터 수
+            val currentPage = params.key ?: 1 // 첫 페이지는 1로 시작
             val response = service.getWebtoon(
-                pageSize,
-                page,
+                currentPage,
+                params.loadSize,
                 "kakao",
                 "mon"
-            ) // Webtoon 목록 API 호출
-            LoadResult.Page(
-                response.webtoons,
-                prevKey = if (page == 0) null else page - 1,
-                nextKey = page + 1
             )
-
+            LoadResult.Page(
+                data = response.webtoons, // API 응답에서 웹툰 데이터 리스트 추출
+                prevKey = if (currentPage == 1) null else currentPage - 1,
+                nextKey = if (response.webtoons.isEmpty()) null else currentPage + 1
+            )
         } catch (e: Exception) {
             LoadResult.Error(e)
         }

@@ -13,6 +13,7 @@ import androidx.lifecycle.ViewModelProvider
 import com.example.tomicsandroidappclone.R
 import com.example.tomicsandroidappclone.databinding.ActivityMainBinding
 import com.example.tomicsandroidappclone.presentation.ui.viewmodel.BaseViewModel
+import com.example.tomicsandroidappclone.presentation.util.mapper.ProgressDialog
 import com.example.tomicsandroidappclone.presentation.util.navigator.AppNavigator
 import com.example.tomicsandroidappclone.presentation.util.navigator.Fragments
 import dagger.hilt.android.AndroidEntryPoint
@@ -36,7 +37,7 @@ class BaseActivity : AppCompatActivity() {
     }
 
     private fun initViews() {
-        setData()
+        /*setData()*/
         setFlate()
         setDrawer()
         setTabNavigator()
@@ -45,9 +46,8 @@ class BaseActivity : AppCompatActivity() {
     private fun setData() {
         var loaded = false // Initialize a flag to track data loading status
         baseViewModel.webtoonsInfo.observe(this) { data ->
-            loaded = if (data.isNotEmpty()) true else false
+            Log.d("TAG", "setData: ")
         }
-        installSplashScreen().setKeepOnScreenCondition { loaded }
     }
 
     private fun setFlate() {
@@ -60,19 +60,24 @@ class BaseActivity : AppCompatActivity() {
     private fun setDrawer() {
         binding.apply {
             ivDrawer.setOnClickListener {
-                if (binding.dlMain.isDrawerOpen(GravityCompat.START)) {
-                    binding.dlMain.closeDrawer(GravityCompat.START)
+                if (dlMain.isDrawerOpen(GravityCompat.START)) {
+                    dlMain.closeDrawer(GravityCompat.START)
                 } else {
-                    binding.dlMain.openDrawer(GravityCompat.START)
+                    dlMain.openDrawer(GravityCompat.START)
                 }
             }
             ivTomicsLogo.setOnClickListener {
-                navigator.navigateTo(Fragments.MAIN_PAGE, setTabItems(binding.tvFreeWebtoon))
+                navigator.navigateTo(Fragments.MAIN_PAGE, setTabItems(tvFreeWebtoon))
             }
             activityDrawer.ivCloseDrawer.setOnClickListener {
-                binding.dlMain.closeDrawer(GravityCompat.START)
+                dlMain.closeDrawer(GravityCompat.START)
             }
         }
+    }
+
+    private fun setCustomProgressDialog() {
+        val customProgressDialog = ProgressDialog(binding.root.context)
+        customProgressDialog.show()
     }
 
     private fun setTabNavigator() {
@@ -111,14 +116,6 @@ class BaseActivity : AppCompatActivity() {
 
                     // 해당 탭 아이템에 대한 웹툰 페이지로 탐색
                     navigator.navigateTo(Fragments.WEBTOON_PAGE, setTabItems(textView))
-
-                    // 텍스트뷰 크기 측정 후 하단 바 크기 조정
-                    textView.post {
-                        val underColorBar = findViewById<View>(R.id.v_hot_webtoon_under_color_bar)
-                        val layoutParams = underColorBar.layoutParams as ViewGroup.LayoutParams
-                        layoutParams.width = textView.textSize.toInt()
-                        underColorBar.layoutParams = layoutParams
-                    }
                 }
             }
         }

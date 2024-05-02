@@ -2,7 +2,7 @@ package com.example.tomicsandroidappclone.domain.usecase
 
 import android.util.Log
 import com.example.tomicsandroidappclone.data.repository.WebtoonRepository
-import com.example.tomicsandroidappclone.domain.entity.Webtoon
+import com.example.tomicsandroidappclone.domain.model.Webtoon
 import java.util.Calendar
 
 class GetKakaoWebtoonByDayUseCase(
