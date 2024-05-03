@@ -2,14 +2,27 @@ package com.example.tomicsandroidappclone.presentation.util.adapter
 
 import android.os.Handler
 import android.os.Looper
+import android.os.Message
 import android.util.Log
 import com.example.tomicsandroidappclone.presentation.util.mapper.MyStringMapper
 import com.google.android.material.tabs.TabLayout
-class MyEasyTapController(tabLayout: TabLayout) {
+class MyEasyTapController(tabLayout: TabLayout) : Handler(Looper.getMainLooper()) {
     private val mTabLayout = tabLayout
     private var titleTabText : String? = null
     private var detailTabText : String? = null
-    private val handler = Handler(Looper.getMainLooper())
+
+    override fun handleMessage(msg: Message) {
+        super.handleMessage(msg)
+        when (msg.what) {
+            0, 1, 2, 3, 4 -> updateDetailText(msg.what)
+        }
+    }
+
+    private fun updateDetailText(tabType: Int) {
+        detailTabText = MyStringMapper().getDayForKor2Eng(detailTabText!!)
+        Log.d("TAG", "handleTabSelection detailTabText 변경: $detailTabText")
+        // 기타 필요한 UI 업데이트나 데이터 처리 로직 추가
+    }
 
     fun addTabs(tabItems: Array<String>, checkType: Boolean) {
         mTabLayout.removeAllTabs()
@@ -51,8 +64,7 @@ class MyEasyTapController(tabLayout: TabLayout) {
         }
     }
 
-    fun setTabClickListener() {
-
+    private fun setTabClickListener() {
         mTabLayout.addOnTabSelectedListener(object : TabLayout.OnTabSelectedListener {
             override fun onTabSelected(tab: TabLayout.Tab?) {
                 tab?.let {
@@ -83,9 +95,19 @@ class MyEasyTapController(tabLayout: TabLayout) {
         })
     }
 
-    fun handleTabSelection(position: Int, tabCount: Int, tab: TabLayout.Tab) {
-        try {
-            var message = handler.obtainMessage(0) // what 값 설정. 구분값
+    private fun handleTabSelection(position: Int, tabCount: Int, tab: TabLayout.Tab) {
+        var message = obtainMessage(when (position) {
+            0 -> 0
+            1 -> 1
+            2 -> 2
+            3 -> 3
+            else -> 4
+        })
+        detailTabText = tab.text.toString()
+        Log.d("TAG", "handleTabSelection detailTabText: $detailTabText")
+        sendMessage(message)
+        /*try {
+            var message = obtainMessage(0) // what 값 설정. 구분값
             when (position) {
                 in 0 until tabCount -> {
                     Log.d("TAG", "handleTabSelection detailTabText: ${tab.text.toString()} ")
@@ -93,27 +115,27 @@ class MyEasyTapController(tabLayout: TabLayout) {
                     Log.d("TAG", "handleTabSelection: $titleTabText")
                     if(titleTabText.equals(MyStringMapper().getTitleTabItemString(4))){
                         detailTabText = MyStringMapper().getDayForKor2Eng(detailTabText!!)
-                        handler.sendMessage(message)
+                        sendMessage(message)
                     }
                     if(titleTabText.equals(MyStringMapper().getTitleTabItemString(3))){
                         detailTabText = MyStringMapper().getDayForKor2Eng(detailTabText!!)
-                        message = handler.obtainMessage(1)
-                        handler.sendMessage(message)
+                        message = obtainMessage(1)
+                        sendMessage(message)
                     }
                     if(titleTabText.equals(MyStringMapper().getTitleTabItemString(2))){
                         detailTabText = MyStringMapper().getDayForKor2Eng(detailTabText!!)
-                        message = handler.obtainMessage(2)
-                        handler.sendMessage(message)
+                        message = obtainMessage(2)
+                        sendMessage(message)
                     }
                     if(titleTabText.equals(MyStringMapper().getTitleTabItemString(1))){
                         detailTabText = MyStringMapper().getDayForKor2Eng(detailTabText!!)
-                        message = handler.obtainMessage(3)
-                        handler.sendMessage(message)
+                        message = obtainMessage(3)
+                        sendMessage(message)
                     }
                     if(titleTabText.equals(MyStringMapper().getTitleTabItemString(0))){
                         detailTabText = MyStringMapper().getDayForKor2Eng(detailTabText!!)
-                        message = handler.obtainMessage(4)
-                        handler.sendMessage(message)
+                        message = obtainMessage(4)
+                        sendMessage(message)
                     }
                     Log.d("TAG", "handleTabSelection detailTabText 변경: $detailTabText ")
 
@@ -124,7 +146,6 @@ class MyEasyTapController(tabLayout: TabLayout) {
             }
         }catch (e: Exception) {
             throw e
-        }
-
+        }*/
     }
 }

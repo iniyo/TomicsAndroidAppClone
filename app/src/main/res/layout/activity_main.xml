@@ -279,9 +279,9 @@
 
         </RelativeLayout>
 
-        <!--<include
+        <include
             android:id="@+id/activity_drawer"
-            layout="@layout/activity_drawer" />-->
+            layout="@layout/activity_drawer" />
 
     </androidx.drawerlayout.widget.DrawerLayout>
 

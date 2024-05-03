@@ -3,6 +3,7 @@ package com.example.tomicsandroidappclone.presentation.ui.fragment
 import android.os.Bundle
 import android.os.Handler
 import android.os.Looper
+import android.os.Message
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
@@ -30,7 +31,18 @@ class WebtoonPageFragment : Fragment() {
     private lateinit var binding: FragmentWebtoonPageBinding
     private var tabItems: Array<String>? = null
     private lateinit var esayController: MyEasyTapController
-    private val handler = Handler(Looper.getMainLooper())
+    private val controllerHandler = object : Handler(Looper.getMainLooper()) {
+        override fun handleMessage(msg: Message) {
+            when (msg.what) {
+                // 예시 메시지 유형에 따른 처리
+                0 -> userSelected()
+                1 -> userSelected()
+                2 -> userSelected()
+                3 -> userSelected()
+                4 -> userSelected()
+            }
+        }
+    }
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         arguments?.let {
@@ -64,20 +76,23 @@ class WebtoonPageFragment : Fragment() {
 
     private fun init() {
         setTab()
-        setHandleListener()
+        /*setHandleListener()*/
         setAdapter()
         setRadioGroup()
     }
 
-    private fun setHandleListener() {
+    /*private fun setHandleListener() {
+        Log.d("TAG", "setHandleListener 실행: ")
         handler.post {
-            if (handler.hasMessages(1)) {
-                Log.d("TAG", "setHandleListener")
-                handler.removeMessages(1)
-                userSelected()
-            }
+            val message = handler.obtainMessage()
+            message.what = 1
+            handler.sendMessage(message)
+            userSelected()
+            *//*handler.removeMessages(1)*//*
         }
-    }
+
+        Log.d("TAG", "setHandleListener 받음.: ")
+    }*/
 
     private fun setTab() {
         binding.apply {
