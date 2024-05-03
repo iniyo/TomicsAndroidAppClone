@@ -42,16 +42,18 @@ class ViewPagerTopSlideAdapter(
         RecyclerView.ViewHolder(binding.root) {
         fun bind(webtoon: Webtoon) {
 
-            Glide.with(binding.root.context)
-                .load(webtoon.img)
-                .skipMemoryCache(false) // cache 사용 x, 특별한 경우(데이터가 워낙 많은 경우)에만 사용.
-                .centerInside() // 이미지 사이즈만 재조정, 직접 재조정하는 방법이 좀 더 빠름.
-                .placeholder(R.drawable.ic_launcher_foreground) // image 로드를 못 했을 경우
-                .into(binding.ivWebtoon)
+            binding.apply {
+                Glide.with(root.context)
+                    .load(webtoon.img)
+                    .skipMemoryCache(false) // cache 사용 x, 특별한 경우(데이터가 워낙 많은 경우)에만 사용.
+                    .centerInside() // 이미지 사이즈만 재조정, 직접 재조정하는 방법이 좀 더 빠름.
+                    .placeholder(R.drawable.ic_launcher_foreground) // image 로드를 못 했을 경우
+                    .into(ivWebtoon)
 
-            binding.ivWebtoon.setOnClickListener {
-                val intent = Intent(Intent.ACTION_VIEW, Uri.parse(webtoon.url))
-                binding.root.context.startActivity(intent)
+                ivWebtoon.setOnClickListener {
+                    val intent = Intent(Intent.ACTION_VIEW, Uri.parse(webtoon.url))
+                    root.context.startActivity(intent)
+                }
             }
         }
     }

@@ -141,8 +141,9 @@
                         <View
                             android:id="@+id/v_free_webtoon_under_color_bar"
                             android:layout_width="match_parent"
-                            android:layout_height="3dp"
+                            android:layout_height="2dp"
                             android:layout_alignParentBottom="true"
+                            android:layout_marginHorizontal="14dp"
                             android:background="@drawable/selector_tab_main_under" />
 
                     </RelativeLayout>
@@ -167,8 +168,9 @@
                         <View
                             android:id="@+id/v_serialize_under_color_bar"
                             android:layout_width="match_parent"
-                            android:layout_height="3dp"
+                            android:layout_height="2dp"
                             android:layout_alignParentBottom="true"
+                            android:layout_marginHorizontal="14dp"
                             android:background="@drawable/selector_tab_main_under" />
                     </RelativeLayout>
 
@@ -191,8 +193,9 @@
                         <View
                             android:id="@+id/v_hundred_under_color_bar"
                             android:layout_width="match_parent"
-                            android:layout_height="3dp"
+                            android:layout_height="2dp"
                             android:layout_alignParentBottom="true"
+                            android:layout_marginHorizontal="14dp"
                             android:background="@drawable/selector_tab_main_under" />
 
                     </RelativeLayout>
@@ -216,8 +219,9 @@
                         <View
                             android:id="@+id/v_ended_webtoon_under_color_bar"
                             android:layout_width="match_parent"
-                            android:layout_height="3dp"
+                            android:layout_height="2dp"
                             android:layout_alignParentBottom="true"
+                            android:layout_marginHorizontal="14dp"
                             android:background="@drawable/selector_tab_main_under" />
 
                     </RelativeLayout>
@@ -254,9 +258,10 @@
                             android:id="@+id/v_hot_webtoon_under_color_bar"
                             android:layout_width="match_parent"
                             android:layout_height="2dp"
-                            android:foregroundGravity="center"
                             android:layout_alignParentBottom="true"
-                            android:background="@drawable/selector_tab_main_under" />
+                            android:layout_marginHorizontal="14dp"
+                            android:background="@drawable/selector_tab_main_under"
+                            android:foregroundGravity="center" />
 
                     </RelativeLayout>
 
@@ -274,9 +279,9 @@
 
         </RelativeLayout>
 
-        <include
+        <!--<include
             android:id="@+id/activity_drawer"
-            layout="@layout/activity_drawer" />
+            layout="@layout/activity_drawer" />-->
 
     </androidx.drawerlayout.widget.DrawerLayout>
 

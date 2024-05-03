@@ -1,7 +1,7 @@
 package com.example.tomicsandroidappclone.domain.di
 
 import com.example.tomicsandroidappclone.data.repository.WebtoonRepository
-import com.example.tomicsandroidappclone.domain.usecase.GetKakaoWebtoonByDayUseCase
+import com.example.tomicsandroidappclone.domain.usecase.GetToonByDayUseCase
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -30,7 +30,7 @@ object UseCaseModule {
     @ActivityRetainedScoped
     fun provideGetSharedDataUseCase(
         webtoonRepository: WebtoonRepository
-    ) = GetKakaoWebtoonByDayUseCase(
+    ) = GetToonByDayUseCase(
         webtoonRepository = webtoonRepository
     )
 }

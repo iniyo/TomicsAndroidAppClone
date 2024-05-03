@@ -29,43 +29,45 @@ class RecyclerDefaultToonAdapter(
         fun bind(webtoon: Webtoon) {
             mapper = MyGraphicMapper()
             Log.d("size TAG", "size: $toonType ")
-            var dpHeight = 1100
-            var dpWidth = 900
-            when (toonType) {
-                // default
-                0 -> {
-                    binding.ivToonImg.layoutParams.height = mapper.px2dp(dpHeight)
-                    binding.rlDefaultToonSize.layoutParams.width = mapper.px2dp(dpWidth)
-                }
-                // big size
-                1 -> {
-                    dpHeight = 1700
-                    dpWidth = 1400
-                    binding.ivToonImg.layoutParams.height = mapper.px2dp(dpHeight)
-                    binding.rlDefaultToonSize.layoutParams.width = mapper.px2dp(dpWidth)
-                }
-                // middle size
-                2 -> {
-                    dpHeight = 1300
-                    dpWidth = 1400
-                    binding.ivToonImg.layoutParams.height = mapper.px2dp(dpHeight)
-                    binding.rlDefaultToonSize.layoutParams.width = mapper.px2dp(dpWidth)
-                }
-                // foot - ad long size banner
-                3 -> {
-                    dpHeight = 1100
-                    dpWidth = 3000
-                    binding.ivToonImg.layoutParams.height = mapper.px2dp(dpHeight)
-                    binding.rlDefaultToonSize.layoutParams.width = mapper.px2dp(dpWidth)
-                }
-            }
+            var dpHeight = 800
+            var dpWidth = 600
+            binding.apply {
+                when (toonType) {
 
-            if (webtoon.additional.up) {
-                Glide.with(binding.root.context)
-                    .load(webtoon.img)
-                    .placeholder(R.drawable.ic_launcher_foreground) // image 로드를 못 했을 경우
-                    .into(binding.ivToonImg)
-                binding.tvToonTitle.text = webtoon.title
+                    // default
+                    0 -> {
+                        ivToonImg.layoutParams.height = mapper.px2dp(dpHeight)
+                        rlDefaultToonSize.layoutParams.width = mapper.px2dp(dpWidth)
+                    }
+                    // big size
+                    1 -> {
+                        dpHeight = 1100
+                        dpWidth = 900
+                        ivToonImg.layoutParams.height = mapper.px2dp(dpHeight)
+                        rlDefaultToonSize.layoutParams.width = mapper.px2dp(dpWidth)
+                    }
+                    // middle size
+                    2 -> {
+                        dpHeight = 900
+                        dpWidth = 900
+                        ivToonImg.layoutParams.height = mapper.px2dp(dpHeight)
+                        rlDefaultToonSize.layoutParams.width = mapper.px2dp(dpWidth)
+                    }
+                    // foot - ad long size banner
+                    3 -> {
+                        dpHeight = 1100
+                        dpWidth = 3000
+                        ivToonImg.layoutParams.height = mapper.px2dp(dpHeight)
+                        rlDefaultToonSize.layoutParams.width = mapper.px2dp(dpWidth)
+                    }
+                }
+                if (webtoon.additional.up) {
+                    Glide.with(root.context)
+                        .load(webtoon.img)
+                        .placeholder(R.drawable.ic_launcher_foreground) // image 로드를 못 했을 경우
+                        .into(ivToonImg)
+                    tvToonTitle.text = webtoon.title
+                }
             }
         }
     }

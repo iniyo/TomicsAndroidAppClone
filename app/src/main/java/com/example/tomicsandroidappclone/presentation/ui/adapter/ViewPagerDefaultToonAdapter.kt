@@ -3,6 +3,7 @@ package com.example.tomicsandroidappclone.presentation.ui.adapter
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.ViewGroup
+import androidx.paging.PagingData
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -10,9 +11,9 @@ import com.example.tomicsandroidappclone.databinding.PopularityToonItemsBinding
 import com.example.tomicsandroidappclone.domain.model.Webtoon
 
 class ViewPagerDefaultToonAdapter(
-    private val webtoonList: ArrayList<Webtoon>,
     private val checkType: Int,
-    private val getSize: Int
+    private val getSize: Int,
+    private val webtoonList: ArrayList<Webtoon>? = null
 ) : RecyclerView.Adapter<ViewPagerDefaultToonAdapter.ViewHolder>() {
 
     // recyclerViewPool
@@ -22,23 +23,31 @@ class ViewPagerDefaultToonAdapter(
     init {
         setHasStableIds(true) // 각 아이템 position에 지정된 id를 기준으로 상황에 따라 bind호출을 제외.
     }
-
+    /*class PreCacheLayoutManager(context: Context, private val extraLayoutSpace: Int) :
+            LinearLayoutManager(context) {
+            @Deprecated("Deprecated in Java")
+            override fun getExtraLayoutSpace(state: RecyclerView.State?) = extraLayoutSpace
+        }*/
     inner class ViewHolder(val binding: PopularityToonItemsBinding) :
         RecyclerView.ViewHolder(binding.root) {
         fun bind() {
-            binding.rvPopularityListSubItems.apply {
-                layoutManager = when (checkType) {
-                    0 -> LinearLayoutManager(context, LinearLayoutManager.VERTICAL, false)
-                    1 -> GridLayoutManager(context, 3)
-                    else -> GridLayoutManager(context, 2)
-                }/*.apply{
+            try {
+                binding.rvPopularityListSubItems.apply {
+                    layoutManager = when (checkType) {
+                        0 -> LinearLayoutManager(context, LinearLayoutManager.VERTICAL, false)
+                        1 -> GridLayoutManager(context, 3)
+                        else -> GridLayoutManager(context, 2)
+                    }/*.apply{
                     recycleChildrenOnDetach = true
                 }*/
-                adapter = when (checkType) {
-                    0 -> ViewPagerSubListItemsAdapter(webtoonList)
-                    else -> ViewPagerTabAdapter(webtoonList)
+                    adapter = when (checkType) {
+                        0 -> ViewPagerSubListItemsAdapter(webtoonList!!)
+                        else -> ViewPagerTabAdapter(checkType)
+                    }
+                    setRecycledViewPool(recyclerViewPool)
                 }
-                setRecycledViewPool(recyclerViewPool)
+            }catch (e:Exception){
+                Log.e("TAG", "ViewPagerDefaultToonAdapter bind: ${e.message}")
             }
         }
     }

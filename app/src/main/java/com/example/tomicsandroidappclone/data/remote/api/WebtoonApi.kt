@@ -1,4 +1,4 @@
-package com.example.tomicsandroidappclone.data.api
+package com.example.tomicsandroidappclone.data.remote.api
 
 import com.example.tomicsandroidappclone.domain.model.ToonResponse
 import com.example.tomicsandroidappclone.domain.model.Webtoon
@@ -21,10 +21,5 @@ interface WebtoonApi {
         @Query("keyword") keyword: String
     ): ToonResponse
 
-    @GET("webtoons")
-    fun getWebtoons(
-        @Query("page") page: Int,
-        @Query("pageSize") pageSize: Int
-    ): ArrayList<Webtoon>
 
 }

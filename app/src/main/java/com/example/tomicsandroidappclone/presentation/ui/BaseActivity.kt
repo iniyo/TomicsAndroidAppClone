@@ -13,6 +13,7 @@ import androidx.lifecycle.ViewModelProvider
 import com.example.tomicsandroidappclone.R
 import com.example.tomicsandroidappclone.databinding.ActivityMainBinding
 import com.example.tomicsandroidappclone.presentation.ui.viewmodel.BaseViewModel
+import com.example.tomicsandroidappclone.presentation.util.mapper.MyStringMapper
 import com.example.tomicsandroidappclone.presentation.util.mapper.ProgressDialog
 import com.example.tomicsandroidappclone.presentation.util.navigator.AppNavigator
 import com.example.tomicsandroidappclone.presentation.util.navigator.Fragments
@@ -69,9 +70,9 @@ class BaseActivity : AppCompatActivity() {
             ivTomicsLogo.setOnClickListener {
                 navigator.navigateTo(Fragments.MAIN_PAGE, setTabItems(tvFreeWebtoon))
             }
-            activityDrawer.ivCloseDrawer.setOnClickListener {
+            /*activityDrawer.ivCloseDrawer.setOnClickListener {
                 dlMain.closeDrawer(GravityCompat.START)
-            }
+            }*/
         }
     }
 
@@ -122,14 +123,7 @@ class BaseActivity : AppCompatActivity() {
     }
 
     private fun setTabItems(textView: TextView): Array<String> {
-        val arrayString = when (textView.text) {
-            "나만무료" -> resources.getStringArray(R.array.free_webtoon_tab_items)
-            "연재" -> resources.getStringArray(R.array.serialize_tab_items)
-            "TOP100" -> resources.getStringArray(R.array.top_webtoon_items)
-            "완결" -> resources.getStringArray(R.array.ended_webtoon_items)
-            else -> resources.getStringArray(R.array.hot_webtoon_items)
-        }
-        return arrayString
+        return MyStringMapper().getTitleTabItemArray(textView.text.toString(), binding.root.context)!!
     }
 
     override fun onStart() {

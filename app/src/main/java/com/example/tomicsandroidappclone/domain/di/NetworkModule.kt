@@ -1,7 +1,7 @@
 package com.example.tomicsandroidappclone.domain.di
 
 import com.example.tomicsandroidappclone.BuildConfig
-import com.example.tomicsandroidappclone.data.api.WebtoonApi
+import com.example.tomicsandroidappclone.data.remote.api.WebtoonApi
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
