@@ -1,4 +1,4 @@
-package com.example.tomicsandroidappclone.presentation.util.adapter
+package com.example.tomicsandroidappclone.presentation.util.handler
 
 import android.os.Handler
 import android.os.Looper
@@ -6,7 +6,7 @@ import android.os.Message
 import android.util.Log
 import com.example.tomicsandroidappclone.presentation.util.mapper.MyStringMapper
 import com.google.android.material.tabs.TabLayout
-class MyEasyTapController(tabLayout: TabLayout) : Handler(Looper.getMainLooper()) {
+class MyEasyTapControllHandler (tabLayout: TabLayout) : Handler(Looper.getMainLooper()) {
     private val mTabLayout = tabLayout
     private var titleTabText : String? = null
     private var detailTabText : String? = null
@@ -96,7 +96,7 @@ class MyEasyTapController(tabLayout: TabLayout) : Handler(Looper.getMainLooper()
     }
 
     private fun handleTabSelection(position: Int, tabCount: Int, tab: TabLayout.Tab) {
-        var message = obtainMessage(when (position) {
+        var message = obtainMessage(when (tabCount) {
             0 -> 0
             1 -> 1
             2 -> 2
@@ -105,6 +105,8 @@ class MyEasyTapController(tabLayout: TabLayout) : Handler(Looper.getMainLooper()
         })
         detailTabText = tab.text.toString()
         Log.d("TAG", "handleTabSelection detailTabText: $detailTabText")
+        message.what = position; // 또는 기타 구분 가능한 값
+        message.obj = tab.text.toString(); // 탭의 텍스트를 메시지 객체로 전달
         sendMessage(message)
         /*try {
             var message = obtainMessage(0) // what 값 설정. 구분값

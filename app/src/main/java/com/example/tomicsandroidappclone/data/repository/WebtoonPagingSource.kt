@@ -29,14 +29,16 @@ class WebtoonPagingSource (
     override suspend fun load(params: LoadParams<Int>): LoadResult<Int, Webtoon> {
         Log.d("TAG", "load data ")
         return try {
+            val mCalendar = MyCalendar().invoke()
             val currentPage = params.key ?: 1 // 첫 페이지는 1로 시작
+            val paramSize = params.loadSize
+
             val response = if (toDay!=null && toDay!="") {
-                api.getWebtoon(currentPage, params.loadSize, "kakao", toDay!!)
+                api.getWebtoon(currentPage, paramSize, "kakao", toDay!!)
             } else {
-                api.getWebtoon(currentPage, params.loadSize, "kakao", MyCalendar().invoke())
+                api.getWebtoon(currentPage, paramSize, "kakao", mCalendar)
             }
-            Log.d("TAG", "load:${MyCalendar().invoke()} ")
-            api.getWebtoon(currentPage, params.loadSize, "kakao", MyCalendar().invoke())
+
             LoadResult.Page(
                 data = response.webtoons, // API 응답에서 웹툰 데이터 리스트 추출
                 prevKey = if (currentPage == 1) null else currentPage - 1,
