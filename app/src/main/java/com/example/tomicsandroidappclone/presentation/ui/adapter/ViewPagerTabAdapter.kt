@@ -48,7 +48,7 @@ class ViewPagerTabAdapter(
         RecyclerView.ViewHolder(binding.root) {
         fun bind(webtoon: Webtoon) {
             binding.apply {
-                /*mapper = MyGraphicMapper()
+                mapper = MyGraphicMapper()
 
                 var dpHeight = 200
                 var dpWidth = 170
@@ -63,7 +63,7 @@ class ViewPagerTabAdapter(
                     dpWidth = 260
                     ivToonImg.layoutParams.height = mapper.dp2px(dpHeight)
                     rlDefaultToonSize.layoutParams.width = mapper.dp2px(dpWidth)
-                }*/
+                }
                 if (webtoon.additional.up) {
                     Glide.with(root.context)
                         .load(webtoon.img)

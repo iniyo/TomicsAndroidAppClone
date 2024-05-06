@@ -15,6 +15,7 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
 import androidx.viewpager2.widget.ViewPager2
 import com.example.tomicsandroidappclone.databinding.FragmentWebtoonPageBinding
+import com.example.tomicsandroidappclone.presentation.ui.adapter.ViewPagerDefaultToonAdapter
 import com.example.tomicsandroidappclone.presentation.ui.adapter.ViewPagerTabAdapter
 import com.example.tomicsandroidappclone.presentation.ui.viewmodel.BaseViewModel
 import com.example.tomicsandroidappclone.presentation.util.handler.MyEasyTapControllHandler
@@ -138,14 +139,15 @@ class WebtoonPageFragment : Fragment() {
     }
 
     private fun setAdapter() {
-        val int = if ( esayController.getTitleTabText() != "뜨는 한 컷") {
+        val int = if ( esayController.getTitleTabText() != "뜨는한컷") {
             1
         } else {
             2
         }
+
         val aadapter = ViewPagerTabAdapter(int)
         binding.vpWebtoonPage.apply {
-            adapter = aadapter/*ViewPagerDefaultToonAdapter(int, tabItems!!.size)*/
+            adapter = ViewPagerDefaultToonAdapter(int, tabItems!!.size, aadapter)
             orientation = ViewPager2.ORIENTATION_HORIZONTAL
             offscreenPageLimit = 1 // view pager 양 옆 page 미리 생성
         }

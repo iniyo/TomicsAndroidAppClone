@@ -6,7 +6,6 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import androidx.paging.cachedIn
-import com.example.tomicsandroidappclone.data.repository.WebtoonRepository
 import com.example.tomicsandroidappclone.domain.model.Webtoon
 import com.example.tomicsandroidappclone.domain.usecase.GetToonByDayUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel

@@ -7,8 +7,8 @@ properties.load(FileInputStream("local.properties"))
 plugins {
     alias(libs.plugins.androidApplication)
     alias(libs.plugins.jetbrainsKotlinAndroid)
+    alias(libs.plugins.hilt)
     kotlin("kapt")
-    id("com.google.dagger.hilt.android")
 }
 
 android {
@@ -54,38 +54,32 @@ android {
 
 dependencies {
 
-    // version controll
-    val paging_version = "3.2.1"
-    val hilt_version = "2.51"
-    val retrofit2_version = "2.9.0"
-    val room_version = "2.6.1"
-
     // hilt
-    implementation("com.google.dagger:hilt-android:$hilt_version")
-    kapt("com.google.dagger:hilt-android-compiler:$hilt_version")
+    implementation(libs.hilt.android)
+    kapt(libs.hilt.compiler)
 
     // retrofit2
-    implementation("com.squareup.retrofit2:retrofit:$retrofit2_version")
-    implementation("com.squareup.retrofit2:converter-gson:$retrofit2_version")
+    implementation(libs.retrofit)
+    implementation(libs.retrofit.gson)
 
     // paging3
-    implementation ("androidx.paging:paging-runtime:$paging_version")
+    implementation(libs.paging.runtime)
 
     // glide
-    implementation ("com.github.bumptech.glide:glide:4.16.0")
+    implementation(libs.glide)
 
-    // corutine
-    implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:1.7.1")
+    // coroutine
+    implementation(libs.coroutines.core)
 
     // viewmodel
-    implementation("androidx.lifecycle:lifecycle-viewmodel-ktx:2.7.0")
+    implementation(libs.viewmodel.ktx)
 
     // room
-    implementation("androidx.room:room-runtime:$room_version")
-    kapt("androidx.room:room-compiler:$room_version")
+    implementation(libs.room.runtime)
+    kapt(libs.room.compiler)
 
     // splash screen
-    implementation("androidx.core:core-splashscreen:1.0.1")
+    implementation(libs.splashscreen)
 
     // defalut
     implementation(libs.androidx.core.ktx)

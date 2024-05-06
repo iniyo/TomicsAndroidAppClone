@@ -139,7 +139,7 @@ class MainPageFragment : Fragment() {
                 setPageTransformer { page, position ->
                     page.translationX = position * MyGraphicMapper().offsetPx(context)
                 }
-                adapter = ViewPagerDefaultToonAdapter(0, 10, webtoonList)
+                adapter = ViewPagerDefaultToonAdapter(0, 10, null ,webtoonList)
                 orientation = ViewPager2.ORIENTATION_HORIZONTAL
                 offscreenPageLimit = 1
             }

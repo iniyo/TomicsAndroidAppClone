@@ -13,6 +13,7 @@ import com.example.tomicsandroidappclone.domain.model.Webtoon
 class ViewPagerDefaultToonAdapter(
     private val checkType: Int,
     private val getSize: Int,
+    private var viewPagerTabAdapter: ViewPagerTabAdapter? = null,
     private val webtoonList: ArrayList<Webtoon>? = null
 ) : RecyclerView.Adapter<ViewPagerDefaultToonAdapter.ViewHolder>() {
 
@@ -42,7 +43,7 @@ class ViewPagerDefaultToonAdapter(
                 }*/
                     adapter = when (checkType) {
                         0 -> ViewPagerSubListItemsAdapter(webtoonList!!)
-                        else -> ViewPagerTabAdapter(checkType)
+                        else -> viewPagerTabAdapter
                     }
                     setRecycledViewPool(recyclerViewPool)
                 }

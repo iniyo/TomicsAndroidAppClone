@@ -70,9 +70,9 @@ class BaseActivity : AppCompatActivity() {
             ivTomicsLogo.setOnClickListener {
                 navigator.navigateTo(Fragments.MAIN_PAGE, setTabItems(tvFreeWebtoon))
             }
-            /*activityDrawer.ivCloseDrawer.setOnClickListener {
+            activityDrawer.ivCloseDrawer.setOnClickListener {
                 dlMain.closeDrawer(GravityCompat.START)
-            }*/
+            }
         }
     }
 
