@@ -20,7 +20,7 @@ class SplashAcitivty: AppCompatActivity() {
     }
     fun loading() {
         Handler(Looper.getMainLooper()).postDelayed({
-            startActivity(Intent(this, BaseActivity::class.java))
+            startActivity(Intent(this, MainActivity::class.java))
             finish()
         },2000)
     }

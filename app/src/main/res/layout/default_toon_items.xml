@@ -18,7 +18,7 @@
         android:layout_height="160dp"
         android:importantForAccessibility="no"
         android:scaleType="fitXY"
-        android:src="@drawable/icon_error"
+        android:src="@drawable/ic_launcher_foreground"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />

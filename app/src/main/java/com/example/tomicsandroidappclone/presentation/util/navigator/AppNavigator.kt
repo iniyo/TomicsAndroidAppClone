@@ -17,6 +17,6 @@ enum class Activitys {
  */
 interface AppNavigator {
     // Navigate to a given screen.
-    fun navigateTo(screen: Fragments, tabItmes: Array<String>)
+    fun navigateTo(screen: Fragments, tab: String)
     fun navigateTo(screen: Activitys)
 }

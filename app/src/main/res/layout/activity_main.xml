@@ -26,30 +26,6 @@
             android:background="@color/white"
             android:orientation="horizontal">
 
-            <RelativeLayout
-                android:id="@+id/rl_ad_container"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content">
-
-                <ImageView
-                    android:id="@+id/iv_advertisement"
-                    android:layout_width="match_parent"
-                    android:layout_height="30dp"
-                    android:importantForAccessibility="no"
-                    android:scaleType="fitXY"
-                    android:src="@drawable/icon_advertisement" />
-
-                <ImageView
-                    android:id="@+id/iv_add_close"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_alignParentEnd="true"
-                    android:layout_centerInParent="true"
-                    android:layout_marginEnd="5dp"
-                    android:importantForAccessibility="no"
-                    android:src="@drawable/icon_crossline_25x25" />
-            </RelativeLayout>
-
             <LinearLayout
                 android:id="@+id/ll_top_container"
                 android:layout_width="match_parent"
@@ -60,6 +36,31 @@
                 android:orientation="vertical"
                 android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"
                 app:popupTheme="@style/ThemeOverlay.AppCompat.Light">
+
+                <RelativeLayout
+                    android:id="@+id/rl_ad_container"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+
+                    <ImageView
+                        android:id="@+id/iv_advertisement"
+                        android:layout_width="match_parent"
+                        android:layout_height="50dp"
+                        android:importantForAccessibility="no"
+                        android:scaleType="fitXY"
+                        android:src="@drawable/icon_advertisement" />
+
+                    <ImageView
+                        android:id="@+id/iv_add_close"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentEnd="true"
+                        android:layout_centerInParent="true"
+                        android:scaleType="fitXY"
+                        android:layout_marginEnd="8dp"
+                        android:importantForAccessibility="no"
+                        android:src="@drawable/icon_crossline_25x25" />
+                </RelativeLayout>
 
                 <LinearLayout
                     android:layout_width="match_parent"
@@ -117,6 +118,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="50dp"
                     android:layout_gravity="clip_horizontal"
+                    android:baselineAligned="false"
                     android:gravity="center"
                     android:orientation="horizontal"
                     android:paddingHorizontal="5dp">

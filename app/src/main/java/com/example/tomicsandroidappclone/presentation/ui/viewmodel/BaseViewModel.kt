@@ -5,10 +5,15 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import androidx.paging.PagingData
 import androidx.paging.cachedIn
 import com.example.tomicsandroidappclone.domain.model.Webtoon
 import com.example.tomicsandroidappclone.domain.usecase.GetToonByDayUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
@@ -16,22 +21,20 @@ import javax.inject.Inject
 class BaseViewModel @Inject constructor(
     private val getToonByDayUseCase: GetToonByDayUseCase,
 ) : ViewModel() {
-    var pagingData = getToonByDayUseCase.getTodayWebtoonDataToPaging().cachedIn(viewModelScope)
+    private val _pagingData = MutableStateFlow<Flow<PagingData<Webtoon>>?>(null)
+    val pagingData: StateFlow<Flow<PagingData<Webtoon>>?> = _pagingData.asStateFlow()
 
-    fun getSelectDayWebtoon(today: String) {
-        pagingData = getToonByDayUseCase.getUserSelectDayToonData(today).cachedIn(viewModelScope)
-    }
-
-    private val _webtoonsInfo = MutableLiveData<ArrayList<Webtoon>>() // chrl
+    private val _webtoonsInfo = MutableLiveData<ArrayList<Webtoon>>()
     val webtoonsInfo: LiveData<ArrayList<Webtoon>> = _webtoonsInfo
 
-    init {
-        Log.d("TAG", "BaseViewModel -  init ")
-        fetchWebtoons()
+    fun getSelectDayWebtoon(today: String) {
+        _pagingData.value = getToonByDayUseCase.getUserSelectDayToonData(today).cachedIn(viewModelScope)
     }
 
-    fun getWebtoon(): ArrayList<Webtoon> {
-        return _webtoonsInfo.value as ArrayList<Webtoon>
+
+    init {
+        Log.d("TAG", "BaseViewModel - init ")
+        fetchWebtoons()
     }
 
     private fun fetchWebtoons() {
@@ -49,12 +52,6 @@ class BaseViewModel @Inject constructor(
                 // default kakao, today
                 _webtoonsInfo.value = it()
             }
-        }
-    }
-
-    fun setSelectDayToon(selectDay: String) {
-        viewModelScope.launch {
-            getToonByDayUseCase.getUserSelectDayToonData(selectDay)
         }
     }
 }

@@ -1,18 +1,16 @@
 package com.example.tomicsandroidappclone.presentation.ui.fragment
 
 import android.os.Bundle
-import android.os.Handler
-import android.os.Looper
-import android.os.Message
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.RadioGroup
-import android.widget.Toast
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
+import androidx.lifecycle.repeatOnLifecycle
 import androidx.viewpager2.widget.ViewPager2
 import com.example.tomicsandroidappclone.databinding.FragmentWebtoonPageBinding
 import com.example.tomicsandroidappclone.presentation.ui.adapter.ViewPagerDefaultToonAdapter
@@ -20,35 +18,25 @@ import com.example.tomicsandroidappclone.presentation.ui.adapter.ViewPagerTabAda
 import com.example.tomicsandroidappclone.presentation.ui.viewmodel.BaseViewModel
 import com.example.tomicsandroidappclone.presentation.util.handler.MyEasyTapControllHandler
 import com.example.tomicsandroidappclone.presentation.util.mapper.MyStringMapper
+import com.google.android.material.tabs.TabLayout
+import com.google.android.material.tabs.TabLayoutMediator
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
-
 
 @AndroidEntryPoint
 class WebtoonPageFragment : Fragment() {
 
     private val viewModel: BaseViewModel by lazy { ViewModelProvider(requireActivity())[BaseViewModel::class.java] }
     private lateinit var binding: FragmentWebtoonPageBinding
-    private var tabItems: Array<String>? = null
+    private lateinit var titleTabText: String
+    private var detailTabText: String? = null
     private lateinit var esayController: MyEasyTapControllHandler
-    private val controllerHandler: Handler = object : Handler(Looper.getMainLooper()) {
-        override fun handleMessage(msg: Message) {
-            super.handleMessage(msg)
-            when (msg.what) {
-                0, 1, 2, 3, 4 -> updateUIWithMessage(msg.obj as String)
-            }
-        }
-    }
 
-    private fun updateUIWithMessage(message: String) {
-        // 메시지에 따라 UI 업데이트 로직 구현
-        Toast.makeText(context, message, Toast.LENGTH_SHORT).show()
-    }
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         arguments?.let {
-            tabItems = it.getStringArray(ARG_PARAM1)
+            titleTabText = it.getString(ARG_PARAM1).toString()
         }
     }
 
@@ -66,97 +54,119 @@ class WebtoonPageFragment : Fragment() {
     }
 
     companion object {
-        private const val ARG_PARAM1 = "tabItems"
+        private const val ARG_PARAM1 = "tab"
+
         @JvmStatic
-        fun newInstance(tabItems: Array<String>) =
+        fun newInstance(tab: String) =
             WebtoonPageFragment().apply {
                 arguments = Bundle().apply {
-                    putStringArray(ARG_PARAM1, tabItems)
+                    putString(ARG_PARAM1, tab)
                 }
             }
     }
 
     private fun init() {
         setTab()
-        setHandleListener()
-        setAdapter()
         setRadioGroup()
-    }
-
-    private fun setHandleListener() {
-        Log.d("TAG", "setHandleListener 실행: ")
-        val runnable = Runnable {
-            run {
-                userSelected()
-            }
-        }
-        controllerHandler.post(runnable)
-        controllerHandler.hasMessages(1) {
-            Log.d("TAG", "hasMessages 실행: ")
-        }
-
     }
 
     private fun setTab() {
         binding.apply {
             esayController = MyEasyTapControllHandler(tlFreeWebtoonFragment)
-            tabItems?.let {
-                if (tabItems!![0] != "전체") {
-                    esayController.addTabs(it)
-                    openSearchViewToolbarContainer.layoutParams.height = 135
-                } else {
-                    esayController.addTabs( it, true)
+            val tabItems = context?.let { MyStringMapper().getTitleTabItemArray(titleTabText, it) }
+
+            if (titleTabText == "나만무료") tabItems?.let { esayController.addTabs(it, true) }
+            else tabItems?.let { esayController.addTabs(it) }
+
+            userSelected()
+            openSearchViewToolbarContainer.layoutParams.height = 135
+
+            tlFreeWebtoonFragment.addOnTabSelectedListener(object :
+                TabLayout.OnTabSelectedListener {
+                override fun onTabSelected(tab: TabLayout.Tab?) {
+                    tab?.let {
+                        val position = it.position
+                        try {
+                            Log.d("TAG", "handleTabSelection titleTabText: $titleTabText ")
+                            handleTabSelection(position, tlFreeWebtoonFragment.tabCount, tab)
+                        } catch (e: Exception) {
+                            Log.e("TAG", "onTabSelected: ${e.message}")
+                        }
+                    }
+                }
+
+                override fun onTabUnselected(tab: TabLayout.Tab?) {
+                    Log.d("TAG", "onTabUnselected")
+                }
+
+                override fun onTabReselected(tab: TabLayout.Tab?) {
+                    Log.d("TAG", "onTabReselected")
+                }
+            })
+            setAdapter()
+            TabLayoutMediator(tlFreeWebtoonFragment, vpWebtoonPage) { tab, position ->
+                tab.text = tabItems?.get(position) // 탭에 표시할 텍스트 설정
+            }.attach()
+        }
+    }
+
+    private fun setRadioGroup() {
+        if (detailTabText != "전체") {
+            binding.rgMain.visibility = RadioGroup.GONE
+        } else {
+            binding.rgMain.apply {
+                check(0)
+                setOnCheckedChangeListener { radioGroup, _ ->
+                    radioGroup.clearAnimation()
+                    radioGroup.jumpDrawablesToCurrentState()
                 }
             }
         }
     }
 
-    private fun setRadioGroup() {
-        tabItems?.let {
-            if (tabItems!![0] != "전체") {
-                binding.rgMain.visibility = RadioGroup.GONE
-            } else {
-                binding.rgMain.apply {
-                    check(0)
-                    setOnCheckedChangeListener { radioGroup, _ ->
-                        radioGroup.clearAnimation()
-                        radioGroup.jumpDrawablesToCurrentState()
+    private fun userSelected() {
+        Log.d("TAG", "userSelected: $titleTabText")
+        if (titleTabText == "연재") {
+            Log.d("TAG", "userSelected: ${detailTabText?.let { detailTabText }}")
+            detailTabText?.let { viewModel.getSelectDayWebtoon(it) }
+        }
+    }
+
+    private fun setAdapter() {
+        val int = if (titleTabText != "뜨는한컷") {
+            1
+        } else {
+            2
+        }
+
+        val tabAdapter = ViewPagerTabAdapter(int)
+        val tabItems = context?.let { MyStringMapper().getTitleTabItemArray(titleTabText, it) }
+        binding.vpWebtoonPage.apply {
+            adapter = ViewPagerDefaultToonAdapter(int, tabItems!!.size, tabAdapter)
+            orientation = ViewPager2.ORIENTATION_HORIZONTAL
+            offscreenPageLimit = 1 // view pager 양 옆 page 미리 생성
+        }
+        lifecycleScope.launch {
+            // repeatOnLifecycle은 라이프사이클 상태에 따라 코루틴을 관리
+            repeatOnLifecycle(Lifecycle.State.STARTED) {
+                viewModel.pagingData.collectLatest { pagingDataFlow ->
+                    pagingDataFlow?.let {
+                        // collectLatest를 사용하여 최신 데이터만 처리
+                        it.collectLatest { pagingData ->
+                            tabAdapter.submitData(pagingData)
+                        }
                     }
                 }
             }
         }
     }
 
-    private fun userSelected()
-    {
-        val detailTabText = esayController.getDetailTabText()
-        val titleTabText = esayController.getTitleTabText()
-        Log.d("TAG", "userSelected: $titleTabText")
-        if (titleTabText=="연재"){
-            Log.d("TAG", "userSelected: ${MyStringMapper().getDayForKor2Eng(detailTabText)}")
-            viewModel.getSelectDayWebtoon(detailTabText)
+    private fun handleTabSelection(position: Int, tabCount: Int, tab: TabLayout.Tab) {
+        if (position !in 0 until tabCount) {
+            throw NullPointerException("Invalid tab position")
         }
-    }
-
-    private fun setAdapter() {
-        val int = if ( esayController.getTitleTabText() != "뜨는한컷") {
-            1
-        } else {
-            2
-        }
-
-        val aadapter = ViewPagerTabAdapter(int)
-        binding.vpWebtoonPage.apply {
-            adapter = ViewPagerDefaultToonAdapter(int, tabItems!!.size, aadapter)
-            orientation = ViewPager2.ORIENTATION_HORIZONTAL
-            offscreenPageLimit = 1 // view pager 양 옆 page 미리 생성
-        }
-
-        lifecycleScope.launch {
-            viewModel.pagingData.collectLatest {
-                Log.d("TAG", "이거 ")
-                aadapter.submitData(it)
-            }
-        }
+        detailTabText = MyStringMapper().getDayForKor2Eng(tab.text.toString())
+        Log.d("TAG", "handleTabSelection detailTabText: $detailTabText")
+        userSelected()
     }
 }

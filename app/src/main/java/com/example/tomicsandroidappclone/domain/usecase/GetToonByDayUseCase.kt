@@ -17,10 +17,12 @@ class GetToonByDayUseCase @Inject constructor(private val webtoonRepository: Web
     private suspend fun getTodayWebtoonData() {
         webtoon = webtoonRepository.getDayByWebtoons("kakao", MyCalendar().invoke())
     }
-    fun getTodayWebtoonDataToPaging(): Flow<PagingData<Webtoon>> {
+
+    fun getAllWebtoon(): Flow<PagingData<Webtoon>> {
         return webtoonRepository.getAllToonPagingData()
     }
     fun getUserSelectDayToonData(selectDay: String) : Flow<PagingData<Webtoon>> {
+        Log.d("TAG", "usecase: $selectDay ")
         return webtoonRepository.getDayByWebtoonsForPaging(selectDay)
     }
     // invoke - operator관례 함수

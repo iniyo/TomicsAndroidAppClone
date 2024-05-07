@@ -32,13 +32,13 @@ data class Additional(
     val rest: Boolean, // 휴재
     val up: Boolean, // 신규회차 업로드
     val adult: Boolean, // 성인
-    val singularityList: List<singularityList> // 어떤 타입의 객체도 포함 가능한 리스트
+    val singularityList: List<Any> // 어떤 타입의 객체도 포함 가능한 리스트
 )
 
 data class singularityList(
-    val over15: Boolean, // 15세 이상
-    val free: Boolean, // 완전 무료
-    val waitFree: Boolean, // 기다리면 무료
+    val over15: String, // 15세 이상
+    val free: String, // 완전 무료
+    val waitFree: String, // 기다리면 무료
 )
 
 data class Tag(

@@ -1,8 +1,11 @@
 package com.example.tomicsandroidappclone.presentation.ui.adapter
 
+import android.content.Intent
+import android.net.Uri
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.ViewGroup
+import androidx.appcompat.widget.AppCompatDrawableManager.preload
 import androidx.paging.PagingData
 import androidx.paging.PagingDataAdapter
 import androidx.recyclerview.widget.DiffUtil
@@ -24,7 +27,7 @@ class ViewPagerTabAdapter(
     private val checkType: Int
 ) : PagingDataAdapter<Webtoon, ViewPagerTabAdapter.ViewHolder>(diffCallback) {
     private lateinit var mapper: MyGraphicMapper
-    /*init {
+   /* init {
         setHasStableIds(true) // 각 아이템 position에 지정된 id를 기준으로 상황에 따라 bind호출을 제외.
     }*/
     private val countAttached = 0
@@ -65,13 +68,20 @@ class ViewPagerTabAdapter(
                     rlDefaultToonSize.layoutParams.width = mapper.dp2px(dpWidth)
                 }
                 if (webtoon.additional.up) {
+                    Log.d("TAG", "TabBind: ${webtoon.img}")
                     Glide.with(root.context)
                         .load(webtoon.img)
-                        .skipMemoryCache(false) // cache 사용 x
+                        /*.skipMemoryCache(false) // cache 사용 x*/
                         .centerInside()
-                        .placeholder(R.drawable.icon_not_founded)
+                        .error(R.drawable.icon_error)
+                        .fallback(R.drawable.icon_not_founded)
+                        .placeholder(R.drawable.ic_loading)
                         .into(ivToonImg)
                     tvToonTitle.text = webtoon.title
+                }
+                ivToonImg.setOnClickListener {
+                    val intent = Intent(Intent.ACTION_VIEW, Uri.parse(webtoon.url))
+                    root.context.startActivity(intent)
                 }
             }
         }

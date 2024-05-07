@@ -121,10 +121,8 @@ class MainPageFragment : Fragment() {
                     R.drawable.indicator_line_on,
                     0
                 )
-                val aadapter = ViewPagerTopSlideAdapter(webtoonList)
-                adapter = aadapter
+                adapter = ViewPagerTopSlideAdapter(webtoonList)
 
-                /*adapter = ViewPagerTopSlideAdapter(webtoonList.take(7))*/
             }
             vpOffscreen.apply {
                 incluedLayoutBanner.apply {

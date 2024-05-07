@@ -45,7 +45,7 @@ class MyEasyTapControllHandler (tabLayout: TabLayout) : Handler(Looper.getMainLo
             mTabLayout.addTab(newTab)
             count.inc()
         }
-        setTabClickListener()
+       /* setTabClickListener()*/
     }
 
     fun getTitleTabText() : String {
@@ -64,7 +64,7 @@ class MyEasyTapControllHandler (tabLayout: TabLayout) : Handler(Looper.getMainLo
         }
     }
 
-    private fun setTabClickListener() {
+    /*private fun setTabClickListener() {
         mTabLayout.addOnTabSelectedListener(object : TabLayout.OnTabSelectedListener {
             override fun onTabSelected(tab: TabLayout.Tab?) {
                 tab?.let {
@@ -108,7 +108,7 @@ class MyEasyTapControllHandler (tabLayout: TabLayout) : Handler(Looper.getMainLo
         message.what = position; // 또는 기타 구분 가능한 값
         message.obj = tab.text.toString(); // 탭의 텍스트를 메시지 객체로 전달
         sendMessage(message)
-        /*try {
+        *//*try {
             var message = obtainMessage(0) // what 값 설정. 구분값
             when (position) {
                 in 0 until tabCount -> {
@@ -148,6 +148,6 @@ class MyEasyTapControllHandler (tabLayout: TabLayout) : Handler(Looper.getMainLo
             }
         }catch (e: Exception) {
             throw e
-        }*/
-    }
+        }*//*
+    }*/
 }

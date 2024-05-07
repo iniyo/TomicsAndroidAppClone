@@ -1,5 +1,6 @@
 package com.example.tomicsandroidappclone.data.repository
 
+import android.util.Log
 import androidx.paging.Pager
 import androidx.paging.PagingConfig
 import androidx.paging.PagingData
@@ -12,33 +13,27 @@ import javax.inject.Singleton
 
 @Singleton // For Hilt
 class WebtoonRepositoryImpl @Inject constructor(private val api: WebtoonApi) : WebtoonRepository {
-    override suspend fun getWebtoon(
-        perPage: Int,
-        page: Int,
-        service: String,
-        updateDay: String
-    ): ToonResponse {
-        return api.getWebtoon(perPage, page, service, updateDay)
-    }
+    private var pageSize = 0
 
     override suspend fun getDayByWebtoons(service: String, updateDay: String): ArrayList<Webtoon> {
-        return api.getWebtoon(0, 0, service, updateDay).webtoons
+        return api.getTodayWebtoon(0, 0, service, updateDay).webtoons
     }
-
-    override suspend fun getKeywordByWebtoons(keyword: String): ToonResponse {
-        return api.getSearch(keyword)
-    }
+    /**
+     * PAGING
+     **/
     override fun getAllToonPagingData(): Flow<PagingData<Webtoon>> {
-        return Pager(PagingConfig(pageSize = 10)) {
+        return Pager(PagingConfig(pageSize = 50)) {
+            Log.d("TAG", "getAllToonPagingData: ")
             WebtoonPagingSource(api)
         }.flow
     }
 
     override fun getDayByWebtoonsForPaging(today: String): Flow<PagingData<Webtoon>> {
-        return Pager(PagingConfig(pageSize = 10)) {
-            val webtoonPaging = WebtoonPagingSource(api)
-            webtoonPaging.dataSetting(today,"","","","")
-            webtoonPaging
+        Log.d("TAG", "getDayByWebtoonsForPaging: ")
+        return Pager(PagingConfig(pageSize = 5)) {
+            val webtoonPagingSource = WebtoonPagingSource(api)
+            webtoonPagingSource.dataSetting(today, "", "", "", "")
+            webtoonPagingSource
         }.flow
     }
 }
