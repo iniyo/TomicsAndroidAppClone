@@ -20,7 +20,7 @@
             android:layout_height="50dp"
             android:importantForAccessibility="no"
             android:scaleType="centerInside"
-            android:src="@drawable/icon_crossline_25x25"
+            android:src="@drawable/ic_crossline_25x25"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
@@ -53,7 +53,7 @@
                     android:layout_marginEnd="28dp"
                     android:layout_toEndOf="@+id/tv_login_notice"
                     android:background="@drawable/signup_button_background"
-                    android:drawableStart="@drawable/icon_signup_25x25"
+                    android:drawableStart="@drawable/ic_signup_25x25"
                     android:gravity="center"
                     android:paddingHorizontal="10dp"
                     android:text="@string/signup"
@@ -99,7 +99,7 @@
                     android:layout_weight="1"
                     android:importantForAccessibility="no"
                     android:scaleType="fitXY"
-                    android:src="@drawable/icon_coin_charge"
+                    android:src="@drawable/ic_coin_charge"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent" />
 
@@ -112,7 +112,7 @@
                     android:layout_weight="1"
                     android:importantForAccessibility="no"
                     android:scaleType="fitXY"
-                    android:src="@drawable/icon_coin_free"
+                    android:src="@drawable/ic_coin_free"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent" />
             </LinearLayout>
@@ -152,7 +152,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:importantForAccessibility="no"
-                    android:src="@drawable/icon_coin_history_25x25" />
+                    android:src="@drawable/ic_coin_history_25x25" />
 
                 <TextView
                     android:id="@+id/tv_coin_history"
@@ -174,7 +174,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginEnd="20dp"
                     android:importantForAccessibility="no"
-                    android:src="@drawable/icon_right_arrow" />
+                    android:src="@drawable/ic_right_arrow" />
             </LinearLayout>
 
             <View
@@ -195,7 +195,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:importantForAccessibility="no"
-                    android:src="@drawable/icon_ticket_history_25x25" />
+                    android:src="@drawable/ic_ticket_history_25x25" />
 
                 <TextView
                     android:id="@+id/tv_ticket_history"
@@ -217,7 +217,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginEnd="20dp"
                     android:importantForAccessibility="no"
-                    android:src="@drawable/icon_right_arrow" />
+                    android:src="@drawable/ic_right_arrow" />
 
             </LinearLayout>
 
@@ -239,7 +239,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:importantForAccessibility="no"
-                    android:src="@drawable/icon_coupon_history_25x25" />
+                    android:src="@drawable/ic_coupon_history_25x25" />
 
                 <TextView
                     android:id="@+id/tv_coupon_history"
@@ -260,7 +260,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginEnd="20dp"
                     android:importantForAccessibility="no"
-                    android:src="@drawable/icon_right_arrow" />
+                    android:src="@drawable/ic_right_arrow" />
             </LinearLayout>
         </LinearLayout>
 
@@ -297,7 +297,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:importantForAccessibility="no"
-                    android:src="@drawable/icon_user_watched_25x25" />
+                    android:src="@drawable/ic_user_watched_25x25" />
 
                 <TextView
                     android:id="@+id/tv_user_watched"
@@ -319,7 +319,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginEnd="20dp"
                     android:importantForAccessibility="no"
-                    android:src="@drawable/icon_right_arrow" />
+                    android:src="@drawable/ic_right_arrow" />
             </LinearLayout>
 
 
@@ -341,7 +341,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:importantForAccessibility="no"
-                    android:src="@drawable/icon_favorites_25x25" />
+                    android:src="@drawable/ic_favorites_25x25" />
 
                 <TextView
                     android:id="@+id/tv_favorites"
@@ -363,7 +363,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginEnd="20dp"
                     android:importantForAccessibility="no"
-                    android:src="@drawable/icon_right_arrow" />
+                    android:src="@drawable/ic_right_arrow" />
             </LinearLayout>
 
             <View
@@ -384,7 +384,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:importantForAccessibility="no"
-                    android:src="@drawable/icon_intestine_25x25" />
+                    android:src="@drawable/ic_intestine_25x25" />
 
                 <TextView
                     android:id="@+id/tv_intestine"
@@ -405,7 +405,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginEnd="20dp"
                     android:importantForAccessibility="no"
-                    android:src="@drawable/icon_right_arrow" />
+                    android:src="@drawable/ic_right_arrow" />
             </LinearLayout>
         </LinearLayout>
 
@@ -442,7 +442,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:importantForAccessibility="no"
-                    android:src="@drawable/icon_ongoing_event_25x25" />
+                    android:src="@drawable/ic_ongoing_event_25x25" />
 
                 <TextView
                     android:id="@+id/tv_ongoing_event"
@@ -464,7 +464,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginEnd="20dp"
                     android:importantForAccessibility="no"
-                    android:src="@drawable/icon_right_arrow" />
+                    android:src="@drawable/ic_right_arrow" />
             </LinearLayout>
 
         </LinearLayout>
@@ -501,7 +501,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:importantForAccessibility="no"
-                    android:src="@drawable/icon_faq_25x25" />
+                    android:src="@drawable/ic_faq_25x25" />
 
                 <TextView
                     android:id="@+id/tv_faq"
@@ -523,7 +523,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginEnd="20dp"
                     android:importantForAccessibility="no"
-                    android:src="@drawable/icon_right_arrow" />
+                    android:src="@drawable/ic_right_arrow" />
             </LinearLayout>
 
             <View
@@ -543,7 +543,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:importantForAccessibility="no"
-                    android:src="@drawable/icon_announcement_25x25" />
+                    android:src="@drawable/ic_announcement_25x25" />
 
                 <TextView
                     android:id="@+id/tv_announcement"
@@ -565,7 +565,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginEnd="20dp"
                     android:importantForAccessibility="no"
-                    android:src="@drawable/icon_right_arrow" />
+                    android:src="@drawable/ic_right_arrow" />
             </LinearLayout>
 
 
@@ -586,7 +586,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:importantForAccessibility="no"
-                    android:src="@drawable/icon_inquiry_1by1_25x25" />
+                    android:src="@drawable/ic_inquiry_1by1_25x25" />
 
                 <TextView
                     android:id="@+id/tv_inquiry_1by1"
@@ -608,7 +608,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginEnd="20dp"
                     android:importantForAccessibility="no"
-                    android:src="@drawable/icon_right_arrow" />
+                    android:src="@drawable/ic_right_arrow" />
 
             </LinearLayout>
 

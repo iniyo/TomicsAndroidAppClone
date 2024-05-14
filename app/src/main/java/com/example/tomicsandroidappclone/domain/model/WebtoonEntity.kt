@@ -1,5 +1,8 @@
 package com.example.tomicsandroidappclone.domain.model
 
+import androidx.room.Entity
+import androidx.room.PrimaryKey
+
 data class ToonResponse(
     val totalWebtoonCount: Int,
     val naverWebtoonCount: Int,
@@ -10,9 +13,9 @@ data class ToonResponse(
     val lastUpdate: String,
     val webtoons: ArrayList<Webtoon>
 )
-
+@Entity(tableName = "webtoons")
 data class Webtoon(
-    val _id: String,
+    @PrimaryKey val _id: String,
     val webtoonId: Long,
     val title: String,
     var rank: Int,
@@ -24,7 +27,9 @@ data class Webtoon(
     val fanCount: Int?,
     val searchKeyword: String,
     val additional: Additional,
-    val tagList: Tag?
+    val tagList: Tag?,
+    // 이후로는 추가
+    val category: String
 )
 
 data class Additional(

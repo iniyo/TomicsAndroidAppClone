@@ -1,13 +1,19 @@
 package com.example.tomicsandroidappclone.domain.di
 
+import android.content.Context
 import com.example.tomicsandroidappclone.BuildConfig
 import com.example.tomicsandroidappclone.data.remote.api.WebtoonApi
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
+import dagger.hilt.android.qualifiers.ApplicationContext
 import dagger.hilt.components.SingletonComponent
+import okhttp3.Cache
+import okhttp3.OkHttpClient
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
+import java.io.File
+import java.util.concurrent.TimeUnit
 import javax.inject.Singleton
 
 // NetworkModule.kt
@@ -20,15 +26,43 @@ import javax.inject.Singleton
 @InstallIn(SingletonComponent::class)
 object NetworkModule {
 
-    // @Provides 어노테이션은 provideRetrofit 함수가 Retrofit 인스턴스를 제공한다는 것을 나타냄.
-    // @Singleton 어노테이션은 Retrofit 인스턴스가 싱글톤으로 생성되어야 한다는 것을 나타냄.
+    @Provides
+    @Singleton
+    fun provideCache(@ApplicationContext context: Context): Cache {
+        val cacheSize = 10 * 1024 * 1024 // 10 MB
+        return Cache(File(context.cacheDir, "http"), cacheSize.toLong())
+    }
+
     @Singleton
     @Provides
-    fun provideRetrofit(): Retrofit {
-        // Retrofit 빌더를 사용하여 Retrofit 인스턴스를 생성
-        // 빌더에 기본 URL, JSON 변환달아줌
+    fun provideOkHttpClient(cache: Cache): OkHttpClient {
+        return OkHttpClient.Builder()
+            .cache(cache)
+            .addInterceptor { chain ->
+                var request = chain.request()
+                // 5 seconds cache duration
+                request = request.newBuilder()
+                    .header("Cache-Control", "public, max-age=" + 5)
+                    .build()
+                chain.proceed(request)
+            }
+            .addNetworkInterceptor { chain ->
+                val response = chain.proceed(chain.request())
+                // Customize or return the response
+                response.newBuilder()
+                    .removeHeader("Pragma")
+                    .header("Cache-Control", "public, max-age=" + 5)
+                    .build()
+            }
+            .build()
+    }
+
+    @Singleton
+    @Provides
+    fun provideRetrofit(okHttpClient: OkHttpClient): Retrofit {
         return Retrofit.Builder()
             .baseUrl(BuildConfig.WEBTOON_API_URL)
+            .client(okHttpClient)
             .addConverterFactory(GsonConverterFactory.create())
             .build()
     }
@@ -36,7 +70,6 @@ object NetworkModule {
     @Singleton
     @Provides
     fun provideWebtoonApi(retrofit: Retrofit): WebtoonApi {
-        // Retrofit 인스턴스를 사용하여 WebtoonApi 인터페이스를 구현하는 객체를 생성
         return retrofit.create(WebtoonApi::class.java)
     }
 }

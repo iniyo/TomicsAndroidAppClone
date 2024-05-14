@@ -86,7 +86,7 @@ class RecyclerDefaultToonAdapter(
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         webtoonList[position].let {
-            holder.bind(it)
+            if(it.img.isNotEmpty()) holder.bind(it)
         }
     }
 

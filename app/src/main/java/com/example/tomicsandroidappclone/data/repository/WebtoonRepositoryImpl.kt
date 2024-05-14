@@ -4,25 +4,37 @@ import android.util.Log
 import androidx.paging.Pager
 import androidx.paging.PagingConfig
 import androidx.paging.PagingData
+import com.example.tomicsandroidappclone.data.database.WebtoonDao
 import com.example.tomicsandroidappclone.data.remote.api.WebtoonApi
-import com.example.tomicsandroidappclone.domain.model.ToonResponse
 import com.example.tomicsandroidappclone.domain.model.Webtoon
 import kotlinx.coroutines.flow.Flow
 import javax.inject.Inject
 import javax.inject.Singleton
 
 @Singleton // For Hilt
-class WebtoonRepositoryImpl @Inject constructor(private val api: WebtoonApi) : WebtoonRepository {
-    private var pageSize = 0
-
+class WebtoonRepositoryImpl @Inject constructor(
+    private val webtoonDao: WebtoonDao,
+    private val api: WebtoonApi
+) : WebtoonRepository {
     override suspend fun getDayByWebtoons(service: String, updateDay: String): ArrayList<Webtoon> {
-        return api.getTodayWebtoon(0, 0, service, updateDay).webtoons
+        val webtoons = api.getTodayWebtoon(0, 0, service, updateDay).webtoons
+
+        return webtoons.filter { it.img.isNotEmpty() }.distinctBy { it.webtoonId } as ArrayList
+    }
+    /**
+     * PAGING
+     **/
+    override suspend fun getWebtoonsByCategory(category: String): List<Webtoon> {
+        return webtoonDao.getWebtoonsByCategory(category)
+    }
+    override suspend fun insertWebtoons(webtoons: List<Webtoon>) {
+        webtoonDao.insertAll(webtoons)
     }
     /**
      * PAGING
      **/
     override fun getAllToonPagingData(): Flow<PagingData<Webtoon>> {
-        return Pager(PagingConfig(pageSize = 50)) {
+        return Pager(PagingConfig(pageSize = 2)) {
             Log.d("TAG", "getAllToonPagingData: ")
             WebtoonPagingSource(api)
         }.flow
@@ -30,9 +42,9 @@ class WebtoonRepositoryImpl @Inject constructor(private val api: WebtoonApi) : W
 
     override fun getDayByWebtoonsForPaging(today: String): Flow<PagingData<Webtoon>> {
         Log.d("TAG", "getDayByWebtoonsForPaging: ")
-        return Pager(PagingConfig(pageSize = 5)) {
+        return Pager(PagingConfig(pageSize = 2)) {
             val webtoonPagingSource = WebtoonPagingSource(api)
-            webtoonPagingSource.dataSetting(today, "", "", "", "")
+            webtoonPagingSource.dataSetting(today)
             webtoonPagingSource
         }.flow
     }

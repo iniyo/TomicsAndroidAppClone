@@ -16,7 +16,7 @@ import com.example.tomicsandroidappclone.domain.model.Webtoon
 class MainRecyclerAdapter(
     private val webtoonData: ArrayList<Webtoon>,
 ) : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
-    private var count = 0
+    private var count = 1
 
     /*private val recyclerViewPool0 = RecyclerView.RecycledViewPool().apply {
         setMaxRecycledViews(0, 20)
@@ -130,9 +130,9 @@ class MainRecyclerAdapter(
                         rvMainDefaultList.context,
                         LinearLayoutManager.HORIZONTAL,
                         false
-                    )/*.apply{
+                    ).apply{
                     recycleChildrenOnDetach = true
-                }*/
+                }
                     /*setRecycledViewPool(recyclerViewPool)*/
                     setItemViewCacheSize(viewTypes.size) // 아이템 화면 밖으로 사라져도, n만큼의 항목을 계속 유지 -> 캐싱해두는것. onBind를 실행하지 않아도 됨.
                     setHasFixedSize(true)

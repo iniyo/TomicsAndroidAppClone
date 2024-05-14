@@ -19,7 +19,7 @@
         android:importantForAccessibility="no"
         android:padding="10dp"
         android:scaleType="fitXY"
-        android:src="@drawable/icon_advertisement"
+        android:src="@drawable/ic_advertisement"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/inclued_layout_banner" />

@@ -1,64 +1,91 @@
 <?xml version="1.0" encoding="utf-8"?>
-
-<androidx.core.widget.NestedScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.coordinatorlayout.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    app:layout_constraintBottom_toBottomOf="parent"
-    app:layout_constraintEnd_toEndOf="parent"
-    app:layout_constraintStart_toStartOf="parent"
-    app:layout_constraintTop_toTopOf="parent"
-    tools:context=".presentation.ui.fragment.MainPageFragment"
-    tools:ignore="ScrollViewCount">
+    tools:context=".presentation.ui.fragment.MainPageFragment">
 
-    <RelativeLayout
+    <androidx.core.widget.NestedScrollView
+        android:id="@+id/nested_main"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:orientation="vertical">
+        app:layout_behavior="@string/appbar_scrolling_view_behavior">
 
-        <androidx.viewpager2.widget.ViewPager2
-            android:id="@+id/vp_top_slide_item"
+        <RelativeLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            app:layout_constraintTop_toTopOf="parent" />
+            android:layout_height="match_parent"
+            android:orientation="vertical">
 
-        <com.example.tomicsandroidappclone.presentation.indicator.LinearIndicator
-            android:id="@+id/indicator"
-            android:layout_width="match_parent"
-            android:layout_height="10dp"
-            android:layout_below="@+id/vp_top_slide_item"
-            android:layout_gravity="center"
-            android:layout_marginBottom="10dp"
-            android:gravity="center" />
+            <androidx.viewpager2.widget.ViewPager2
+                android:id="@+id/vp_top_slide_item"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:nestedScrollingEnabled="false" />
 
-        <LinearLayout
-            android:id="@+id/ll_temporary_container"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_below="@+id/indicator">
+            <com.example.tomicsandroidappclone.presentation.indicator.LinearIndicator
+                android:id="@+id/indicator"
+                android:layout_width="match_parent"
+                android:layout_height="10dp"
+                android:layout_below="@+id/vp_top_slide_item"
+                android:layout_gravity="center"
+                android:layout_marginBottom="10dp"
+                android:gravity="center" />
 
-            <include
-                android:id="@+id/inclued_layout_banner"
-                layout="@layout/recycler_banner" />
+            <LinearLayout
+                android:id="@+id/ll_temporary_container"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/indicator">
 
-        </LinearLayout>
+                <include
+                    android:id="@+id/inclued_layout_banner"
+                    layout="@layout/recycler_banner" />
 
-        <androidx.viewpager2.widget.ViewPager2
-            android:id="@+id/vp_offscreen"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_below="@+id/ll_temporary_container"
-            android:layout_marginBottom="10dp" />
+            </LinearLayout>
 
-        <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/rv_main_page"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_below="@+id/vp_offscreen"
-            android:background="@color/white" />
+            <androidx.viewpager2.widget.ViewPager2
+                android:id="@+id/vp_offscreen"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/ll_temporary_container"
+                android:layout_marginBottom="10dp"
+                android:nestedScrollingEnabled="false" />
 
-    </RelativeLayout>
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/rv_main_page"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/vp_offscreen"
+                android:background="@color/white"
+                android:nestedScrollingEnabled="false" />
 
-</androidx.core.widget.NestedScrollView>
+        </RelativeLayout>
+    </androidx.core.widget.NestedScrollView>
 
+    <FrameLayout
+        android:id="@+id/ad_container"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="end|bottom"
+        android:layout_margin="16dp"
+        android:background="@android:color/white">
+
+        <!-- 여기에 애니메이션 적용할 광고 뷰를 추가 -->
+        <ImageView
+            android:id="@+id/ad_image"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:scaleType="fitXY"
+            android:src="@drawable/ic_advertisement"
+            android:background="@android:color/holo_orange_light"
+            android:visibility="gone"
+            android:alpha="0"
+            android:scaleX="0"
+            android:scaleY="0"
+            android:pivotX="100%"
+            android:pivotY="100%" />
+
+    </FrameLayout>
+
+</androidx.coordinatorlayout.widget.CoordinatorLayout>

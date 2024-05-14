@@ -48,7 +48,7 @@
                         android:layout_height="50dp"
                         android:importantForAccessibility="no"
                         android:scaleType="fitXY"
-                        android:src="@drawable/icon_advertisement" />
+                        android:src="@drawable/ic_advertisement" />
 
                     <ImageView
                         android:id="@+id/iv_add_close"
@@ -59,7 +59,7 @@
                         android:scaleType="fitXY"
                         android:layout_marginEnd="8dp"
                         android:importantForAccessibility="no"
-                        android:src="@drawable/icon_crossline_25x25" />
+                        android:src="@drawable/ic_crossline_25x25" />
                 </RelativeLayout>
 
                 <LinearLayout
@@ -74,7 +74,7 @@
                         android:layout_height="22dp"
                         android:background="@color/white"
                         android:importantForAccessibility="no"
-                        android:src="@drawable/icon_drawer_tab" />
+                        android:src="@drawable/ic_drawer_tab" />
 
                     <ImageView
                         android:id="@+id/iv_tomics_logo"
@@ -83,7 +83,7 @@
                         android:layout_marginStart="35dp"
                         android:importantForAccessibility="no"
                         android:scaleType="fitXY"
-                        android:src="@drawable/icon_tomics_logo" />
+                        android:src="@drawable/ic_tomics_logo" />
 
                     <View
                         android:layout_width="0dp"
@@ -95,7 +95,7 @@
                         android:layout_height="22dp"
                         android:importantForAccessibility="no"
                         android:scaleType="fitXY"
-                        android:src="@drawable/icon_bookmark" />
+                        android:src="@drawable/ic_bookmark" />
 
                     <ImageView
                         android:layout_width="22dp"
@@ -103,7 +103,7 @@
                         android:layout_marginStart="10dp"
                         android:importantForAccessibility="no"
                         android:scaleType="fitXY"
-                        android:src="@drawable/icon_cache" />
+                        android:src="@drawable/ic_cache" />
 
                     <ImageView
                         android:layout_width="22dp"
@@ -111,7 +111,7 @@
                         android:layout_marginStart="10dp"
                         android:importantForAccessibility="no"
                         android:scaleType="fitXY"
-                        android:src="@drawable/icon_search" />
+                        android:src="@drawable/ic_search" />
                 </LinearLayout>
 
                 <LinearLayout
@@ -125,7 +125,7 @@
 
                     <RelativeLayout
                         android:id="@+id/rl_free_webtoon"
-                        android:layout_width="60dp"
+                        android:layout_width="match_parent"
                         android:layout_height="match_parent"
                         android:layout_weight="1"
                         android:gravity="bottom">
@@ -153,7 +153,7 @@
 
                     <RelativeLayout
                         android:id="@+id/rl_serialize"
-                        android:layout_width="30dp"
+                        android:layout_width="match_parent"
                         android:layout_height="match_parent"
                         android:layout_weight="1">
 
@@ -178,7 +178,7 @@
 
                     <RelativeLayout
                         android:id="@+id/rl_top_hundred"
-                        android:layout_width="60dp"
+                        android:layout_width="match_parent"
                         android:layout_height="match_parent"
                         android:layout_weight="1">
 
@@ -204,7 +204,7 @@
 
                     <RelativeLayout
                         android:id="@+id/rl_ended_webtoon"
-                        android:layout_width="30dp"
+                        android:layout_width="match_parent"
                         android:layout_height="match_parent"
                         android:layout_weight="1">
 
@@ -230,7 +230,7 @@
 
                     <RelativeLayout
                         android:id="@+id/rl_hot_webtoon"
-                        android:layout_width="60dp"
+                        android:layout_width="match_parent"
                         android:layout_height="match_parent"
                         android:layout_weight="1"
                         android:orientation="vertical"
@@ -243,7 +243,7 @@
                             android:layout_alignParentEnd="true"
                             android:importantForAccessibility="no"
                             android:paddingEnd="18dp"
-                            android:src="@drawable/icon_hot_27x16"
+                            android:src="@drawable/ic_hot_27x16"
                             tools:ignore="RtlSymmetry" />
 
                         <TextView

@@ -67,6 +67,7 @@ dependencies {
 
     // glide
     implementation(libs.glide)
+    kapt(libs.room.compiler)
 
     // coroutine
     implementation(libs.coroutines.core)
@@ -76,10 +77,15 @@ dependencies {
 
     // room
     implementation(libs.room.runtime)
+    implementation(libs.room.ktx)
     kapt(libs.room.compiler)
 
     // splash screen
     implementation(libs.splashscreen)
+
+    // navigation
+    implementation(libs.navigation.fragment.ktx)
+    implementation(libs.navigation.ui.ktx)
 
     // defalut
     implementation(libs.androidx.core.ktx)

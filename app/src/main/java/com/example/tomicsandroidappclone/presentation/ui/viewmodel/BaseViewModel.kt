@@ -10,11 +10,13 @@ import androidx.paging.cachedIn
 import com.example.tomicsandroidappclone.domain.model.Webtoon
 import com.example.tomicsandroidappclone.domain.usecase.GetToonByDayUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 import javax.inject.Inject
 
 @HiltViewModel
@@ -28,15 +30,39 @@ class BaseViewModel @Inject constructor(
     val webtoonsInfo: LiveData<ArrayList<Webtoon>> = _webtoonsInfo
 
     fun getSelectDayWebtoon(today: String) {
-        _pagingData.value = getToonByDayUseCase.getUserSelectDayToonData(today).cachedIn(viewModelScope)
+        viewModelScope.launch {
+            try {
+                val webtoonsFlow = getToonByDayUseCase.getUserSelectDayToonData(today).cachedIn(viewModelScope)
+                withContext(Dispatchers.Main) {
+                    _pagingData.value = webtoonsFlow
+                }
+            } catch (e: Exception) {
+                Log.e("TAG", "getSelectDayWebtoon error: ${e.message}")
+            }
+        }
     }
-
-
     init {
         Log.d("TAG", "BaseViewModel - init ")
         fetchWebtoons()
     }
+    private var cachedPagingData: Flow<PagingData<Webtoon>>? = null
+    fun loadWebtoonData(today: String) {
+        viewModelScope.launch(Dispatchers.IO) {
+            try {
+                cachedPagingData = getToonByDayUseCase.getUserSelectDayToonData(today).cachedIn(viewModelScope)
+            } catch (e: Exception) {
+                Log.e("TAG", "loadWebtoonData error: ${e.message}")
+            }
+        }
+    }
 
+    fun applyLoadedData() {
+        cachedPagingData?.let {
+            viewModelScope.launch(Dispatchers.Main) {
+                _pagingData.value = it
+            }
+        }
+    }
     private fun fetchWebtoons() {
         // 코루틴 - 멀티 스레드와 비슷함. 차이점 있음. (둘 다 동시성 프로그래밍)
         // 1. 스레드와 달리 특정 스레드에 종속되지 않음. 객체로 존재함.
@@ -48,9 +74,8 @@ class BaseViewModel @Inject constructor(
         viewModelScope.launch {
             // !!!!! kakao를 제외한 naver, kakaoPage에는 접근이 불가. URl 권한 문제 때문으로 추정 나중에 정리하면서 문제 알아보기
             val toonResponseResult = getToonByDayUseCase
-            toonResponseResult.let {
-                // default kakao, today
-                _webtoonsInfo.value = it()
+            withContext(Dispatchers.Main) {
+                _webtoonsInfo.value = toonResponseResult()
             }
         }
     }

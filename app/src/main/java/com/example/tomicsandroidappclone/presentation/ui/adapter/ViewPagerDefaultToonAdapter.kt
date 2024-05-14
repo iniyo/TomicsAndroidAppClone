@@ -9,6 +9,8 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.tomicsandroidappclone.databinding.PopularityToonItemsBinding
 import com.example.tomicsandroidappclone.domain.model.Webtoon
+import com.example.tomicsandroidappclone.presentation.util.adapter.MyGridSpaceItemDecoration
+import com.example.tomicsandroidappclone.presentation.util.mapper.MyGraphicMapper
 
 class ViewPagerDefaultToonAdapter(
     private val checkType: Int,
@@ -45,8 +47,9 @@ class ViewPagerDefaultToonAdapter(
                         0 -> ViewPagerSubListItemsAdapter(webtoonList!!)
                         else -> viewPagerTabAdapter
                     }
+                    addItemDecoration(MyGridSpaceItemDecoration(3, space = MyGraphicMapper().dp2px(7)))
                     setRecycledViewPool(recyclerViewPool)
-                }
+                }.scrollToPosition(0) // 데이터 로드 후 최상단으로 위치
             }catch (e:Exception){
                 Log.e("TAG", "ViewPagerDefaultToonAdapter bind: ${e.message}")
             }

@@ -21,7 +21,7 @@
             android:gravity="center"
             android:importantForAccessibility="no"
             android:scaleType="fitXY"
-            android:src="@drawable/icon_hot_27x16" />
+            android:src="@drawable/ic_hot_27x16" />
 
         <TextView
             android:id="@+id/tv_tag"

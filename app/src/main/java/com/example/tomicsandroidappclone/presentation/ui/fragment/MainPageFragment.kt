@@ -5,9 +5,13 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.view.animation.AnticipateInterpolator
+import android.view.animation.OvershootInterpolator
+import androidx.core.widget.NestedScrollView
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import androidx.viewpager2.widget.ViewPager2
 import com.example.tomicsandroidappclone.R
 import com.example.tomicsandroidappclone.databinding.FragmentMainPageBinding
@@ -18,6 +22,8 @@ import com.example.tomicsandroidappclone.presentation.ui.adapter.ViewPagerTopSli
 import com.example.tomicsandroidappclone.presentation.ui.viewmodel.BaseViewModel
 import com.example.tomicsandroidappclone.presentation.util.handler.AutoScrollHandler
 import com.example.tomicsandroidappclone.presentation.util.mapper.MyGraphicMapper
+import com.google.android.material.bottomsheet.BottomSheetBehavior
+import com.google.android.material.floatingactionbutton.FloatingActionButton
 import dagger.hilt.android.AndroidEntryPoint
 import kotlin.math.absoluteValue
 
@@ -25,10 +31,7 @@ import kotlin.math.absoluteValue
 class MainPageFragment : Fragment() {
     private lateinit var myHandler: AutoScrollHandler
     private lateinit var binding: FragmentMainPageBinding
-
-    // lateinit과 lazy의 공통점 : ?일수 없다, 나중에 값을 초기화 한다.
-    // lateinit과 lazy의 차이점 : late는 var로만 by lazy는 val로만 선언 된다. ()
-    // 즉, 초기화 이후 값이 변하는 유무에 따라 사용하며 구분하면 lateinit: 값이 바뀔때, by lazy: 읽기 전용일때
+    private var isAdVisible = false
     private val viewModel: BaseViewModel by lazy { ViewModelProvider(requireActivity())[BaseViewModel::class.java] }
 
     companion object {
@@ -44,12 +47,12 @@ class MainPageFragment : Fragment() {
         binding.incluedLayoutBanner.linearContainer.visibility = View.GONE
         return try {
             setAdapter()
+            setupFab()
             binding.root
         } catch (e: Exception) {
             Log.e("TAG", "main fragment onCreateView: ${e.message}")
             binding.root
         }
-
     }
 
     override fun onDestroy() {
@@ -57,11 +60,45 @@ class MainPageFragment : Fragment() {
         Log.d("TAG", "onDestroy: ")
     }
 
-    // fragment가 완전히 파괴되기 전 view가 해제되는 경우, adapter는 뷰에 표시되기 때문에.
     override fun onDestroyView() {
         super.onDestroyView()
         Log.d("TAG", "onDestroyView: ")
-        binding.rvMainPage.adapter = null // Adapter 해제
+        binding.rvMainPage.adapter = null
+    }
+
+    private fun setupFab() {
+         binding.nestedMain.setOnScrollChangeListener(NestedScrollView.OnScrollChangeListener { v, _, scrollY, _, oldScrollY ->
+            if (scrollY > oldScrollY && !isAdVisible) {
+                showAd()
+            } else if (scrollY == 0 && isAdVisible) {
+                hideAd()
+            }
+        })
+    }
+    private fun showAd() {
+        binding.adImage.apply {
+            visibility = View.VISIBLE
+            animate()
+                .alpha(1.0f)
+                .scaleX(1.0f)
+                .scaleY(1.0f)
+                .setDuration(300)
+                .start()
+            isAdVisible = true
+        }
+    }
+
+    private fun hideAd() {
+        binding.adImage.apply {
+            animate().alpha(0.0f)
+                .scaleX(0.0f)
+                .scaleY(0.0f)
+                .setDuration(300)
+                .withEndAction {
+                    visibility = View.GONE
+                }.start()
+        }
+        isAdVisible = false
     }
 
     private fun setViewPager(webtoonList: ArrayList<Webtoon>) {
@@ -74,14 +111,13 @@ class MainPageFragment : Fragment() {
                     val pagePosition = position % adapter!!.itemCount
                     val realPosition =
                         if (pagePosition < 0) pagePosition + adapter!!.itemCount else pagePosition
-                    // pagePosition 값을 사용하여 page.tag에 값을 설정
                     page.tag = realPosition
                 }
                 registerOnPageChangeCallback(object :
                     ViewPager2.OnPageChangeCallback() {
                     override fun onPageSelected(position: Int) {
                         adapter?.let { adapter ->
-                            val itemCount = adapter.itemCount // int.maxvalue
+                            val itemCount = adapter.itemCount
                             val pagePosition = position - (Int.MAX_VALUE / 2)
                             Log.d("TAG", "position: $position")
                             val normalizedPosition = if (pagePosition >= 0) {
@@ -92,7 +128,7 @@ class MainPageFragment : Fragment() {
                                     "TAG",
                                     "false: ${itemCount - (pagePosition.absoluteValue + 1)}"
                                 )
-                                itemCount - (pagePosition.absoluteValue.inc())// 음수일 경우 역순으로 위치 계산. +1을 해야 값이 중복되지 않음.
+                                itemCount - (pagePosition.absoluteValue.inc())
                             }
                             val indicatorPosition = normalizedPosition % 7
                             Log.d("TAG", "onPageSelected: $indicatorPosition")
@@ -131,13 +167,14 @@ class MainPageFragment : Fragment() {
                         visibility = View.VISIBLE
                         removeView(incluedLayoutBanner.tvSeeMore)
                     }
+                    tvTag.text = resources.getStringArray(R.array.banner_items)[0]
                 }
-                clipToPadding = false // padding 공간을 스크롤 화면으로 활용가능.
-                clipChildren = false // view의 자식들이 영역 안에서만 그려지도록 설정하는 것. Default = true
+                clipToPadding = false
+                clipChildren = false
                 setPageTransformer { page, position ->
                     page.translationX = position * MyGraphicMapper().offsetPx(context)
                 }
-                adapter = ViewPagerDefaultToonAdapter(0, 10, null ,webtoonList)
+                adapter = ViewPagerDefaultToonAdapter(0, 10, null, webtoonList)
                 orientation = ViewPager2.ORIENTATION_HORIZONTAL
                 offscreenPageLimit = 1
             }
@@ -150,22 +187,14 @@ class MainPageFragment : Fragment() {
         binding.rvMainPage.apply {
             adapter = mainRecyclerAdapter
             layoutManager = LinearLayoutManager(binding.root.context)
-            /*layoutManager = PreCacheLayoutManager(binding.root.context, 600)*/
-            setItemViewCacheSize(6)  // UI가 화면에서 사라졌을 때 pool에 들어가지 않고 cache됨. 따라서 bindHolder 호출 없이 보여짐.
-            // nested scroll view안에서 위 아래로 움직이다가 화면을 꾹 누르면 화면이 심하게 흔들리는 현상 발생.
-            /*isNestedScrollingEnabled = false*/
+            setItemViewCacheSize(6)
         }
     }
 
     private fun setAdapter() {
-        // context는 LifeCycle과 연결되어 있고(!) Singleton임. (실행 중 하나의 객체만 가짐)
-        // (!) ApplicationContext, ActivityContext, FragmentContext 는 이름에 있는 LifeCycle을 가짐.
-        Log.d("TAG", "${viewModel.webtoonsInfo}")
         viewModel.webtoonsInfo.observe(viewLifecycleOwner) {
-            // observing.. adapter 초기화 코드를 실행.
             setRecycler(it)
             setViewPager(it)
         }
     }
 }
-

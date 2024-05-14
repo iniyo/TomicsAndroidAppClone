@@ -87,7 +87,7 @@ class WebtoonPageFragment : Fragment() {
                     tab?.let {
                         val position = it.position
                         try {
-                            Log.d("TAG", "handleTabSelection titleTabText: $titleTabText ")
+                            Log.d("TAG", "handleTabSelection titleTabText: $titleTabText")
                             handleTabSelection(position, tlFreeWebtoonFragment.tabCount, tab)
                         } catch (e: Exception) {
                             Log.e("TAG", "onTabSelected: ${e.message}")
@@ -111,9 +111,11 @@ class WebtoonPageFragment : Fragment() {
     }
 
     private fun setRadioGroup() {
+        Log.d("TAG", "setRadioGroup:$detailTabText ")
         if (detailTabText != "전체") {
             binding.rgMain.visibility = RadioGroup.GONE
         } else {
+
             binding.rgMain.apply {
                 check(0)
                 setOnCheckedChangeListener { radioGroup, _ ->
@@ -165,8 +167,15 @@ class WebtoonPageFragment : Fragment() {
         if (position !in 0 until tabCount) {
             throw NullPointerException("Invalid tab position")
         }
-        detailTabText = MyStringMapper().getDayForKor2Eng(tab.text.toString())
-        Log.d("TAG", "handleTabSelection detailTabText: $detailTabText")
-        userSelected()
+        if (titleTabText == "연재"){
+            detailTabText = MyStringMapper().getDayForKor2Eng(tab.text.toString())
+            Log.d("TAG", "handleTabSelection 연재: $detailTabText")
+            userSelected()
+        }else {
+            detailTabText = tab.text.toString()
+            Log.d("TAG", "handleTabSelection detailTabText: $detailTabText")
+            userSelected()
+        }
+
     }
 }
