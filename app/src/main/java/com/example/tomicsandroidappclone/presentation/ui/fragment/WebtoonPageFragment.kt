@@ -112,15 +112,17 @@ class WebtoonPageFragment : Fragment() {
 
     private fun setRadioGroup() {
         Log.d("TAG", "setRadioGroup:$detailTabText ")
-        if (detailTabText != "전체") {
-            binding.rgMain.visibility = RadioGroup.GONE
-        } else {
-
-            binding.rgMain.apply {
-                check(0)
-                setOnCheckedChangeListener { radioGroup, _ ->
-                    radioGroup.clearAnimation()
-                    radioGroup.jumpDrawablesToCurrentState()
+        binding.apply {
+            if (detailTabText != "전체") {
+                rgMain.visibility = RadioGroup.GONE
+            } else {
+                vSpace.visibility = View.GONE
+                rgMain.apply {
+                    check(0)
+                    setOnCheckedChangeListener { radioGroup, _ ->
+                        radioGroup.clearAnimation()
+                        radioGroup.jumpDrawablesToCurrentState()
+                    }
                 }
             }
         }
