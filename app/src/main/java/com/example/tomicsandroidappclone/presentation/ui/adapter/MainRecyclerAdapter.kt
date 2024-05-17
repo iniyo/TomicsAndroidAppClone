@@ -54,13 +54,13 @@ class MainRecyclerAdapter(
         fun bind(position: Int) {
             val viewType = getItemViewType(position)
             val num = when (ViewType.entries[viewType]) {
-                ViewType.DEFAULT_SIZE_RECYCLER -> {0}
-                ViewType.BIG_SIZE_RECYCLER -> {1}
-                ViewType.MIDDLE_SIZE_RECYCLER -> {2}
-                ViewType.AD_RECYCLER -> {3}
-                ViewType.LONG_SIZE_BANNER -> {4}
-                ViewType.TAG_TO_DEFAULT_RECYCLER -> {5}
-                ViewType.DEFAULT_SIZE_TO_SALE_RECYCLER -> {6}
+                ViewType.DEFAULT_SIZE_RECYCLER -> 0
+                ViewType.BIG_SIZE_RECYCLER -> 1
+                ViewType.MIDDLE_SIZE_RECYCLER -> 2
+                ViewType.AD_RECYCLER -> 3
+                ViewType.LONG_SIZE_BANNER -> 4
+                ViewType.TAG_TO_DEFAULT_RECYCLER -> 5
+                ViewType.DEFAULT_SIZE_TO_SALE_RECYCLER -> 6
             }
             setRecyclerView(binding, num)
         }

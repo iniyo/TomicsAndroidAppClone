@@ -1,18 +1,15 @@
 package com.example.tomicsandroidappclone.presentation.ui
 
-import android.os.Build
 import android.os.Bundle
 import android.util.Log
 import android.view.View
 import android.widget.TextView
-import android.window.OnBackInvokedDispatcher
-import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.GravityCompat
 import androidx.lifecycle.ViewModelProvider
+import com.example.tomicsandroidappclone.R
 import com.example.tomicsandroidappclone.databinding.ActivityMainBinding
 import com.example.tomicsandroidappclone.presentation.ui.viewmodel.BaseViewModel
-import com.example.tomicsandroidappclone.presentation.util.mapper.MyCalendar
 import com.example.tomicsandroidappclone.presentation.util.navigator.AppNavigator
 import com.example.tomicsandroidappclone.presentation.util.navigator.Fragments
 import dagger.hilt.android.AndroidEntryPoint
@@ -42,15 +39,13 @@ class MainActivity : AppCompatActivity() {
                 if (dlMain.isDrawerOpen(GravityCompat.START)) dlMain.closeDrawer(GravityCompat.START)
                 else dlMain.openDrawer(GravityCompat.START)
             }
-            activityDrawer.ivCloseDrawer.setOnClickListener { dlMain.closeDrawer(GravityCompat.START) }
         }
-
     }
 
     private fun setOnClick() {
         binding.apply {
             ivAddClose.setOnClickListener {
-                rlAdContainer.removeAllViews()
+                // rlAdContainer.removeAllViews()
             }
             ivTomicsLogo.setOnClickListener { navigateHome() }
         }
@@ -68,9 +63,11 @@ class MainActivity : AppCompatActivity() {
             textView.setOnClickListener { navigateToTab(textView, tabMap) }
         }
     }
+
     private fun navigateToTab(textView: TextView, tabMap: Map<TextView, View>) {
         resetSelection(tabMap)
         tabMap[textView]?.isSelected = true
+        textView.setTextAppearance(R.style.TabTextBold) // Set selected text to bold
         navigator.navigateTo(Fragments.WEBTOON_PAGE, textView.text.toString())
     }
 
@@ -80,17 +77,24 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun resetSelection(tabMap: Map<TextView, View>) {
+        tabMap.keys.forEach { textView ->
+            textView.setTextAppearance(R.style.TabTextNormal) // Set unselected text to normal
+        }
         tabMap.values.forEach { it.isSelected = false }
     }
 
     private fun setTabMap(): Map<TextView, View> {
-        return mapOf(
-            binding.tvFreeWebtoon to binding.vFreeWebtoonUnderColorBar,
-            binding.tvSerialize to binding.vSerializeUnderColorBar,
-            binding.tvTopHundred to binding.vHundredUnderColorBar,
-            binding.tvEndedWebtoon to binding.vEndedWebtoonUnderColorBar,
-            binding.tvHot to binding.vHotWebtoonUnderColorBar
-        )
+        val textViewMap: Map<TextView, View>
+        binding.apply {
+            textViewMap = mapOf(
+                tvFreeWebtoon to vFreeWebtoonUnderColorBar,
+                tvSerialize to vSerializeUnderColorBar,
+                tvTopHundred to vHundredUnderColorBar,
+                tvEndedWebtoon to vEndedWebtoonUnderColorBar,
+                tvHot to vHotWebtoonUnderColorBar
+            )
+        }
+        return textViewMap
     }
 
     override fun onStart() {
@@ -108,4 +112,3 @@ class MainActivity : AppCompatActivity() {
         Log.d("TAG", "Activity Resume ")
     }
 }
-

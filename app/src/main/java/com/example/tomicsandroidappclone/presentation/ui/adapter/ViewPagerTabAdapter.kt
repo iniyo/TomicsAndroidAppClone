@@ -1,11 +1,10 @@
 package com.example.tomicsandroidappclone.presentation.ui.adapter
 
 import android.content.Intent
-import android.graphics.Rect
+import android.graphics.Point
 import android.net.Uri
 import android.util.Log
 import android.view.LayoutInflater
-import android.view.View
 import android.view.ViewGroup
 import androidx.paging.PagingDataAdapter
 import androidx.recyclerview.widget.DiffUtil
@@ -38,25 +37,24 @@ class ViewPagerTabAdapter(
     inner class ViewHolder(val binding: DefaultToonItemsBinding) :
         RecyclerView.ViewHolder(binding.root) {
         fun bind(webtoon: Webtoon) {
-
             binding.apply {
                 val mapper = MyGraphicMapper()
+                val screenWidth = mapper.getScreenWidth(root.context)
 
-                var dpHeight = 200
-                var dpWidth = 170
                 val spanCount = when (checkType) {
                     0 -> 1
                     1 -> 3
                     else -> 2
                 }
+
+                val dpWidth = screenWidth / spanCount
+
                 if (checkType == 1) {
-                    ivToonImg.layoutParams.height = mapper.dp2px(dpHeight)
-                    rlDefaultToonSize.layoutParams.width = mapper.dp2px(dpWidth)
+                    ivToonImg.layoutParams.height = (dpWidth * 1.1).toInt()
+                    rlDefaultToonSize.layoutParams.width = dpWidth
                 } else {
-                    dpHeight = 300
-                    dpWidth = 260
-                    ivToonImg.layoutParams.height = mapper.dp2px(dpHeight)
-                    rlDefaultToonSize.layoutParams.width = mapper.dp2px(dpWidth)
+                    ivToonImg.layoutParams.height = (dpWidth * 1.4).toInt()
+                    rlDefaultToonSize.layoutParams.width = dpWidth
                 }
 
                 Glide.with(root.context)

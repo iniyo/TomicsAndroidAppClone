@@ -19,7 +19,7 @@ class MyGraphicMapper {
         }
     }
 
-    fun getnavigationBarHeight(context: Context) {
+    fun getNavigationBarHeight(context: Context) {
         val resourceId =
             context.resources.getIdentifier("navigation_bar_height", "dimen", "android")
         var navigationBarHeight = 0
@@ -39,22 +39,23 @@ class MyGraphicMapper {
 
     // offset
     fun offsetPx(context: Context): Int {
-        val pageMarginPx = context.resources.getDimensionPixelOffset(R.dimen.page_margin)
-        val pagerWidth = context.resources.getDimensionPixelOffset(R.dimen.page_width)
-        val screenWidth = context.resources.displayMetrics.widthPixels
+        val displayMetrics = context.resources.displayMetrics
+        val screenWidth = displayMetrics.widthPixels
+        val pageMarginPx = (screenWidth * 0.05).toInt()  // 화면 너비의 5%를 페이지 마진으로 사용
+        val pagerWidth = (screenWidth * 0.85).toInt()     // 화면 너비 비례 페이지 너비 사용
         val offsetPx = screenWidth - pageMarginPx - pagerWidth
         return -offsetPx
     }
+    // 화면 너비
+    fun getScreenWidth(context: Context): Int {
+        val displayMetrics = context.resources.displayMetrics
+        return displayMetrics.widthPixels
+    }
 
-    // page 위치 조절
-    /*private class PageDecoration : RecyclerView.ItemDecoration() {
-        override fun getItemOffsets(
-            outRect: Rect,
-            view: View,
-            parent: RecyclerView,
-            state: RecyclerView.State
-        ) {
-            outRect.left = 30
-        }
-    }*/
+    // 화면 높이
+    fun getScreenHeight(context: Context): Int {
+        val displayMetrics = context.resources.displayMetrics
+        return displayMetrics.heightPixels
+    }
+
 }

@@ -1,6 +1,7 @@
 package com.example.tomicsandroidappclone.presentation.ui.fragment
 
 import android.os.Bundle
+import android.util.DisplayMetrics
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
@@ -31,7 +32,7 @@ class WebtoonPageFragment : Fragment() {
     private lateinit var binding: FragmentWebtoonPageBinding
     private lateinit var titleTabText: String
     private var detailTabText: String? = null
-    private lateinit var esayController: MyEasyTapControllHandler
+    private lateinit var mEsayController: MyEasyTapControllHandler
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -51,8 +52,22 @@ class WebtoonPageFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         init()
+        adjustImageHeight()
     }
+    private fun adjustImageHeight() {
+        binding.apply {
+            collapsingToolbar.viewTreeObserver.addOnGlobalLayoutListener {
+                val displayMetrics = DisplayMetrics()
+                requireActivity().windowManager.defaultDisplay.getMetrics(displayMetrics)
+                val screenWidth = displayMetrics.widthPixels
+                val aspectRatio = 16 / 3f // 이미지의 종횡비(예: 16:9)
 
+                val imageHeight = (screenWidth / aspectRatio).toInt()
+                ivAdvertisement.layoutParams.height = imageHeight
+                ivAdvertisement.requestLayout()
+            }
+        }
+    }
     companion object {
         private const val ARG_PARAM1 = "tab"
 
@@ -72,14 +87,11 @@ class WebtoonPageFragment : Fragment() {
 
     private fun setTab() {
         binding.apply {
-            esayController = MyEasyTapControllHandler(tlFreeWebtoonFragment)
+            mEsayController = MyEasyTapControllHandler(tlFreeWebtoonFragment)
             val tabItems = context?.let { MyStringMapper().getTitleTabItemArray(titleTabText, it) }
-
-            if (titleTabText == "나만무료") tabItems?.let { esayController.addTabs(it, true) }
-            else tabItems?.let { esayController.addTabs(it) }
-
+            if (titleTabText == "나만무료") tabItems?.let { mEsayController.addTabs(it, true) }
+            else tabItems?.let { mEsayController.addTabs(it) }
             userSelected()
-            openSearchViewToolbarContainer.layoutParams.height = 135
 
             tlFreeWebtoonFragment.addOnTabSelectedListener(object :
                 TabLayout.OnTabSelectedListener {
@@ -120,8 +132,7 @@ class WebtoonPageFragment : Fragment() {
                 rgMain.apply {
                     check(0)
                     setOnCheckedChangeListener { radioGroup, _ ->
-                        radioGroup.clearAnimation()
-                        radioGroup.jumpDrawablesToCurrentState()
+
                     }
                 }
             }
@@ -178,6 +189,5 @@ class WebtoonPageFragment : Fragment() {
             Log.d("TAG", "handleTabSelection detailTabText: $detailTabText")
             userSelected()
         }
-
     }
 }

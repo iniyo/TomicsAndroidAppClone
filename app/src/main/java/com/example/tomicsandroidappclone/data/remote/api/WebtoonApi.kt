@@ -25,11 +25,6 @@ interface WebtoonApi {
     ): ToonResponse
 
     @GET("/search")
-    suspend fun getNewWebtoon(
-        @Query("new") new: Boolean, // T/F
-    ): ToonResponse
-
-    @GET("/search")
     suspend fun getSearch(
         @Query("keyword") keyword: String
     ): ToonResponse

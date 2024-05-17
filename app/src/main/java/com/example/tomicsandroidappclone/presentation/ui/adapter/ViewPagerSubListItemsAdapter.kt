@@ -23,14 +23,14 @@ class ViewPagerSubListItemsAdapter(
         fun bind(webtoon: Webtoon, position: Int) {
 
             binding.run {
-                llTopContainer.setOnClickListener {
+                /*llTopContainer.setOnClickListener {
                     val intent = Intent(Intent.ACTION_VIEW, Uri.parse(webtoon.url))
-                    binding.root.context.startActivity(intent)
-                }
+                    root.context.startActivity(intent)
+                }*/
                 tvAuthor.text = webtoon.author
                 tvToonRank.text = position.inc().toString()
                 tvToonName.text = webtoon.title
-                Glide.with(binding.root.context)
+                Glide.with(root.context)
                     .load(webtoon.img)
                     .skipMemoryCache(false) // cache 사용 x
                     .centerInside()

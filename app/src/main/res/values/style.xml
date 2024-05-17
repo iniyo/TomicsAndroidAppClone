@@ -9,6 +9,16 @@
         <item name="android:textSize">15sp</item>
         <item name="android:textStyle">normal</item>
     </style>
+    <style name="TabTextNormal">
+        <item name="android:textStyle">normal</item>
+        <item name="android:textSize">16sp</item>
+    </style>
+
+    <style name="TabTextBold">
+        <item name="android:textStyle">bold</item>
+        <item name="android:textSize">16sp</item>
+    </style>
+
     <style name="Widget.ProgressBar.Horizontal" parent="android:Widget.ProgressBar">
         <item name="android:indeterminateDrawable">@drawable/progress_bar_horizontal</item>
     </style>

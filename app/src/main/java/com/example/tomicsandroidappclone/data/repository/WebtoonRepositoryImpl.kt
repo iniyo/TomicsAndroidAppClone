@@ -22,7 +22,7 @@ class WebtoonRepositoryImpl @Inject constructor(
         return webtoons.filter { it.img.isNotEmpty() }.distinctBy { it.webtoonId } as ArrayList
     }
     /**
-     * PAGING
+     * cache data
      **/
     override suspend fun getWebtoonsByCategory(category: String): List<Webtoon> {
         return webtoonDao.getWebtoonsByCategory(category)

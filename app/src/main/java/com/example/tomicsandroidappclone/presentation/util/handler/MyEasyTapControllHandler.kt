@@ -8,59 +8,42 @@ import com.example.tomicsandroidappclone.presentation.util.mapper.MyStringMapper
 import com.google.android.material.tabs.TabLayout
 class MyEasyTapControllHandler (tabLayout: TabLayout) : Handler(Looper.getMainLooper()) {
     private val mTabLayout = tabLayout
-    private var titleTabText : String? = null
-    private var detailTabText : String? = null
-
-    override fun handleMessage(msg: Message) {
-        super.handleMessage(msg)
-        when (msg.what) {
-            0, 1, 2, 3, 4 -> updateDetailText(msg.what)
+    var titleTabText: String? = null
+        get() = field ?: "default title" // 기본 값 제공
+        set(value) {
+            field = value ?: "default title" // 기본 값 제공
         }
-    }
 
-    private fun updateDetailText(tabType: Int) {
-        detailTabText = MyStringMapper().getDayForKor2Eng(detailTabText!!)
-        Log.d("TAG", "handleTabSelection detailTabText 변경: $detailTabText")
-        // 기타 필요한 UI 업데이트나 데이터 처리 로직 추가
-    }
+    var detailTabText: String? = null
+        get() = field ?: "default detail" // 기본 값 제공
+        set(value) {
+            field = value ?: "default detail" // 기본 값 제공
+        }
 
     fun addTabs(tabItems: Array<String>, checkType: Boolean) {
-        mTabLayout.removeAllTabs()
-        if (checkType) {
-            mTabLayout.tabMode = TabLayout.MODE_SCROLLABLE
-            addTabs(tabItems)
-        } else {
-            mTabLayout.tabMode = TabLayout.MODE_AUTO
-            mTabLayout.tabGravity = TabLayout.GRAVITY_FILL
-            addTabs(tabItems)
+        mTabLayout.apply {
+            removeAllTabs()
+            if (checkType) {
+                tabMode = TabLayout.MODE_SCROLLABLE
+                addTabs(tabItems)
+            } else {
+                tabMode = TabLayout.MODE_AUTO
+                tabGravity = TabLayout.GRAVITY_FILL
+                addTabs(tabItems)
+            }
         }
     }
 
     fun addTabs(tabItems: Array<String>) {
-        mTabLayout.removeAllTabs()
-        val count = 0
-        for (item in tabItems) {
-            val newTab = mTabLayout.newTab()
-            newTab.setText(item)
-            mTabLayout.addTab(newTab)
-            count.inc()
-        }
-       /* setTabClickListener()*/
-    }
-
-    fun getTitleTabText() : String {
-        return try {
-            titleTabText!!
-        }catch (e: Exception){
-            e.message.toString()
-        }
-    }
-
-    fun getDetailTabText() : String {
-        return try {
-            detailTabText!!
-        }catch (e: Exception){
-            e.message.toString()
+        mTabLayout.apply {
+            removeAllTabs()
+            val count = 0
+            for (item in tabItems) {
+                val newTab = newTab()
+                newTab.setText(item)
+                addTab(newTab)
+                count.inc()
+            }
         }
     }
 

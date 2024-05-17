@@ -80,6 +80,7 @@ class MainPageFragment : Fragment() {
             visibility = View.VISIBLE
             animate()
                 .alpha(1.0f)
+                .translationX(400f) // x 좌표값으로 이동
                 .scaleX(1.0f)
                 .scaleY(1.0f)
                 .setDuration(300)
@@ -93,6 +94,7 @@ class MainPageFragment : Fragment() {
             animate().alpha(0.0f)
                 .scaleX(0.0f)
                 .scaleY(0.0f)
+                .translationX(-400f) // x 좌표값으로 이동
                 .setDuration(300)
                 .withEndAction {
                     visibility = View.GONE
@@ -172,7 +174,8 @@ class MainPageFragment : Fragment() {
                 clipToPadding = false
                 clipChildren = false
                 setPageTransformer { page, position ->
-                    page.translationX = position * MyGraphicMapper().offsetPx(context)
+                    val offsetPx = MyGraphicMapper().offsetPx(requireContext())
+                    page.translationX = position * offsetPx
                 }
                 adapter = ViewPagerDefaultToonAdapter(0, 10, null, webtoonList)
                 orientation = ViewPager2.ORIENTATION_HORIZONTAL
