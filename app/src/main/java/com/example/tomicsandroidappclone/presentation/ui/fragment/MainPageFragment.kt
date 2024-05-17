@@ -83,6 +83,7 @@ class MainPageFragment : Fragment() {
                 .translationX(400f) // x 좌표값으로 이동
                 .scaleX(1.0f)
                 .scaleY(1.0f)
+                .translationX(400f * dp) // x 좌표값으로 이동
                 .setDuration(300)
                 .start()
             isAdVisible = true
@@ -96,6 +97,7 @@ class MainPageFragment : Fragment() {
                 .scaleY(0.0f)
                 .translationX(-400f) // x 좌표값으로 이동
                 .setDuration(300)
+                .translationX(-400f * dp)
                 .withEndAction {
                     visibility = View.GONE
                 }.start()
