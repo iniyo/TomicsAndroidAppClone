@@ -12,7 +12,7 @@
         android:id="@+id/iv_webtoon"
         android:layout_width="match_parent"
         android:layout_height="400dp"
-        android:background="@drawable/viewpager_item"
+        android:background="@drawable/top_slide_toon_background"
         android:importantForAccessibility="no"
         android:scaleType="fitXY"
         android:src="@drawable/ic_launcher_foreground"

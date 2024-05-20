@@ -1,6 +1,9 @@
 package com.example.tomicsandroidappclone.presentation.ui
 
+import android.graphics.Color
 import android.os.Bundle
+import android.text.SpannableString
+import android.text.style.ForegroundColorSpan
 import android.util.Log
 import android.view.View
 import android.widget.TextView
@@ -10,6 +13,7 @@ import androidx.lifecycle.ViewModelProvider
 import com.example.tomicsandroidappclone.R
 import com.example.tomicsandroidappclone.databinding.ActivityMainBinding
 import com.example.tomicsandroidappclone.presentation.ui.viewmodel.BaseViewModel
+import com.example.tomicsandroidappclone.presentation.util.mapper.MyStringMapper
 import com.example.tomicsandroidappclone.presentation.util.navigator.AppNavigator
 import com.example.tomicsandroidappclone.presentation.util.navigator.Fragments
 import dagger.hilt.android.AndroidEntryPoint
@@ -33,6 +37,14 @@ class MainActivity : AppCompatActivity() {
         setOnClick()
     }
 
+    /*private fun setViewDetail() {
+        // 문자열 내용 가져와서
+        val originalText = getString(R.string.notice)
+        // 마지막 글자 색상 변경
+        val spannableText = MyStringMapper().setLastCharacterColor(this, originalText, R.color.tomics_red)
+        binding.tvNotice.text = spannableText
+    }*/
+
     private fun setupDrawerActions() {
         binding.apply {
             ivDrawer.setOnClickListener {
@@ -45,7 +57,8 @@ class MainActivity : AppCompatActivity() {
     private fun setOnClick() {
         binding.apply {
             ivAddClose.setOnClickListener {
-                // rlAdContainer.removeAllViews()
+                clMainContainer.removeView(ivAddClose)
+                clMainContainer.removeView(ivAdvertisement)
             }
             ivTomicsLogo.setOnClickListener { navigateHome() }
         }

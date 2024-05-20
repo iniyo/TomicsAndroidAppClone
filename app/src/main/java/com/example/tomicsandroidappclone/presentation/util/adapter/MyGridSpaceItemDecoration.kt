@@ -18,24 +18,14 @@ class MyGridSpaceItemDecoration(
         val position = parent.getChildAdapterPosition(view)
         val column = position % spanCount + 1      // 1부터 시작
 
-
-        if (position >= 0) {
-            val column = position % spanCount // item column
-            outRect.apply {
-                // spacing - column * ((1f / spanCount) * spacing)
-                left = space - column * space / spanCount
-                // (column + 1) * ((1f / spanCount) * spacing)
-                right = (column + 1) * space / spanCount
-                if (position < spanCount) top = space
-                bottom = space
-            }
-        } else {
-            outRect.apply {
-                left = 0
-                right = 0
-                top = 0
-                bottom = 0
-            }
+        // 첫 행 제외하고 상단 여백 추가
+        if (position >= spanCount) {
+            outRect.top = space
+        }
+        outRect.bottom = space
+        // 첫번째 열을 제외하고 좌측 여백 추가
+        if (column != 1) {
+            outRect.left = space
         }
     }
 }

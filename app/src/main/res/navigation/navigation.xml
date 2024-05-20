@@ -19,12 +19,11 @@
         android:name="com.example.tomicsandroidappclone.presentation.ui.fragment.WebtoonPageFragment"
         android:label="fragment_webtoon_page"
         tools:layout="@layout/fragment_webtoon_page" >
+        <argument
+            android:name="tab"
+            app:argType="string" />
         <action
-            android:id="@+id/action_webtoonPageFragment_to_mainPageFragment"
-            app:destination="@id/navigation" />
+            android:id="@+id/action_webtoonPageFragment_to_mainPageFragment2"
+            app:destination="@id/mainPageFragment" />
     </fragment>
-    <activity
-        android:id="@+id/mainActivity2"
-        android:name="com.example.tomicsandroidappclone.presentation.ui.MainActivity"
-        android:label="MainActivity" />
 </navigation>

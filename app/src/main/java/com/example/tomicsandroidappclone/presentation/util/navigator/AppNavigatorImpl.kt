@@ -17,10 +17,11 @@
 
 package com.example.tomicsandroidappclone.presentation.util.navigator
 
+import android.os.Bundle
 import androidx.fragment.app.FragmentActivity
+import androidx.navigation.NavController
+import androidx.navigation.fragment.NavHostFragment
 import com.example.tomicsandroidappclone.R
-import com.example.tomicsandroidappclone.presentation.ui.fragment.MainPageFragment
-import com.example.tomicsandroidappclone.presentation.ui.fragment.WebtoonPageFragment
 import javax.inject.Inject
 
 /**
@@ -28,16 +29,22 @@ import javax.inject.Inject
  */
 class AppNavigatorImpl @Inject constructor(private val activity: FragmentActivity) : AppNavigator {
 
-    override fun navigateTo(screen: Fragments, tab: String) {
-        val fragment = when (screen) {
-            Fragments.MAIN_PAGE -> MainPageFragment.newInstance()
-            Fragments.WEBTOON_PAGE -> WebtoonPageFragment.newInstance(tab)
-        }
+    private val navController: NavController by lazy {
+        (activity.supportFragmentManager.findFragmentById(R.id.fcv_main) as NavHostFragment).navController
+    }
 
-        activity.supportFragmentManager.beginTransaction()
-            .replace(R.id.fcv_main, fragment)
-            .addToBackStack(fragment::class.java.canonicalName)
-            .commit()
+    override fun navigateTo(screen: Fragments, tab: String) {
+        when (screen) {
+            Fragments.MAIN_PAGE -> {
+                navController.navigate(R.id.mainPageFragment)
+            }
+            Fragments.WEBTOON_PAGE -> {
+                val bundle = Bundle().apply {
+                    putString("tab", tab)
+                }
+                navController.navigate(R.id.webtoonPageFragment, bundle)
+            }
+        }
     }
 
     override fun navigateTo(screen: Activitys) {

@@ -52,21 +52,6 @@ class WebtoonPageFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         init()
-        adjustImageHeight()
-    }
-    private fun adjustImageHeight() {
-        binding.apply {
-            collapsingToolbar.viewTreeObserver.addOnGlobalLayoutListener {
-                val displayMetrics = DisplayMetrics()
-                requireActivity().windowManager.defaultDisplay.getMetrics(displayMetrics)
-                val screenWidth = displayMetrics.widthPixels
-                val aspectRatio = 16 / 3f // 이미지의 종횡비(예: 16:9)
-
-                val imageHeight = (screenWidth / aspectRatio).toInt()
-                ivAdvertisement.layoutParams.height = imageHeight
-                ivAdvertisement.requestLayout()
-            }
-        }
     }
     companion object {
         private const val ARG_PARAM1 = "tab"

@@ -40,14 +40,14 @@ class ViewPagerDefaultToonAdapter(
                         0 -> LinearLayoutManager(context, LinearLayoutManager.VERTICAL, false)
                         1 -> GridLayoutManager(context, 3)
                         else -> GridLayoutManager(context, 2)
-                    }/*.apply{
-                    recycleChildrenOnDetach = true
-                }*/
+                    }.apply{
+                        recycleChildrenOnDetach = true
+                    }
                     adapter = when (checkType) {
                         0 -> ViewPagerSubListItemsAdapter(webtoonList!!)
                         else -> viewPagerTabAdapter
                     }
-                    addItemDecoration(MyGridSpaceItemDecoration(3, space = MyGraphicMapper().dp2px(7)))
+                    addItemDecoration(MyGridSpaceItemDecoration(3, space = 20))
                     setRecycledViewPool(recyclerViewPool)
                 }.scrollToPosition(0) // 데이터 로드 후 최상단으로 위치
             }catch (e:Exception){

@@ -1,6 +1,8 @@
 package com.example.tomicsandroidappclone.presentation.util.mapper
 
 import android.content.Context
+import android.text.SpannableString
+import android.text.style.ForegroundColorSpan
 import com.example.tomicsandroidappclone.R
 
 class MyStringMapper {
@@ -50,5 +52,28 @@ class MyStringMapper {
             else -> "new"
         }
         return arrayString
+    }
+
+    /**
+     * 텍스트의 마지막 글자를 지정된 색상으로 변경하는 메서드.
+     * @param context 컨텍스트
+     * @param text 원본 텍스트
+     * @param colorId 색상 리소스 ID
+     * @return 색상이 적용된 SpannableString
+     */
+    fun setLastCharacterColor(context: Context, text: String, colorId: Int): SpannableString {
+        val spannableString = SpannableString(text)
+        val color = context.getColor(colorId)
+        val startIndex = text.length - 1
+        val endIndex = text.length
+
+        spannableString.setSpan(
+            ForegroundColorSpan(color), // 지정된 색상
+            startIndex,
+            endIndex,
+            SpannableString.SPAN_EXCLUSIVE_EXCLUSIVE
+        )
+
+        return spannableString
     }
 }

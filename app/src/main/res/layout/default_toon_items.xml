@@ -5,6 +5,7 @@
     android:id="@+id/rl_default_toon_size"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
+    android:layout_marginEnd="10dp"
     android:paddingBottom="5dp"
     app:layout_constraintEnd_toEndOf="parent"
     app:layout_constraintStart_toStartOf="parent"

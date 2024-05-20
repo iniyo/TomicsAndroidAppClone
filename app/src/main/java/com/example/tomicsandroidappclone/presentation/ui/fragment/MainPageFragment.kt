@@ -5,8 +5,8 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.view.animation.AnticipateInterpolator
 import android.view.animation.OvershootInterpolator
+import android.widget.ImageButton
 import androidx.core.widget.NestedScrollView
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
@@ -21,6 +21,7 @@ import com.example.tomicsandroidappclone.presentation.ui.adapter.ViewPagerDefaul
 import com.example.tomicsandroidappclone.presentation.ui.adapter.ViewPagerTopSlideAdapter
 import com.example.tomicsandroidappclone.presentation.ui.viewmodel.BaseViewModel
 import com.example.tomicsandroidappclone.presentation.util.handler.AutoScrollHandler
+import com.example.tomicsandroidappclone.presentation.util.mapper.FloatingAdAnimator
 import com.example.tomicsandroidappclone.presentation.util.mapper.MyGraphicMapper
 import com.google.android.material.bottomsheet.BottomSheetBehavior
 import com.google.android.material.floatingactionbutton.FloatingActionButton
@@ -31,12 +32,7 @@ import kotlin.math.absoluteValue
 class MainPageFragment : Fragment() {
     private lateinit var myHandler: AutoScrollHandler
     private lateinit var binding: FragmentMainPageBinding
-    private var isAdVisible = false
     private val viewModel: BaseViewModel by lazy { ViewModelProvider(requireActivity())[BaseViewModel::class.java] }
-
-    companion object {
-        fun newInstance() = MainPageFragment()
-    }
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -47,7 +43,7 @@ class MainPageFragment : Fragment() {
         binding.incluedLayoutBanner.linearContainer.visibility = View.GONE
         return try {
             setAdapter()
-            setupFab()
+            setFloatingAd()
             binding.root
         } catch (e: Exception) {
             Log.e("TAG", "main fragment onCreateView: ${e.message}")
@@ -66,51 +62,24 @@ class MainPageFragment : Fragment() {
         binding.rvMainPage.adapter = null
     }
 
-    private fun setupFab() {
-         binding.nestedMain.setOnScrollChangeListener(NestedScrollView.OnScrollChangeListener { v, _, scrollY, _, oldScrollY ->
-            if (scrollY > oldScrollY && !isAdVisible) {
-                showAd()
-            } else if (scrollY == 0 && isAdVisible) {
-                hideAd()
+    private fun setFloatingAd() {
+        binding.apply {
+            btnCrossline.setOnClickListener {
+                clAnimator.removeAllViews()
             }
-        })
-    }
-    private fun showAd() {
-        binding.adImage.apply {
-            visibility = View.VISIBLE
-            animate()
-                .alpha(1.0f)
-                .translationX(400f) // x 좌표값으로 이동
-                .scaleX(1.0f)
-                .scaleY(1.0f)
-                .translationX(400f * dp) // x 좌표값으로 이동
-                .setDuration(300)
-                .start()
-            isAdVisible = true
+            val floatingAdAnimator = FloatingAdAnimator(clAnimator,500)
+            floatingAdAnimator.setFloatingAd(nestedScrollMain)
         }
-    }
-
-    private fun hideAd() {
-        binding.adImage.apply {
-            animate().alpha(0.0f)
-                .scaleX(0.0f)
-                .scaleY(0.0f)
-                .translationX(-400f) // x 좌표값으로 이동
-                .setDuration(300)
-                .translationX(-400f * dp)
-                .withEndAction {
-                    visibility = View.GONE
-                }.start()
-        }
-        isAdVisible = false
     }
 
     private fun setViewPager(webtoonList: ArrayList<Webtoon>) {
         binding.apply {
             vpTopSlideItem.apply {
                 myHandler = AutoScrollHandler(vpTopSlideItem)
+
                 val interval = 3000
                 myHandler.startAutoScroll(interval)
+
                 setPageTransformer { page, position ->
                     val pagePosition = position % adapter!!.itemCount
                     val realPosition =
@@ -136,7 +105,7 @@ class MainPageFragment : Fragment() {
                             }
                             val indicatorPosition = normalizedPosition % 7
                             Log.d("TAG", "onPageSelected: $indicatorPosition")
-                            binding.indicator.selectLine(indicatorPosition)
+                            indicator.selectLine(indicatorPosition)
                         } ?: Log.w("TAG", "Adapter is null")
                     }
 
@@ -155,7 +124,7 @@ class MainPageFragment : Fragment() {
                         }
                     }
                 })
-                binding.indicator.createLinePanel(
+                indicator.createLinePanel(
                     7,
                     R.drawable.indicator_line_off,
                     R.drawable.indicator_line_on,

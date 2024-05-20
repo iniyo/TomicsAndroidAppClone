@@ -7,7 +7,7 @@
     tools:context=".presentation.ui.fragment.MainPageFragment">
 
     <androidx.core.widget.NestedScrollView
-        android:id="@+id/nested_main"
+        android:id="@+id/nested_scroll_main"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         app:layout_behavior="@string/appbar_scrolling_view_behavior">
@@ -44,6 +44,7 @@
 
             </LinearLayout>
 
+            <!-- top slide item viewpager -->
             <androidx.viewpager2.widget.ViewPager2
                 android:id="@+id/vp_offscreen"
                 android:layout_width="match_parent"
@@ -52,6 +53,7 @@
                 android:layout_marginBottom="10dp"
                 android:nestedScrollingEnabled="false" />
 
+            <!-- main item recyclerview -->
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/rv_main_page"
                 android:layout_width="match_parent"
@@ -63,29 +65,36 @@
         </RelativeLayout>
     </androidx.core.widget.NestedScrollView>
 
-    <FrameLayout
-        android:id="@+id/ad_container"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+    <!-- animation ad container -->
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/cl_animator"
+        android:layout_width="200dp"
+        android:layout_height="200dp"
         android:layout_gravity="end|bottom"
-        android:layout_margin="16dp"
-        android:background="@android:color/white">
 
-        <!-- 여기에 애니메이션 적용할 광고 뷰를 추가 -->
+        android:layout_margin="16dp">
+
+        <ImageView
+            android:id="@+id/btn_crossline"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@android:color/transparent"
+            android:src="@drawable/ic_floating_cross_line"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
         <ImageView
             android:id="@+id/ad_image"
-            android:layout_width="50dp"
-            android:layout_height="50dp"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:background="@android:color/transparent"
             android:scaleType="fitXY"
-            android:src="@drawable/ic_advertisement"
-            android:background="@android:color/holo_orange_light"
-            android:visibility="gone"
-            android:alpha="0"
-            android:scaleX="0"
-            android:scaleY="0"
-            android:pivotX="100%"
-            android:pivotY="100%" />
+            android:src="@drawable/ic_ad_floating"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toStartOf="@id/btn_crossline"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/btn_crossline" />
 
-    </FrameLayout>
+    </androidx.constraintlayout.widget.ConstraintLayout>
 
 </androidx.coordinatorlayout.widget.CoordinatorLayout>
