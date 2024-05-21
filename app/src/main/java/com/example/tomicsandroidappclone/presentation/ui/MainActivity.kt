@@ -37,19 +37,14 @@ class MainActivity : AppCompatActivity() {
         setOnClick()
     }
 
-    /*private fun setViewDetail() {
-        // 문자열 내용 가져와서
-        val originalText = getString(R.string.notice)
-        // 마지막 글자 색상 변경
-        val spannableText = MyStringMapper().setLastCharacterColor(this, originalText, R.color.tomics_red)
-        binding.tvNotice.text = spannableText
-    }*/
-
     private fun setupDrawerActions() {
         binding.apply {
             ivDrawer.setOnClickListener {
                 if (dlMain.isDrawerOpen(GravityCompat.START)) dlMain.closeDrawer(GravityCompat.START)
                 else dlMain.openDrawer(GravityCompat.START)
+            }
+            activityDrawer.ivCloseDrawer.setOnClickListener{
+                dlMain.closeDrawer(GravityCompat.START)
             }
         }
     }

@@ -7,6 +7,9 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import androidx.paging.PagingData
 import androidx.paging.cachedIn
+import com.example.tomicsandroidappclone.data.database.ImageData
+import com.example.tomicsandroidappclone.data.database.WebtoonDao
+import com.example.tomicsandroidappclone.domain.model.ToonImage
 import com.example.tomicsandroidappclone.domain.model.Webtoon
 import com.example.tomicsandroidappclone.domain.usecase.GetToonByDayUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -22,13 +25,87 @@ import javax.inject.Inject
 @HiltViewModel
 class BaseViewModel @Inject constructor(
     private val getToonByDayUseCase: GetToonByDayUseCase,
+    private val webtoonDao: WebtoonDao  // DAO 주입
 ) : ViewModel() {
     private val _pagingData = MutableStateFlow<Flow<PagingData<Webtoon>>?>(null)
     val pagingData: StateFlow<Flow<PagingData<Webtoon>>?> = _pagingData.asStateFlow()
 
     private val _webtoonsInfo = MutableLiveData<ArrayList<Webtoon>>()
     val webtoonsInfo: LiveData<ArrayList<Webtoon>> = _webtoonsInfo
+    private var cachedPagingData: Flow<PagingData<Webtoon>>? = null
 
+    init {
+        Log.d("TAG", "BaseViewModel - init ")
+        // api data - not paging
+        fetchWebtoons()
+        // room data
+        clearAndInsertInitialAdImages()
+    }
+
+    /**
+     * room database
+     */
+    // LiveData to hold the images
+    private val _topAdImages = MutableLiveData<List<ToonImage>>()
+    val topAdImages: LiveData<List<ToonImage>> = _topAdImages
+
+    private val _popularityToonImages = MutableLiveData<List<ToonImage>>()
+    val popularityToonImages: LiveData<List<ToonImage>> = _popularityToonImages
+
+    private val _footerAdImages = MutableLiveData<List<ToonImage>>()
+    val footerAdImages: LiveData<List<ToonImage>> = _footerAdImages
+
+    // 기존 데이터를 삭제하고, 새로운 데이터를 삽입하는 함수
+    private fun clearAndInsertInitialAdImages() {
+        viewModelScope.launch(Dispatchers.IO) {
+            try {
+                // 모든 카테고리의 데이터를 삭제
+                webtoonDao.deleteAllImages()
+
+                // 고유한 이미지 리소스 ID를 추적하는 집합
+                val uniqueImageMap = mutableMapOf<Pair<Int, String>, ToonImage>()
+
+                // 새로운 데이터 삽입
+                ImageData.categoryImagesMap.forEach { (category, images) ->
+                    images.forEach { imageResId ->
+                        val toonImage = ToonImage(imageResId = imageResId, category = category)
+                        uniqueImageMap[Pair(imageResId, category)] = toonImage
+                    }
+                }
+
+                // 중복 제거 후 삽입
+                val uniqueImages = uniqueImageMap.values.toList()
+                webtoonDao.insertAll(uniqueImages)
+                Log.d("TAG", "Inserted ${uniqueImages.size} unique images")
+            } catch (e: Exception) {
+                Log.e("TAG", "clearAndInsertInitialAdImages error: ${e.message}")
+            }
+        }
+    }
+
+    // 특정 카테고리의 이미지 데이터를 불러오는 함수
+    fun loadAdImages(category: String) {
+        viewModelScope.launch {
+            try {
+                val images = withContext(Dispatchers.IO) {
+                    webtoonDao.getImagesByCategory(category)
+                }.distinctBy { it.imageResId } // 중복 이미지 제거
+
+                Log.d("TAG", "Loaded ${images.size} images for category $category")
+                when (category) {
+                    "topAdImages" -> _topAdImages.postValue(images)
+                    "popularityToonImages" -> _popularityToonImages.postValue(images)
+                    "footerAdImages" -> _footerAdImages.postValue(images)
+                }
+            } catch (e: Exception) {
+                Log.e("TAG", "loadAdImages error: ${e.message}")
+            }
+        }
+    }
+
+    /**
+     *
+     */
     fun getSelectDayWebtoon(today: String) {
         viewModelScope.launch {
             try {
@@ -41,11 +118,7 @@ class BaseViewModel @Inject constructor(
             }
         }
     }
-    init {
-        Log.d("TAG", "BaseViewModel - init ")
-        fetchWebtoons()
-    }
-    private var cachedPagingData: Flow<PagingData<Webtoon>>? = null
+
     fun loadWebtoonData(today: String) {
         viewModelScope.launch(Dispatchers.IO) {
             try {
@@ -63,16 +136,10 @@ class BaseViewModel @Inject constructor(
             }
         }
     }
-    private fun fetchWebtoons() {
-        // 코루틴 - 멀티 스레드와 비슷함. 차이점 있음. (둘 다 동시성 프로그래밍)
-        // 1. 스레드와 달리 특정 스레드에 종속되지 않음. 객체로 존재함.
-        // 2. 스레드는 독립적인 stack 메모리 영역을 가지는 반면 코루틴은 object로 힙 영역에 할당 됨.
-        // 3. 같은 스레드에서 사용되는 각 코루틴은 동시에 수행될 수 있다. 즉 하나의 스레드는 여러 코루틴을 수행할 수 있다.
-        // 4. 코루틴은 스레드를 더 잘개 쪼개어 사용하기 위한 방법으로 context switching을 걱정할 필요가 없다. (Light-weight Thread)
 
+    private fun fetchWebtoons() {
         Log.d("TAG", "fetchWebtoons 실행 : ")
         viewModelScope.launch {
-            // !!!!! kakao를 제외한 naver, kakaoPage에는 접근이 불가. URl 권한 문제 때문으로 추정 나중에 정리하면서 문제 알아보기
             val toonResponseResult = getToonByDayUseCase
             withContext(Dispatchers.Main) {
                 _webtoonsInfo.value = toonResponseResult()

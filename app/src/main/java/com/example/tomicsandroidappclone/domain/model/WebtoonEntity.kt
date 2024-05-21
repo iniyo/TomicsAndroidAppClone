@@ -2,7 +2,12 @@ package com.example.tomicsandroidappclone.domain.model
 
 import androidx.room.Entity
 import androidx.room.PrimaryKey
-
+@Entity(tableName = "toon_images")
+data class ToonImage(
+    @PrimaryKey(autoGenerate = true) val id: Int = 0,
+    val imageResId: Int,
+    val category: String
+)
 data class ToonResponse(
     val totalWebtoonCount: Int,
     val naverWebtoonCount: Int,
@@ -27,8 +32,8 @@ data class Webtoon(
     val fanCount: Int?,
     val searchKeyword: String,
     val additional: Additional,
-    val tagList: Tag?,
     // 이후로는 추가
+    val tagList: Tag?,
     val category: String
 )
 

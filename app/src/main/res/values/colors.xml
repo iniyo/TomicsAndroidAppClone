@@ -4,7 +4,12 @@
     <color name="white">#FFFFFFFF</color>
     <color name="dark_gray">#C6C6C6</color>
     <color name="light_gray">#FBF7F7</color>
+    <color name="tomics_label_icon">#2E8FE7</color>
+    <color name="tomics_dark_gray">#424242</color>
+    <color name="tomics_light_gray">#DFDFDF</color>
     <color name="tomics_red">#D84634</color>
-    <color name="tomics_gray">#D8D7D7</color>
+    <color name="tomics_gray">#F8F8F8</color>
+    <color name="tomics_sky_blue">#EBF4FD</color>
+    <color name="tomics_dark_sky_blue">#57A5EC</color>
     <color name="tomics_default_tag_color">#177FDA</color>
 </resources>

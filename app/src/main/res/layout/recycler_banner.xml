@@ -1,87 +1,105 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/cl_banner_container"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content">
+    android:paddingHorizontal="10dp"
+    android:layout_height="30dp">
 
-    <LinearLayout
-        android:id="@+id/linear_container"
-        android:layout_width="match_parent"
-        android:layout_height="30dp"
-        android:gravity="center_vertical"
-        android:paddingHorizontal="10dp"
+    <TextView
+        android:id="@+id/tv_label"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:background="@drawable/ic_shape_label"
+        android:gravity="center"
+        android:paddingHorizontal="5dp"
+        android:paddingVertical="2dp"
+        android:text="@string/best"
+        android:textColor="@color/tomics_label_icon"
+        android:textSize="10sp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintHorizontal_bias="0"
         app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:ignore="SmallSp" />
+
+    <TextView
+        android:id="@+id/tv_tag"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="3dp"
+        android:gravity="center"
+        android:text="@string/tag"
+        android:textColor="@color/black"
+        android:textSize="17sp"
+        android:textStyle="bold"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/tv_label"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/guideline_vertical_right"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        app:layout_constraintGuide_percent="0.6" />
+
+    <TextView
+        android:id="@+id/tv_see_more"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:background="@drawable/text_background_shape_more_toon"
+        android:paddingHorizontal="10dp"
+        android:paddingVertical="5dp"
+        android:text="@string/see_more"
+        android:textColor="@color/black"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <RadioGroup
+        android:id="@+id/rg_selector"
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        android:background="@color/white"
+        android:gravity="start"
+        android:visibility="gone"
+        android:orientation="horizontal"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/guideline_vertical_right"
         app:layout_constraintTop_toTopOf="parent">
 
-        <ImageView
-            android:id="@+id/iv_tag"
-            android:layout_width="30dp"
-            android:layout_height="20dp"
-            android:layout_marginEnd="7dp"
-            android:gravity="center"
-            android:importantForAccessibility="no"
-            android:scaleType="fitXY"
-            android:src="@drawable/ic_hot_27x16" />
-
-        <TextView
-            android:id="@+id/tv_tag"
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent"
-            android:gravity="center"
-            android:text="@string/tag"
-            android:textColor="@color/black"
-            android:textSize="17sp"
-            android:textStyle="bold" />
-
-        <View
-            android:layout_width="0dp"
-            android:layout_height="0dp"
-            android:layout_weight="1" />
-
-        <TextView
-            android:id="@+id/tv_see_more"
+        <androidx.appcompat.widget.AppCompatRadioButton
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:background="@drawable/text_background_shape_more_toon"
-            android:paddingHorizontal="5dp"
-            android:paddingVertical="5dp"
-            android:text="@string/see_more"
-            android:textColor="@color/black" />
+            android:background="@drawable/selector_popularity_btn_back_img"
+            android:button="@null"
+            android:gravity="center"
+            android:text="@string/real_time"
+            android:textColor="@drawable/selector_popularity_btn_back_text" />
 
-        <RadioGroup
-            android:id="@+id/rg_selector"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:background="@color/white"
-            android:gravity="start"
-            android:visibility="gone"
-            android:orientation="horizontal"
-            android:paddingVertical="10dp"
-            app:layout_collapseMode="pin">
+        <androidx.appcompat.widget.AppCompatRadioButton
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:background="@drawable/selector_popularity_btn_back_img"
+            android:button="@null"
+            android:gravity="center"
+            android:text="@string/new_toon"
+            android:textColor="@drawable/selector_popularity_btn_back_text" />
 
-            <androidx.appcompat.widget.AppCompatRadioButton
-                android:layout_width="wrap_content"
-                android:layout_height="20dp"
-                android:layout_marginStart="20dp"
-                android:layout_marginEnd="12dp"
-                android:background="@drawable/selector_popularity_btn_back_img"
-                android:button="@null" />
+        <androidx.appcompat.widget.AppCompatRadioButton
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:background="@drawable/selector_popularity_btn_back_img"
+            android:button="@null"
+            android:gravity="center"
+            android:text="@string/ended_webtoon"
+            android:textColor="@drawable/selector_popularity_btn_back_text" />
 
-            <androidx.appcompat.widget.AppCompatRadioButton
-                android:layout_width="wrap_content"
-                android:layout_height="20dp"
-                android:layout_marginEnd="12dp"
-                android:background="@drawable/selector_popularity_btn_back_img"
-                android:button="@null" />
-
-            <androidx.appcompat.widget.AppCompatRadioButton
-                android:layout_width="wrap_content"
-                android:layout_height="20dp"
-                android:background="@drawable/selector_popularity_btn_back_img"
-                android:button="@null" />
-
-        </RadioGroup>
-
-    </LinearLayout>
+    </RadioGroup>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

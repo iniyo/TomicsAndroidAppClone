@@ -12,59 +12,68 @@ import com.example.tomicsandroidappclone.databinding.DefaultToonItemsBinding
 import com.example.tomicsandroidappclone.domain.model.Webtoon
 import com.example.tomicsandroidappclone.presentation.util.mapper.MyGraphicMapper
 
-
 class RecyclerDefaultToonAdapter(
     private val webtoonList: ArrayList<Webtoon>,
     private val toonType: Int
 ) : ListAdapter<Webtoon, RecyclerDefaultToonAdapter.ViewHolder>(ItemCallback()) {
     private lateinit var mapper: MyGraphicMapper
-
+    private val adImages = listOf(
+        R.drawable.ic_footer_ad_1,
+        R.drawable.ic_footer_ad_2,
+        R.drawable.ic_footer_ad_3,
+        R.drawable.ic_footer_ad_4
+    )
     init {
-        setHasStableIds(true) // 각 아이템 position에 지정된 id를 기준으로 상황에 따라 bind호출을 제외.
+        setHasStableIds(true)
     }
 
     override fun getItemId(position: Int): Long = position.toLong()
+
     inner class ViewHolder(val binding: DefaultToonItemsBinding) :
         RecyclerView.ViewHolder(binding.root) {
-        fun bind(webtoon: Webtoon) {
+        fun bind(webtoon: Webtoon, adImageRes: Int?) {
             mapper = MyGraphicMapper()
             Log.d("size TAG", "size: $toonType ")
             var dpHeight = 800
             var dpWidth = 600
             binding.apply {
                 when (toonType) {
-
-                    // default
-                    0 -> {
-                        ivToonImg.layoutParams.height = mapper.px2dp(dpHeight)
-                        rlDefaultToonSize.layoutParams.width = mapper.px2dp(dpWidth)
-                    }
-                    // big size
                     1 -> {
                         dpHeight = 1100
                         dpWidth = 900
-                        ivToonImg.layoutParams.height = mapper.px2dp(dpHeight)
-                        rlDefaultToonSize.layoutParams.width = mapper.px2dp(dpWidth)
                     }
-                    // middle size
                     2 -> {
                         dpHeight = 900
                         dpWidth = 900
-                        ivToonImg.layoutParams.height = mapper.px2dp(dpHeight)
-                        rlDefaultToonSize.layoutParams.width = mapper.px2dp(dpWidth)
                     }
-                    // foot - ad long size banner
-                    3 -> {
-                        dpHeight = 1100
-                        dpWidth = 3000
-                        ivToonImg.layoutParams.height = mapper.px2dp(dpHeight)
-                        rlDefaultToonSize.layoutParams.width = mapper.px2dp(dpWidth)
+                    4 -> {
+                        dpHeight = 900
+                        dpWidth = 630
+                    }
+                    6 -> {
+                        rlDefaultToonSize.removeView(tvToonTitle)
+                        rlDefaultToonSize.removeView(tvEpisodes)
+                        dpHeight = 800
+                        dpWidth = 1300
+                    }
+                    else -> {
+                        dpHeight = 800
+                        dpWidth = 600
                     }
                 }
-                if (webtoon.additional.up) {
+                ivToonImg.layoutParams.height = mapper.px2dp(dpHeight)
+                rlDefaultToonSize.layoutParams.width = mapper.px2dp(dpWidth)
+
+                if (webtoon.additional.up && toonType != 6) {
                     Glide.with(root.context)
                         .load(webtoon.img)
-                        .placeholder(R.drawable.ic_launcher_foreground) // image 로드를 못 했을 경우
+                        .placeholder(R.drawable.ic_launcher_foreground)
+                        .into(ivToonImg)
+                    tvToonTitle.text = webtoon.title
+                } else if (toonType == 6 && adImageRes != null) {
+                    Glide.with(root.context)
+                        .load(adImageRes)
+                        .placeholder(R.drawable.ic_launcher_foreground)
                         .into(ivToonImg)
                     tvToonTitle.text = webtoon.title
                 }
@@ -72,10 +81,7 @@ class RecyclerDefaultToonAdapter(
         }
     }
 
-    override fun onCreateViewHolder(
-        parent: ViewGroup,
-        viewType: Int
-    ): ViewHolder {
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         val binding = DefaultToonItemsBinding.inflate(
             LayoutInflater.from(parent.context),
             parent,
@@ -85,8 +91,19 @@ class RecyclerDefaultToonAdapter(
     }
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
-        webtoonList[position].let {
-            if(it.img.isNotEmpty()) holder.bind(it)
+        val webtoon = webtoonList[position]
+        if (toonType == 6 && position < adImages.size) {
+            holder.bind(webtoon, adImages[position])
+        } else {
+            holder.bind(webtoon, null)
+        }
+    }
+
+    override fun getItemCount(): Int {
+        return if (toonType == 6) {
+            minOf(webtoonList.size, adImages.size)
+        } else {
+            webtoonList.size
         }
     }
 
@@ -102,9 +119,6 @@ class RecyclerDefaultToonAdapter(
 
     override fun onViewDetachedFromWindow(holder: RecyclerDefaultToonAdapter.ViewHolder) {
         super.onViewDetachedFromWindow(holder)
-        Glide.with(holder.itemView.context)
-            .clear(holder.itemView)
+        Glide.with(holder.itemView.context).clear(holder.itemView)
     }
-
-    override fun getItemCount(): Int = webtoonList.size
 }

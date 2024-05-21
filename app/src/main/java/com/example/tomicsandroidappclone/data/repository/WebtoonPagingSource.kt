@@ -8,14 +8,16 @@ import com.example.tomicsandroidappclone.domain.model.Webtoon
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 
-// 참고 사이트 : https://leveloper.tistory.com/202
 class WebtoonPagingSource(
     private val api: WebtoonApi,
     private var category: String? = null
 ) : PagingSource<Int, Webtoon>() {
 
+    private val seenWebtoons = HashSet<String>()
+
     fun dataSetting(category: String) {
         this.category = category
+        seenWebtoons.clear() // 카테고리 변경 시 중복 웹툰 초기화
     }
 
     override suspend fun load(params: LoadParams<Int>): LoadResult<Int, Webtoon> {
@@ -32,8 +34,11 @@ class WebtoonPagingSource(
                 }
             }
 
-            val webtoons =
-                response.webtoons.filter { it.img.isNotEmpty() }.distinctBy { it.webtoonId }
+            val webtoons = response.webtoons
+                .filter { it.img.isNotEmpty() }
+                .distinctBy { it.webtoonId }
+                .filter { seenWebtoons.add(it.webtoonId.toString()) } // HashSet에 추가되지 않은 항목만 추가
+
             val endOfPaginationReached = webtoons.isEmpty()
 
             LoadResult.Page(

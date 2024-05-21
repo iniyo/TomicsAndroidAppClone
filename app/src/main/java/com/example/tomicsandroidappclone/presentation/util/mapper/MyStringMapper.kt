@@ -5,7 +5,7 @@ import android.text.SpannableString
 import android.text.style.ForegroundColorSpan
 import com.example.tomicsandroidappclone.R
 
-class MyStringMapper {
+object MyStringMapper {
     fun getTitleTabItemArray(tabItem: String, context: Context): Array<String>? {
         val arrayString = when (tabItem) {
             "나만무료" -> context.resources.getStringArray(R.array.free_webtoon_tab_items)

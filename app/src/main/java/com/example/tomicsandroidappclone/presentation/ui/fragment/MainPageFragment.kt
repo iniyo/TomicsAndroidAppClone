@@ -5,13 +5,9 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.view.animation.OvershootInterpolator
-import android.widget.ImageButton
-import androidx.core.widget.NestedScrollView
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
-import androidx.recyclerview.widget.RecyclerView
 import androidx.viewpager2.widget.ViewPager2
 import com.example.tomicsandroidappclone.R
 import com.example.tomicsandroidappclone.databinding.FragmentMainPageBinding
@@ -23,8 +19,6 @@ import com.example.tomicsandroidappclone.presentation.ui.viewmodel.BaseViewModel
 import com.example.tomicsandroidappclone.presentation.util.handler.AutoScrollHandler
 import com.example.tomicsandroidappclone.presentation.util.mapper.FloatingAdAnimator
 import com.example.tomicsandroidappclone.presentation.util.mapper.MyGraphicMapper
-import com.google.android.material.bottomsheet.BottomSheetBehavior
-import com.google.android.material.floatingactionbutton.FloatingActionButton
 import dagger.hilt.android.AndroidEntryPoint
 import kotlin.math.absoluteValue
 
@@ -40,7 +34,7 @@ class MainPageFragment : Fragment() {
     ): View {
         Log.d("TAG", "main fragment onCreateView 실행")
         binding = FragmentMainPageBinding.inflate(inflater, container, false)
-        binding.incluedLayoutBanner.linearContainer.visibility = View.GONE
+        binding.incluedLayoutBanner.clBannerContainer.visibility = View.GONE
         return try {
             setAdapter()
             setFloatingAd()
@@ -86,71 +80,86 @@ class MainPageFragment : Fragment() {
                         if (pagePosition < 0) pagePosition + adapter!!.itemCount else pagePosition
                     page.tag = realPosition
                 }
-                registerOnPageChangeCallback(object :
-                    ViewPager2.OnPageChangeCallback() {
-                    override fun onPageSelected(position: Int) {
-                        adapter?.let { adapter ->
-                            val itemCount = adapter.itemCount
-                            val pagePosition = position - (Int.MAX_VALUE / 2)
-                            Log.d("TAG", "position: $position")
-                            val normalizedPosition = if (pagePosition >= 0) {
-                                Log.d("TAG", "true: $pagePosition")
-                                pagePosition
-                            } else {
-                                Log.d(
-                                    "TAG",
-                                    "false: ${itemCount - (pagePosition.absoluteValue + 1)}"
-                                )
-                                itemCount - (pagePosition.absoluteValue.inc())
-                            }
-                            val indicatorPosition = normalizedPosition % 7
-                            Log.d("TAG", "onPageSelected: $indicatorPosition")
-                            indicator.selectLine(indicatorPosition)
-                        } ?: Log.w("TAG", "Adapter is null")
-                    }
-
-                    override fun onPageScrollStateChanged(state: Int) {
-                        super.onPageScrollStateChanged(state)
-                        when (state) {
-                            ViewPager2.SCROLL_STATE_IDLE -> {
-                                myHandler.startAutoScroll(interval)
-                            }
-
-                            ViewPager2.SCROLL_STATE_DRAGGING -> {
-                                myHandler.stopAutoScroll()
-                            }
-
-                            else -> Log.d("TAG", "pageScrollState 예외 상태")
+                viewModel.loadAdImages("topAdImages")
+                viewModel.topAdImages.observe(viewLifecycleOwner) { images ->
+                    registerOnPageChangeCallback(object :
+                        ViewPager2.OnPageChangeCallback() {
+                        override fun onPageSelected(position: Int) {
+                            adapter?.let { adapter ->
+                                val itemCount = adapter.itemCount
+                                val pagePosition = position - (Int.MAX_VALUE / 2)
+                                Log.d("TAG", "position: $position")
+                                val normalizedPosition = if (pagePosition >= 0) {
+                                    Log.d("TAG", "true: $pagePosition")
+                                    pagePosition
+                                } else {
+                                    Log.d(
+                                        "TAG",
+                                        "false: ${itemCount - (pagePosition.absoluteValue + 1)}"
+                                    )
+                                    itemCount - (pagePosition.absoluteValue.inc())
+                                }
+                                val indicatorPosition = normalizedPosition % images.size
+                                Log.d("TAG", "onPageSelected: $indicatorPosition")
+                                indicator.selectLine(indicatorPosition)
+                            } ?: Log.w("TAG", "Adapter is null")
                         }
-                    }
-                })
-                indicator.createLinePanel(
-                    7,
-                    R.drawable.indicator_line_off,
-                    R.drawable.indicator_line_on,
-                    0
-                )
-                adapter = ViewPagerTopSlideAdapter(webtoonList)
 
+                        override fun onPageScrollStateChanged(state: Int) {
+                            super.onPageScrollStateChanged(state)
+                            when (state) {
+                                ViewPager2.SCROLL_STATE_IDLE -> {
+                                    myHandler.startAutoScroll(interval)
+                                }
+
+                                ViewPager2.SCROLL_STATE_DRAGGING -> {
+                                    myHandler.stopAutoScroll()
+                                }
+
+                                else -> Log.d("TAG", "pageScrollState 예외 상태")
+                            }
+                        }
+                    })
+
+                    indicator.createLinePanel(
+                        images.size,
+                        R.drawable.indicator_line_off,
+                        R.drawable.indicator_line_on,
+                        0
+                    )
+                    adapter = ViewPagerTopSlideAdapter(images.map { it.imageResId })
+                }
             }
-            vpOffscreen.apply {
-                incluedLayoutBanner.apply {
-                    rgSelector.visibility = View.VISIBLE
-                    linearContainer.apply {
-                        visibility = View.VISIBLE
-                        removeView(incluedLayoutBanner.tvSeeMore)
+
+            viewModel.loadAdImages("popularityToonImages")
+            viewModel.popularityToonImages.observe(viewLifecycleOwner) { images ->
+
+                vpOffscreen.apply {
+                    incluedLayoutBanner.apply {
+                        rgSelector.apply {
+                            visibility = View.VISIBLE
+                            check(getChildAt(0).id) // 첫 번째 아이템 선택 상태로
+                            setOnCheckedChangeListener { radioGroup, _ ->
+
+                            }
+                        }
+                        clBannerContainer.apply {
+                            visibility = View.VISIBLE
+                            removeView(incluedLayoutBanner.tvSeeMore)
+                        }
+                        tvTag.text = resources.getStringArray(R.array.banner_items)[0]
                     }
-                    tvTag.text = resources.getStringArray(R.array.banner_items)[0]
+                    isNestedScrollingEnabled = false
+                    clipToPadding = false
+                    clipChildren = false
+                    setPageTransformer { page, position ->
+                        val offsetPx = MyGraphicMapper().offsetPx(requireContext())
+                        page.translationX = position * offsetPx
+                    }
+                    adapter = ViewPagerDefaultToonAdapter(0, 10, null, webtoonList, images.map { it.imageResId })
+                    orientation = ViewPager2.ORIENTATION_HORIZONTAL
+                    offscreenPageLimit = 1
                 }
-                clipToPadding = false
-                clipChildren = false
-                setPageTransformer { page, position ->
-                    val offsetPx = MyGraphicMapper().offsetPx(requireContext())
-                    page.translationX = position * offsetPx
-                }
-                adapter = ViewPagerDefaultToonAdapter(0, 10, null, webtoonList)
-                orientation = ViewPager2.ORIENTATION_HORIZONTAL
-                offscreenPageLimit = 1
             }
         }
     }
@@ -162,6 +171,7 @@ class MainPageFragment : Fragment() {
             adapter = mainRecyclerAdapter
             layoutManager = LinearLayoutManager(binding.root.context)
             setItemViewCacheSize(6)
+            isNestedScrollingEnabled = false
         }
     }
 

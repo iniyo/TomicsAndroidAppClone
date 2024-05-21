@@ -51,10 +51,10 @@ class ViewPagerTabAdapter(
 
                 if (checkType == 1) {
                     ivToonImg.layoutParams.height = (dpWidth * 1.1).toInt()
-                    rlDefaultToonSize.layoutParams.width = dpWidth
+                    rlDefaultToonSize.layoutParams.width = (dpWidth * 0.96).toInt()
                 } else {
                     ivToonImg.layoutParams.height = (dpWidth * 1.4).toInt()
-                    rlDefaultToonSize.layoutParams.width = dpWidth
+                    rlDefaultToonSize.layoutParams.width = (dpWidth * 0.96).toInt()
                 }
 
                 Glide.with(root.context)

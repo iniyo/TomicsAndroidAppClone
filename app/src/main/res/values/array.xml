@@ -62,5 +62,25 @@
         <item> 맞춤 태그 </item>
         <item> 장르별 순위 </item>
         <item> 1코인 할인 웹툰 </item>
+        <item> #판타지, 상상을 초월하는 이세계! </item>
+        <item> #완결작, 각잡고 정주행 해볼까요?! </item>
+        <item> #무협, 무림 고수들이 여기 다 모였다! </item>
+        <item> #인기 급상승, 놓치지 말고 지금 GO! </item>
+        <item> 투믹스 띵작 추천 </item>
+        <item> #핵꿀잼, 한 번 보면 빠질 수밖에 없어요! </item>
+        <item> #액션, 여기가 진짜 남자들의 세계다! </item>
+        <item> 이벤트 </item>
+    </string-array>
+    <string-array name="banner_items_detail">
+        <item> 지금 단 1코인에 감상 가능한 작품들! </item>
+        <item> Only 투믹스! 퀄리티 좋은 독점작들! </item>
+    </string-array>
+    <string-array name="label_tag">
+        <item> BEST </item>
+        <item> UP </item>
+        <item> NEW </item>
+        <item> HOT </item>
+        <item> #TAG </item>
+        <item> NO.1 </item>
     </string-array>
 </resources>

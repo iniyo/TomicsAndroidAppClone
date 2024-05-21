@@ -1,8 +1,6 @@
 package com.example.tomicsandroidappclone.presentation.util.mapper
-import android.R
 import android.app.Dialog
 import android.content.Context
-import android.view.LayoutInflater
 import android.view.Window
 import com.example.tomicsandroidappclone.databinding.DialogProgressBinding
 

@@ -36,7 +36,7 @@
                 android:id="@+id/tl_free_webtoon_fragment"
                 android:layout_width="match_parent"
                 android:layout_height="50dp"
-                android:background="@drawable/free_toon_radio_group_background"
+                android:background="@color/light_gray"
                 app:elevation="30dp"
                 app:layout_collapseMode="pin"
                 app:tabIndicatorHeight="0dp"

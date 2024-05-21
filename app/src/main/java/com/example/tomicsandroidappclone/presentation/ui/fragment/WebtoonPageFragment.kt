@@ -1,7 +1,6 @@
 package com.example.tomicsandroidappclone.presentation.ui.fragment
 
 import android.os.Bundle
-import android.util.DisplayMetrics
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
@@ -55,14 +54,6 @@ class WebtoonPageFragment : Fragment() {
     }
     companion object {
         private const val ARG_PARAM1 = "tab"
-
-        @JvmStatic
-        fun newInstance(tab: String) =
-            WebtoonPageFragment().apply {
-                arguments = Bundle().apply {
-                    putString(ARG_PARAM1, tab)
-                }
-            }
     }
 
     private fun init() {
@@ -73,7 +64,7 @@ class WebtoonPageFragment : Fragment() {
     private fun setTab() {
         binding.apply {
             mEsayController = MyEasyTapControllHandler(tlFreeWebtoonFragment)
-            val tabItems = context?.let { MyStringMapper().getTitleTabItemArray(titleTabText, it) }
+            val tabItems = context?.let { MyStringMapper.getTitleTabItemArray(titleTabText, it) }
             if (titleTabText == "나만무료") tabItems?.let { mEsayController.addTabs(it, true) }
             else tabItems?.let { mEsayController.addTabs(it) }
             userSelected()
@@ -114,12 +105,11 @@ class WebtoonPageFragment : Fragment() {
                 rgMain.visibility = RadioGroup.GONE
             } else {
                 vSpace.visibility = View.GONE
-                rgMain.apply {
-                    check(0)
+                /*rgMain.apply {
                     setOnCheckedChangeListener { radioGroup, _ ->
 
                     }
-                }
+                }*/
             }
         }
     }
@@ -140,7 +130,7 @@ class WebtoonPageFragment : Fragment() {
         }
 
         val tabAdapter = ViewPagerTabAdapter(int)
-        val tabItems = context?.let { MyStringMapper().getTitleTabItemArray(titleTabText, it) }
+        val tabItems = context?.let { MyStringMapper.getTitleTabItemArray(titleTabText, it) }
         binding.vpWebtoonPage.apply {
             adapter = ViewPagerDefaultToonAdapter(int, tabItems!!.size, tabAdapter)
             orientation = ViewPager2.ORIENTATION_HORIZONTAL
@@ -166,7 +156,7 @@ class WebtoonPageFragment : Fragment() {
             throw NullPointerException("Invalid tab position")
         }
         if (titleTabText == "연재"){
-            detailTabText = MyStringMapper().getDayForKor2Eng(tab.text.toString())
+            detailTabText = MyStringMapper.getDayForKor2Eng(tab.text.toString())
             Log.d("TAG", "handleTabSelection 연재: $detailTabText")
             userSelected()
         }else {

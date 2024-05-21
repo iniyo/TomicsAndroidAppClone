@@ -11,7 +11,8 @@ import com.example.tomicsandroidappclone.databinding.PopularityToonItemsSubBindi
 import com.example.tomicsandroidappclone.domain.model.Webtoon
 
 class ViewPagerSubListItemsAdapter(
-    private val webtoonList: List<Webtoon>
+    private val webtoonList: List<Webtoon>,
+    private val imgList: List<Int>
 ) : RecyclerView.Adapter<ViewPagerSubListItemsAdapter.ViewHolder>() {
     init {
         setHasStableIds(true) // 각 아이템 position에 지정된 id를 기준으로 상황에 따라 bind호출을 제외.
@@ -20,19 +21,18 @@ class ViewPagerSubListItemsAdapter(
     override fun getItemId(position: Int): Long = position.toLong()
     inner class ViewHolder(val binding: PopularityToonItemsSubBinding) :
         RecyclerView.ViewHolder(binding.root) {
-        fun bind(webtoon: Webtoon, position: Int) {
+        fun bind(webtoon: Webtoon, position: Int, img: Int) {
 
             binding.run {
-                /*llTopContainer.setOnClickListener {
+                llTopContainer.setOnClickListener {
                     val intent = Intent(Intent.ACTION_VIEW, Uri.parse(webtoon.url))
                     root.context.startActivity(intent)
-                }*/
+                }
                 tvAuthor.text = webtoon.author
                 tvToonRank.text = position.inc().toString()
                 tvToonName.text = webtoon.title
                 Glide.with(root.context)
-                    .load(webtoon.img)
-                    .skipMemoryCache(false) // cache 사용 x
+                    .load(img)
                     .centerInside()
                     .placeholder(R.drawable.ic_launcher_foreground) // image 로드를 못 했을 경우
                     .into(ivPopularity)
@@ -59,7 +59,8 @@ class ViewPagerSubListItemsAdapter(
     }
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
-        holder.bind(webtoonList[position], position)
+
+        holder.bind(webtoonList[position], position, imgList[position])
     }
 
     override fun getItemCount(): Int {

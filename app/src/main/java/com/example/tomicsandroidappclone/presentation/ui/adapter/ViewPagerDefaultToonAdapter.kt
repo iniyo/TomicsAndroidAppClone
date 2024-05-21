@@ -3,20 +3,19 @@ package com.example.tomicsandroidappclone.presentation.ui.adapter
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.ViewGroup
-import androidx.paging.PagingData
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.tomicsandroidappclone.databinding.PopularityToonItemsBinding
 import com.example.tomicsandroidappclone.domain.model.Webtoon
-import com.example.tomicsandroidappclone.presentation.util.adapter.MyGridSpaceItemDecoration
-import com.example.tomicsandroidappclone.presentation.util.mapper.MyGraphicMapper
+import com.example.tomicsandroidappclone.presentation.util.adapter.MyGridSpacingItemDecoration
 
 class ViewPagerDefaultToonAdapter(
     private val checkType: Int,
     private val getSize: Int,
     private var viewPagerTabAdapter: ViewPagerTabAdapter? = null,
-    private val webtoonList: ArrayList<Webtoon>? = null
+    private val webtoonList: ArrayList<Webtoon>? = null,
+    private val imgList: List<Int> = emptyList()
 ) : RecyclerView.Adapter<ViewPagerDefaultToonAdapter.ViewHolder>() {
 
     // recyclerViewPool
@@ -44,10 +43,12 @@ class ViewPagerDefaultToonAdapter(
                         recycleChildrenOnDetach = true
                     }
                     adapter = when (checkType) {
-                        0 -> ViewPagerSubListItemsAdapter(webtoonList!!)
+                        0 -> ViewPagerSubListItemsAdapter(webtoonList!!, imgList)
                         else -> viewPagerTabAdapter
                     }
-                    addItemDecoration(MyGridSpaceItemDecoration(3, space = 20))
+                    if(checkType != 0){
+                        addItemDecoration(MyGridSpacingItemDecoration(3, spacing = 10))
+                    }
                     setRecycledViewPool(recyclerViewPool)
                 }.scrollToPosition(0) // 데이터 로드 후 최상단으로 위치
             }catch (e:Exception){

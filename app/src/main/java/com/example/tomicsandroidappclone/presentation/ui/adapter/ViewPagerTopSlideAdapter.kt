@@ -1,7 +1,5 @@
 package com.example.tomicsandroidappclone.presentation.ui.adapter
 
-import android.content.Intent
-import android.net.Uri
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.DiffUtil
@@ -13,7 +11,7 @@ import com.example.tomicsandroidappclone.databinding.TopToonItemsBinding
 import com.example.tomicsandroidappclone.domain.model.Webtoon
 
 class ViewPagerTopSlideAdapter(
-    private val webtoonList: List<Webtoon>
+    private val imgList: List<Int>
 ) : ListAdapter<Webtoon, ViewPagerTopSlideAdapter.ViewHolder>(diffCallback) {
     init {
         setHasStableIds(true) // 각 아이템 position에 지정된 id를 기준으로 상황에 따라 bind호출을 제외.
@@ -27,7 +25,7 @@ class ViewPagerTopSlideAdapter(
     }
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
-        holder.bind(webtoonList[position % webtoonList.size])
+        holder.bind(imgList[position % imgList.size])
     }
 
     override fun onAttachedToRecyclerView(recyclerView: RecyclerView) {
@@ -40,20 +38,20 @@ class ViewPagerTopSlideAdapter(
     // 참고 사이트 :
     class ViewHolder(private val binding: TopToonItemsBinding) :
         RecyclerView.ViewHolder(binding.root) {
-        fun bind(webtoon: Webtoon) {
+        fun bind(img: Int) {
 
             binding.apply {
                 Glide.with(root.context)
-                    .load(webtoon.img)
+                    .load(img)
                     .skipMemoryCache(false) // cache 사용 x, 특별한 경우(데이터가 워낙 많은 경우)에만 사용.
                     .centerInside() // 이미지 사이즈만 재조정, 직접 재조정하는 방법이 좀 더 빠름.
                     .placeholder(R.drawable.ic_launcher_foreground) // image 로드를 못 했을 경우
                     .into(ivWebtoon)
 
-                ivWebtoon.setOnClickListener {
+                /*ivWebtoon.setOnClickListener {
                     val intent = Intent(Intent.ACTION_VIEW, Uri.parse(webtoon.url))
                     root.context.startActivity(intent)
-                }
+                }*/
             }
         }
     }

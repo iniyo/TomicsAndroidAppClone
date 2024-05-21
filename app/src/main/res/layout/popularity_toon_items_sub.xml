@@ -2,8 +2,10 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:id="@+id/ll_top_container"
-    android:layout_width="280dp"
+    android:layout_width="wrap_content"
     android:layout_height="wrap_content"
+    android:layout_marginStart="10dp"
+    android:layout_marginTop="5dp"
     android:orientation="horizontal"
     app:layout_constraintStart_toStartOf="parent"
     app:layout_constraintTop_toTopOf="parent">
@@ -19,7 +21,6 @@
     <TextView
         android:id="@+id/tv_toon_rank"
         android:layout_width="45dp"
-        android:clipToOutline="true"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
         android:gravity="center"
