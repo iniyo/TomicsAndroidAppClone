@@ -39,20 +39,20 @@
         <item>뜨는 캐릭터</item>
     </string-array>
     <string-array name="tag_list">
-        <item> 복수 </item>
-        <item> 먼치킨 </item>
-        <item> 생존 </item>
-        <item> 뱀파이어 </item>
-        <item> 성장 </item>
-        <item> 환생 </item>
-        <item> 모험 </item>
-        <item> 현대판타지 </item>
-        <item> 가족 </item>
-        <item> 걸크러쉬 </item>
-        <item> 귀족 </item>
-        <item> 고딩 </item>
-        <item> 격투 </item>
-        <item> 우정 </item>
+        <item> #복수 </item>
+        <item> #먼치킨 </item>
+        <item> #생존 </item>
+        <item> #뱀파이어 </item>
+        <item> #성장 </item>
+        <item> #환생 </item>
+        <item> #모험 </item>
+        <item> #현대판타지 </item>
+        <item> #가족 </item>
+        <item> #걸크러쉬 </item>
+        <item> #귀족 </item>
+        <item> #고딩 </item>
+        <item> #격투 </item>
+        <item> #우정 </item>
     </string-array>
     <string-array name="banner_items">
         <item> 인기 순위 </item>

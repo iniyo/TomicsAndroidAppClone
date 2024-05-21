@@ -31,6 +31,12 @@ class ViewPagerSubListItemsAdapter(
                 tvAuthor.text = webtoon.author
                 tvToonRank.text = position.inc().toString()
                 tvToonName.text = webtoon.title
+
+                val tagList = root.context.resources.getStringArray(R.array.tag_list)
+
+                tvTag1.text = tagList[(Math.random()*14).toInt()]
+                tvTag2.text = tagList[(Math.random()*14).toInt()]
+                tvTag3.text = tagList[(Math.random()*14).toInt()]
                 Glide.with(root.context)
                     .load(img)
                     .centerInside()
