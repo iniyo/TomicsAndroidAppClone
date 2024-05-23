@@ -7,6 +7,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.RadioGroup
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
@@ -17,6 +18,7 @@ import com.example.tomicsandroidappclone.presentation.ui.adapter.ViewPagerDefaul
 import com.example.tomicsandroidappclone.presentation.ui.adapter.ViewPagerTabAdapter
 import com.example.tomicsandroidappclone.presentation.ui.viewmodel.BaseViewModel
 import com.example.tomicsandroidappclone.presentation.util.handler.MyEasyTapControllHandler
+import com.example.tomicsandroidappclone.presentation.util.mapper.MyCalendar
 import com.example.tomicsandroidappclone.presentation.util.mapper.MyStringMapper
 import com.google.android.material.tabs.TabLayout
 import com.google.android.material.tabs.TabLayoutMediator
@@ -32,6 +34,16 @@ class WebtoonPageFragment : Fragment() {
     private lateinit var titleTabText: String
     private var detailTabText: String? = null
     private lateinit var mEsayController: MyEasyTapControllHandler
+
+    private val dayToIndex = mapOf(
+        "sun" to 7,
+        "mon" to 1,
+        "tue" to 2,
+        "wed" to 3,
+        "thu" to 4,
+        "fri" to 5,
+        "sat" to 6
+    )
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -69,6 +81,9 @@ class WebtoonPageFragment : Fragment() {
             else tabItems?.let { mEsayController.addTabs(it) }
             userSelected()
 
+            // CustomTabLayout에 titleTabText 전달
+            tlFreeWebtoonFragment.titleTabText = titleTabText
+
             tlFreeWebtoonFragment.addOnTabSelectedListener(object :
                 TabLayout.OnTabSelectedListener {
                 override fun onTabSelected(tab: TabLayout.Tab?) {
@@ -95,6 +110,14 @@ class WebtoonPageFragment : Fragment() {
             TabLayoutMediator(tlFreeWebtoonFragment, vpWebtoonPage) { tab, position ->
                 tab.text = tabItems?.get(position) // 탭에 표시할 텍스트 설정
             }.attach()
+
+            // "연재" 탭에서만 오늘 요일에 맞는 탭에 인디케이터를 표시
+            if (titleTabText == "연재") {
+                val today = MyCalendar.invoke()
+                val tabIndex = MyStringMapper.getDayForEng2Kor(today)
+                tlFreeWebtoonFragment.fixedTabIndex = tabIndex
+                tlFreeWebtoonFragment.invalidate()
+            }
         }
     }
 
@@ -118,6 +141,8 @@ class WebtoonPageFragment : Fragment() {
         Log.d("TAG", "userSelected: $titleTabText")
         if (titleTabText == "연재") {
             Log.d("TAG", "userSelected: ${detailTabText?.let { detailTabText }}")
+            detailTabText?.let { viewModel.getSelectDayWebtoon(it) }
+        } else {
             detailTabText?.let { viewModel.getSelectDayWebtoon(it) }
         }
     }
@@ -160,7 +185,7 @@ class WebtoonPageFragment : Fragment() {
             Log.d("TAG", "handleTabSelection 연재: $detailTabText")
             userSelected()
         }else {
-            detailTabText = tab.text.toString()
+            detailTabText = MyCalendar.invoke()
             Log.d("TAG", "handleTabSelection detailTabText: $detailTabText")
             userSelected()
         }
