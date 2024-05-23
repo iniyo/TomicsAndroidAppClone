@@ -7,7 +7,6 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.RadioGroup
 import androidx.fragment.app.Fragment
-import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
@@ -35,16 +34,6 @@ class WebtoonPageFragment : Fragment() {
     private var detailTabText: String? = null
     private lateinit var mEsayController: MyEasyTapControllHandler
 
-    private val dayToIndex = mapOf(
-        "sun" to 7,
-        "mon" to 1,
-        "tue" to 2,
-        "wed" to 3,
-        "thu" to 4,
-        "fri" to 5,
-        "sat" to 6
-    )
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         arguments?.let {
@@ -64,6 +53,7 @@ class WebtoonPageFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
         init()
     }
+
     companion object {
         private const val ARG_PARAM1 = "tab"
     }
@@ -180,11 +170,11 @@ class WebtoonPageFragment : Fragment() {
         if (position !in 0 until tabCount) {
             throw NullPointerException("Invalid tab position")
         }
-        if (titleTabText == "연재"){
+        if (titleTabText == "연재") {
             detailTabText = MyStringMapper.getDayForKor2Eng(tab.text.toString())
             Log.d("TAG", "handleTabSelection 연재: $detailTabText")
             userSelected()
-        }else {
+        } else {
             detailTabText = MyCalendar.invoke()
             Log.d("TAG", "handleTabSelection detailTabText: $detailTabText")
             userSelected()
