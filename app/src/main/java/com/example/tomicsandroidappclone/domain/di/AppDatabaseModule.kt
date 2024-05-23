@@ -1,11 +1,10 @@
 package com.example.tomicsandroidappclone.domain.di
 
-import android.app.Application
 import android.content.Context
 import androidx.room.Room
 import com.example.tomicsandroidappclone.data.database.AppDatabase
 import com.example.tomicsandroidappclone.data.database.WebtoonDao
-import com.example.tomicsandroidappclone.data.remote.api.WebtoonApi
+import com.example.tomicsandroidappclone.data.network.WebtoonApi
 import com.example.tomicsandroidappclone.data.repository.WebtoonRepository
 import com.example.tomicsandroidappclone.data.repository.WebtoonRepositoryImpl
 import dagger.Module

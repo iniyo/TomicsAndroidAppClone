@@ -2,7 +2,7 @@ package com.example.tomicsandroidappclone.domain.di
 
 import android.content.Context
 import com.example.tomicsandroidappclone.BuildConfig
-import com.example.tomicsandroidappclone.data.remote.api.WebtoonApi
+import com.example.tomicsandroidappclone.data.network.WebtoonApi
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -13,7 +13,6 @@ import okhttp3.OkHttpClient
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 import java.io.File
-import java.util.concurrent.TimeUnit
 import javax.inject.Singleton
 
 // NetworkModule.kt

@@ -1,4 +1,4 @@
-package com.example.tomicsandroidappclone.data.remote.api
+package com.example.tomicsandroidappclone.data.network
 
 import com.example.tomicsandroidappclone.domain.model.Additional
 import com.example.tomicsandroidappclone.domain.model.ToonResponse

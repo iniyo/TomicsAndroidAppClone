@@ -3,7 +3,7 @@ package com.example.tomicsandroidappclone.data.repository
 import android.util.Log
 import androidx.paging.PagingSource
 import androidx.paging.PagingState
-import com.example.tomicsandroidappclone.data.remote.api.WebtoonApi
+import com.example.tomicsandroidappclone.data.network.WebtoonApi
 import com.example.tomicsandroidappclone.domain.model.Webtoon
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
