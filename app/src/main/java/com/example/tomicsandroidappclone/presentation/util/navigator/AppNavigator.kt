@@ -9,7 +9,8 @@ enum class Fragments {
 }
 
 enum class Activitys {
-    BASE_ACTIVITY
+    MAIN_ACTIVITY,
+    SPLASH_ACTIVITY
 }
 
 /**

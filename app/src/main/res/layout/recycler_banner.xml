@@ -4,8 +4,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/cl_banner_container"
     android:layout_width="match_parent"
-    android:paddingHorizontal="10dp"
-    android:layout_height="30dp">
+    android:layout_height="wrap_content"
+    android:paddingHorizontal="10dp">
 
     <TextView
         android:id="@+id/tv_label"
@@ -28,7 +28,7 @@
         android:id="@+id/tv_tag"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="3dp"
+        android:layout_marginStart="10dp"
         android:gravity="center"
         android:text="@string/tag"
         android:textColor="@color/black"
@@ -38,22 +38,16 @@
         app:layout_constraintStart_toEndOf="@+id/tv_label"
         app:layout_constraintTop_toTopOf="parent" />
 
-    <androidx.constraintlayout.widget.Guideline
-        android:id="@+id/guideline_vertical_right"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:orientation="vertical"
-        app:layout_constraintGuide_percent="0.6" />
-
     <TextView
         android:id="@+id/tv_see_more"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:background="@drawable/text_background_shape_more_toon"
-        android:paddingHorizontal="10dp"
-        android:paddingVertical="5dp"
+        android:paddingHorizontal="8dp"
+        android:paddingVertical="8dp"
         android:text="@string/see_more"
         android:textColor="@color/black"
+        android:textSize="13sp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
@@ -61,14 +55,13 @@
     <RadioGroup
         android:id="@+id/rg_selector"
         android:layout_width="wrap_content"
-        android:layout_height="match_parent"
+        android:layout_height="30dp"
         android:background="@color/white"
-        android:gravity="start"
-        android:visibility="gone"
+        android:gravity="end|center"
         android:orientation="horizontal"
+        android:visibility="gone"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@+id/guideline_vertical_right"
         app:layout_constraintTop_toTopOf="parent">
 
         <androidx.appcompat.widget.AppCompatRadioButton

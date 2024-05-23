@@ -9,6 +9,7 @@ import com.bumptech.glide.Glide
 import com.example.tomicsandroidappclone.R
 import com.example.tomicsandroidappclone.databinding.TopToonItemsBinding
 import com.example.tomicsandroidappclone.domain.model.Webtoon
+import com.example.tomicsandroidappclone.presentation.util.mapper.MyGraphicMapper
 
 class ViewPagerTopSlideAdapter(
     private val imgList: List<Int>
@@ -39,14 +40,20 @@ class ViewPagerTopSlideAdapter(
     class ViewHolder(private val binding: TopToonItemsBinding) :
         RecyclerView.ViewHolder(binding.root) {
         fun bind(img: Int) {
-
             binding.apply {
+                val mapper = MyGraphicMapper()
+                val screenWidth = mapper.getScreenWidth(root.context)
+
+                val imageHeight = (screenWidth * 1.2).toInt()
+
                 Glide.with(root.context)
                     .load(img)
                     .skipMemoryCache(false) // cache 사용 x, 특별한 경우(데이터가 워낙 많은 경우)에만 사용.
-                    .centerInside() // 이미지 사이즈만 재조정, 직접 재조정하는 방법이 좀 더 빠름.
+
                     .placeholder(R.drawable.ic_launcher_foreground) // image 로드를 못 했을 경우
                     .into(ivWebtoon)
+                ivWebtoon.layoutParams.height = imageHeight
+                ivWebtoon.layoutParams.width = screenWidth
 
                 /*ivWebtoon.setOnClickListener {
                     val intent = Intent(Intent.ACTION_VIEW, Uri.parse(webtoon.url))

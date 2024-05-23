@@ -32,6 +32,7 @@ object NetworkModule {
         return Cache(File(context.cacheDir, "http"), cacheSize.toLong())
     }
 
+    // HTTP 캐시 설정
     @Singleton
     @Provides
     fun provideOkHttpClient(cache: Cache): OkHttpClient {
@@ -39,9 +40,9 @@ object NetworkModule {
             .cache(cache)
             .addInterceptor { chain ->
                 var request = chain.request()
-                // 5 seconds cache duration
+                // 300 seconds cache duration
                 request = request.newBuilder()
-                    .header("Cache-Control", "public, max-age=" + 5)
+                    .header("Cache-Control", "public, max-age=" + 300)
                     .build()
                 chain.proceed(request)
             }
@@ -50,7 +51,7 @@ object NetworkModule {
                 // Customize or return the response
                 response.newBuilder()
                     .removeHeader("Pragma")
-                    .header("Cache-Control", "public, max-age=" + 5)
+                    .header("Cache-Control", "public, max-age=" + 300)
                     .build()
             }
             .build()

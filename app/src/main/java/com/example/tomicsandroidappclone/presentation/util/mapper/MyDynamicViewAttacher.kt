@@ -11,6 +11,7 @@ import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.constraintlayout.widget.ConstraintSet
 import androidx.core.content.ContextCompat
 import com.example.tomicsandroidappclone.R
+import com.google.android.flexbox.FlexboxLayout
 
 object MyDynamicViewAttacher {
 
@@ -23,14 +24,21 @@ object MyDynamicViewAttacher {
         mTextSize: Float = 16f,
         padding: Int = 0,
         typeface: Typeface? = null,
-        boolean: Boolean = false
+        isShape: Boolean = false,
+        isLayoutParams: Boolean = false
     ): TextView {
         return TextView(context).apply {
             text = detail
             textSize = mTextSize
             setTextColor(color)
-            if(boolean){
+            if(isShape){
                 setBackgroundResource(R.drawable.ic_shape_label)
+            }
+            if(isLayoutParams){
+                layoutParams = FlexboxLayout.LayoutParams(
+                    FlexboxLayout.LayoutParams.WRAP_CONTENT,
+                    FlexboxLayout.LayoutParams.WRAP_CONTENT
+                )
             }
             setPadding(padding, padding, padding, padding)
             typeface?.let {
@@ -54,6 +62,12 @@ object MyDynamicViewAttacher {
     fun addViewPosition(parentLayout: ConstraintLayout, view: View, position: Position = Position.CENTER, marginTop: Int = 16) {
         val viewId = View.generateViewId()
         view.id = viewId
+
+        // 원래 레이아웃의 패딩 값을 저장
+        val originalPaddingLeft = parentLayout.paddingLeft
+        val originalPaddingTop = parentLayout.paddingTop
+        val originalPaddingRight = parentLayout.paddingRight
+        val originalPaddingBottom = parentLayout.paddingBottom
 
         // 뷰가 이미 다른 부모를 가지고 있는지 확인하고 제거
         (view.parent as? ViewGroup)?.removeView(view)
@@ -86,6 +100,8 @@ object MyDynamicViewAttacher {
                 constraintSet.clear(viewId, ConstraintSet.START)
             }
         }
+        // 원래 패딩 값을 설정
+        view.setPadding(originalPaddingLeft, originalPaddingTop, originalPaddingRight, originalPaddingBottom)
 
         // 부착
         constraintSet.applyTo(parentLayout)
@@ -93,6 +109,7 @@ object MyDynamicViewAttacher {
         // id 갱신
         lastAddedViewId = viewId
     }
+
 
     enum class Position {
         LEFT, CENTER, RIGHT

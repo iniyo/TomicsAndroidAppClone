@@ -17,11 +17,14 @@
 
 package com.example.tomicsandroidappclone.presentation.util.navigator
 
+import android.content.Intent
 import android.os.Bundle
 import androidx.fragment.app.FragmentActivity
 import androidx.navigation.NavController
 import androidx.navigation.fragment.NavHostFragment
 import com.example.tomicsandroidappclone.R
+import com.example.tomicsandroidappclone.presentation.ui.MainActivity
+import com.example.tomicsandroidappclone.presentation.ui.SplashActivity
 import javax.inject.Inject
 
 /**
@@ -48,6 +51,15 @@ class AppNavigatorImpl @Inject constructor(private val activity: FragmentActivit
     }
 
     override fun navigateTo(screen: Activitys) {
-        // not yet
+        when (screen) {
+            Activitys.MAIN_ACTIVITY -> {
+                val intent = Intent(activity, MainActivity::class.java)
+                activity.startActivity(intent)
+            }
+            Activitys.SPLASH_ACTIVITY -> {
+                val intent = Intent(activity, SplashActivity::class.java)
+                activity.startActivity(intent)
+            }
+        }
     }
 }

@@ -75,12 +75,24 @@
         <item> 지금 단 1코인에 감상 가능한 작품들! </item>
         <item> Only 투믹스! 퀄리티 좋은 독점작들! </item>
     </string-array>
-    <string-array name="label_tag">
+    <string-array name="label_tags">
         <item> BEST </item>
         <item> UP </item>
         <item> NEW </item>
         <item> HOT </item>
         <item> #TAG </item>
         <item> NO.1 </item>
+    </string-array>
+    <string-array name="bespoke_tags">
+        <item> #가족 </item>
+        <item> #본능 </item>
+        <item> #삼각관계 </item>
+        <item> #첫사랑 </item>
+        <item> #소꿉친구 </item>
+        <item> #15금 </item>
+        <item> #찌질남 </item>
+        <item> #복수 </item>
+        <item> #일진 </item>
+        <item> #짝사랑 </item>
     </string-array>
 </resources>

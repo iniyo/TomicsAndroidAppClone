@@ -12,7 +12,9 @@
     <include
         android:id="@+id/inclued_layout_banner"
         layout="@layout/recycler_banner" />
-
+    <include
+        android:id="@+id/tag_layout"
+        layout="@layout/tag_flexbox"/>
     <ImageView
         android:id="@+id/iv_ad"
         android:layout_width="match_parent"

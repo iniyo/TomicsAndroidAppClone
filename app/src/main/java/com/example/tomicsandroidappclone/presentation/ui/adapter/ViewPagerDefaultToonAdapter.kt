@@ -22,6 +22,7 @@ class ViewPagerDefaultToonAdapter(
     private val recyclerViewPool = RecyclerView.RecycledViewPool().apply {
         setMaxRecycledViews(2, 100)
     }
+    private var adapterDataObserver: RecyclerView.AdapterDataObserver? = null
     init {
         setHasStableIds(true) // 각 아이템 position에 지정된 id를 기준으로 상황에 따라 bind호출을 제외.
     }
@@ -62,9 +63,30 @@ class ViewPagerDefaultToonAdapter(
         if (checkType == 0) {
             recyclerView.scrollToPosition(Int.MAX_VALUE / 2)
         }
+        adapterDataObserver = object : RecyclerView.AdapterDataObserver() {
+            override fun onChanged() {
+                super.onChanged()
+                recyclerView.scrollToPosition(0)
+            }
+
+            override fun onItemRangeInserted(positionStart: Int, itemCount: Int) {
+                super.onItemRangeInserted(positionStart, itemCount)
+                recyclerView.scrollToPosition(0)
+            }
+
+            override fun onItemRangeChanged(positionStart: Int, itemCount: Int) {
+                super.onItemRangeChanged(positionStart, itemCount)
+                recyclerView.scrollToPosition(0)
+            }
+        }.also {
+            registerAdapterDataObserver(it)
+        }
     }
     override fun onDetachedFromRecyclerView(recyclerView: RecyclerView) {
         Log.d("TAG", "onDetachedFromRecyclerView: ")
+        adapterDataObserver?.let {
+            unregisterAdapterDataObserver(it)
+        }
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {

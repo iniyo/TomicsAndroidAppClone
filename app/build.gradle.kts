@@ -87,6 +87,9 @@ dependencies {
     implementation(libs.navigation.fragment.ktx)
     implementation(libs.navigation.ui.ktx)
 
+    // flexboxlayout
+    implementation(libs.google.flexbox)
+
     // defalut
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.appcompat)

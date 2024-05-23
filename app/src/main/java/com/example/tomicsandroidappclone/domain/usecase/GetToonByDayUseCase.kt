@@ -16,7 +16,7 @@ class GetToonByDayUseCase @Inject constructor(private val webtoonRepository: Web
     // 오늘의 날짜를 파악해서 해당 날짜에 맞는 웹툰을 표시한다.
     private suspend fun getTodayWebtoonData() {
         // not paging
-        webtoon = webtoonRepository.getDayByWebtoons("kakao", MyCalendar().invoke())
+        webtoon = webtoonRepository.getDayByWebtoons("kakao", MyCalendar.invoke())
     }
 
     fun getAllWebtoon(): Flow<PagingData<Webtoon>> {

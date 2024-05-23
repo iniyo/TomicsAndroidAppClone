@@ -54,6 +54,20 @@ object MyStringMapper {
         return arrayString
     }
 
+    fun getDayForEng2Kor(tabItem: String): Int {
+        val dayToInt = when (tabItem) {
+            "sun" -> 7
+            "mon" -> 1
+            "tue" -> 2
+            "wed" -> 3
+            "thu" -> 4
+            "fri" -> 5
+            "sat" -> 6
+            else -> 8
+        }
+        return dayToInt
+    }
+
     /**
      * 텍스트의 마지막 글자를 지정된 색상으로 변경하는 메서드.
      * @param context 컨텍스트
