@@ -2,7 +2,6 @@ package com.example.tomicsandroidappclone.presentation.indicator
 
 import android.content.Context
 import android.util.AttributeSet
-import android.util.TypedValue
 import android.widget.ImageView
 import android.widget.LinearLayout
 import com.example.tomicsandroidappclone.presentation.util.mapper.MyGraphicMapper

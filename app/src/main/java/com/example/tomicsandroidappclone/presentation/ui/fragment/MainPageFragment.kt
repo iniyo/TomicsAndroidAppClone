@@ -7,7 +7,6 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
-import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.viewpager2.widget.ViewPager2
 import com.example.tomicsandroidappclone.R
@@ -18,7 +17,7 @@ import com.example.tomicsandroidappclone.presentation.ui.adapter.ViewPagerDefaul
 import com.example.tomicsandroidappclone.presentation.ui.adapter.ViewPagerTopSlideAdapter
 import com.example.tomicsandroidappclone.presentation.ui.viewmodel.BaseViewModel
 import com.example.tomicsandroidappclone.presentation.util.handler.AutoScrollHandler
-import com.example.tomicsandroidappclone.presentation.util.mapper.FloatingAdAnimator
+import com.example.tomicsandroidappclone.presentation.util.animator.FloatingAdAnimator
 import com.example.tomicsandroidappclone.presentation.util.mapper.MyGraphicMapper
 import dagger.hilt.android.AndroidEntryPoint
 import kotlin.math.absoluteValue
@@ -62,8 +61,9 @@ class MainPageFragment : Fragment() {
             btnCrossline.setOnClickListener {
                 clAnimator.removeAllViews()
             }
-            val floatingAdAnimator = FloatingAdAnimator(clAnimator,500)
+            val floatingAdAnimator = FloatingAdAnimator(clAnimator)
             floatingAdAnimator.setFloatingAd(nestedScrollMain)
+            floatingAdAnimator.setDuration(500)
         }
     }
 
@@ -140,9 +140,6 @@ class MainPageFragment : Fragment() {
                         rgSelector.apply {
                             visibility = View.VISIBLE
                             check(getChildAt(0).id) // 첫 번째 아이템 선택 상태로
-                            setOnCheckedChangeListener { radioGroup, _ ->
-
-                            }
                         }
                         clBannerContainer.apply {
                             visibility = View.VISIBLE

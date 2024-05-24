@@ -1,7 +1,6 @@
 package com.example.tomicsandroidappclone.presentation.ui.adapter
 
 import android.content.Intent
-import android.graphics.Point
 import android.net.Uri
 import android.util.Log
 import android.view.LayoutInflater
@@ -77,7 +76,7 @@ class ViewPagerTabAdapter(
     companion object {
         private val diffCallback = object : DiffUtil.ItemCallback<Webtoon>() {
             override fun areItemsTheSame(oldItem: Webtoon, newItem: Webtoon): Boolean {
-                return oldItem._id == newItem._id
+                return oldItem.id == newItem.id
             }
 
             override fun areContentsTheSame(oldItem: Webtoon, newItem: Webtoon): Boolean {

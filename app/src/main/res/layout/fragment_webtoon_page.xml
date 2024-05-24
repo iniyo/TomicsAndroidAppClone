@@ -32,19 +32,18 @@
                 app:layout_collapseMode="pin"
                 app:popupTheme="@style/Theme.AppCompat.Light" />
 
-            <com.example.tomicsandroidappclone.presentation.util.CustomTabLayout
+            <com.example.tomicsandroidappclone.presentation.ui.customview.CustomTabLayout
                 android:id="@+id/tl_free_webtoon_fragment"
                 android:layout_width="match_parent"
                 android:layout_height="50dp"
                 android:background="@color/light_gray"
                 app:layout_collapseMode="pin"
-                app:tabIndicatorColor="@null"
                 app:tabGravity="fill"
+                app:tabIndicatorColor="@null"
                 app:tabIndicatorHeight="0dp"
                 app:tabMode="fixed"
                 app:tabSelectedTextColor="@color/tomics_red"
                 app:tabTextColor="@color/black" />
-
 
         </com.google.android.material.appbar.CollapsingToolbarLayout>
 

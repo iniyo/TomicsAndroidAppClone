@@ -2,11 +2,9 @@ package com.example.tomicsandroidappclone.presentation.util.handler
 
 import android.os.Handler
 import android.os.Looper
-import android.os.Message
-import android.util.Log
-import com.example.tomicsandroidappclone.presentation.util.mapper.MyStringMapper
 import com.google.android.material.tabs.TabLayout
-class MyEasyTapControllHandler (tabLayout: TabLayout) : Handler(Looper.getMainLooper()) {
+
+class MyEasyTapControllHandler(tabLayout: TabLayout) : Handler(Looper.getMainLooper()) {
     private val mTabLayout = tabLayout
     var titleTabText: String? = null
         get() = field ?: "default title" // 기본 값 제공

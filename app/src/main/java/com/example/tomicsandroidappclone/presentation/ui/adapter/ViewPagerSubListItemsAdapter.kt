@@ -34,9 +34,9 @@ class ViewPagerSubListItemsAdapter(
 
                 val tagList = root.context.resources.getStringArray(R.array.tag_list)
 
-                tvTag1.text = tagList[(Math.random()*14).toInt()]
-                tvTag2.text = tagList[(Math.random()*14).toInt()]
-                tvTag3.text = tagList[(Math.random()*14).toInt()]
+                tvTag1.text = tagList[(Math.random() * 14).toInt()]
+                tvTag2.text = tagList[(Math.random() * 14).toInt()]
+                tvTag3.text = tagList[(Math.random() * 14).toInt()]
                 Glide.with(root.context)
                     .load(img)
                     .centerInside()

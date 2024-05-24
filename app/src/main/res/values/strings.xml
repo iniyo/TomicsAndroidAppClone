@@ -35,5 +35,7 @@
     <string name="real_time">실시간</string>
     <string name="new_toon">신작</string>
     <string name="best">BEST</string>
+    <string name="search_hint">작품명, 작가명, 해시태그 검색</string>
+    <string name="loading">Loading...</string>
 
 </resources>

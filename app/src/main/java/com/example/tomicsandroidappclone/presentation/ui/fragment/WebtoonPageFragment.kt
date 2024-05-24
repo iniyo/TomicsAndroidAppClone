@@ -7,6 +7,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.RadioGroup
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
@@ -17,7 +18,7 @@ import com.example.tomicsandroidappclone.presentation.ui.adapter.ViewPagerDefaul
 import com.example.tomicsandroidappclone.presentation.ui.adapter.ViewPagerTabAdapter
 import com.example.tomicsandroidappclone.presentation.ui.viewmodel.BaseViewModel
 import com.example.tomicsandroidappclone.presentation.util.handler.MyEasyTapControllHandler
-import com.example.tomicsandroidappclone.presentation.util.mapper.MyCalendar
+import com.example.tomicsandroidappclone.presentation.util.easyutil.MyCalendar
 import com.example.tomicsandroidappclone.presentation.util.mapper.MyStringMapper
 import com.google.android.material.tabs.TabLayout
 import com.google.android.material.tabs.TabLayoutMediator
@@ -28,7 +29,7 @@ import kotlinx.coroutines.launch
 @AndroidEntryPoint
 class WebtoonPageFragment : Fragment() {
 
-    private val viewModel: BaseViewModel by lazy { ViewModelProvider(requireActivity())[BaseViewModel::class.java] }
+    private val viewModel: BaseViewModel by activityViewModels()
     private lateinit var binding: FragmentWebtoonPageBinding
     private lateinit var titleTabText: String
     private var detailTabText: String? = null
@@ -111,6 +112,7 @@ class WebtoonPageFragment : Fragment() {
         }
     }
 
+
     private fun setRadioGroup() {
         Log.d("TAG", "setRadioGroup:$detailTabText ")
         binding.apply {
@@ -149,8 +151,11 @@ class WebtoonPageFragment : Fragment() {
         binding.vpWebtoonPage.apply {
             adapter = ViewPagerDefaultToonAdapter(int, tabItems!!.size, tabAdapter)
             orientation = ViewPager2.ORIENTATION_HORIZONTAL
-            offscreenPageLimit = 1 // view pager 양 옆 page 미리 생성
+            if (titleTabText == "연재") {
+                setCurrentItem(MyStringMapper.getDayForEng2Kor(MyCalendar.invoke()), true) // 오늘 날짜로 이동.
+            }
         }
+
         lifecycleScope.launch {
             // repeatOnLifecycle은 라이프사이클 상태에 따라 코루틴을 관리
             repeatOnLifecycle(Lifecycle.State.STARTED) {

@@ -4,9 +4,8 @@ import android.util.Log
 import androidx.paging.PagingData
 import com.example.tomicsandroidappclone.data.repository.WebtoonRepository
 import com.example.tomicsandroidappclone.domain.model.Webtoon
-import com.example.tomicsandroidappclone.presentation.util.mapper.MyCalendar
+import com.example.tomicsandroidappclone.presentation.util.easyutil.MyCalendar
 import kotlinx.coroutines.flow.Flow
-import java.util.Calendar
 import javax.inject.Inject
 
 class GetToonByDayUseCase @Inject constructor(private val webtoonRepository: WebtoonRepository) {
@@ -19,13 +18,11 @@ class GetToonByDayUseCase @Inject constructor(private val webtoonRepository: Web
         webtoon = webtoonRepository.getDayByWebtoons("kakao", MyCalendar.invoke())
     }
 
-    fun getAllWebtoon(): Flow<PagingData<Webtoon>> {
-        return webtoonRepository.getAllToonPagingData()
-    }
-    fun getUserSelectDayToonData(selectDay: String) : Flow<PagingData<Webtoon>> {
+    fun getUserSelectDayToonData(selectDay: String): Flow<PagingData<Webtoon>> {
         Log.d("TAG", "usecase: $selectDay ")
         return webtoonRepository.getDayByWebtoonsForPaging(selectDay)
     }
+
     // invoke - operator관례 함수
     suspend operator fun invoke(): ArrayList<Webtoon> {
         getTodayWebtoonData()

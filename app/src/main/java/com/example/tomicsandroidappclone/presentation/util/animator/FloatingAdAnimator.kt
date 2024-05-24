@@ -1,4 +1,4 @@
-package com.example.tomicsandroidappclone.presentation.util.mapper
+package com.example.tomicsandroidappclone.presentation.util.animator
 
 import android.view.View
 import android.view.ViewGroup
@@ -7,11 +7,10 @@ import androidx.core.widget.NestedScrollView
 
 class FloatingAdAnimator(
     private val flAnimater: ViewGroup,
-    private var duration: Long = 300L // 기본 지속 시간
 ) {
     private var isAdVisible = false
     private var isInitialized = false
-
+    private var duration = 300L // 기본 지속 시간
     init {
         // 초기 상태 설정: 처음에 오른쪽 아래 모서리에 맞춰 보이지 않도록 설정
         flAnimater.visibility = View.GONE
@@ -24,15 +23,18 @@ class FloatingAdAnimator(
     // view가 화면에 그려지기 전에 계속해서 위치값을 조정했으므로 설정이 안 되었던 것.
     private fun initializePivot() {
         if (!isInitialized) {
-            flAnimater.viewTreeObserver.addOnGlobalLayoutListener(object : ViewTreeObserver.OnGlobalLayoutListener {
-                override fun onGlobalLayout() {
-                    flAnimater.viewTreeObserver.removeOnGlobalLayoutListener(this)
-                    // 피벗 설정
-                    flAnimater.pivotX = flAnimater.width.toFloat()
-                    flAnimater.pivotY = flAnimater.height.toFloat()
-                    isInitialized = true
-                }
-            })
+            // viewTreeObserver를 통해 view tree에서 변경을 감지하고 그에대한 응답을 받을 수 있다.
+            flAnimater.apply {
+                viewTreeObserver.addOnGlobalLayoutListener(object : ViewTreeObserver.OnGlobalLayoutListener {
+                    override fun onGlobalLayout() {
+                        viewTreeObserver.removeOnGlobalLayoutListener(this)
+                        // pivot으로 뷰 위치 설정.
+                        pivotX = width.toFloat()
+                        pivotY = height.toFloat()
+                        isInitialized = true
+                    }
+                })
+            }
         }
     }
 
@@ -47,7 +49,6 @@ class FloatingAdAnimator(
         })
     }
 
-    // 광고 표시 애니메이션
     private fun showAd() {
         initializePivot()
         if (!isAdVisible) {
@@ -62,7 +63,6 @@ class FloatingAdAnimator(
         }
     }
 
-    // 광고 숨김 애니메이션
     private fun hideAd() {
         if (isAdVisible) {
             flAnimater.animate()
@@ -77,7 +77,6 @@ class FloatingAdAnimator(
                 .start()
         }
     }
-
     fun setDuration(newDuration: Long) {
         duration = newDuration
     }

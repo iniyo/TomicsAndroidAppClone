@@ -1,8 +1,6 @@
 package com.example.tomicsandroidappclone.data.network
 
-import com.example.tomicsandroidappclone.domain.model.Additional
 import com.example.tomicsandroidappclone.domain.model.ToonResponse
-import com.example.tomicsandroidappclone.domain.model.Webtoon
 import retrofit2.http.GET
 import retrofit2.http.Query
 

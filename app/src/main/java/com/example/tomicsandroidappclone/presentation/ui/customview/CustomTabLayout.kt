@@ -1,4 +1,4 @@
-package com.example.tomicsandroidappclone.presentation.util
+package com.example.tomicsandroidappclone.presentation.ui.customview
 
 import android.content.Context
 import android.graphics.Canvas
@@ -14,19 +14,13 @@ class CustomTabLayout(context: Context, attrs: AttributeSet?) : TabLayout(contex
         style = Paint.Style.FILL
         isAntiAlias = true
     }
-    private var indicatorX: Float = 0f
-    private var indicatorWidth: Float = 10f
-    private var indicatorHeight: Float = 10f
-    private var indicatorOffset: Float = 15f // 인디케이터의 y 축 오프셋 값
+
     var titleTabText: String? = null
     var fixedTabIndex: Int = 0
 
     init {
         addOnTabSelectedListener(object : OnTabSelectedListener {
-            override fun onTabSelected(tab: Tab?) {
-                // 아무 동작도 하지 않음
-            }
-
+            override fun onTabSelected(tab: Tab?) {}
             override fun onTabUnselected(tab: Tab?) {}
             override fun onTabReselected(tab: Tab?) {}
         })
@@ -35,7 +29,12 @@ class CustomTabLayout(context: Context, attrs: AttributeSet?) : TabLayout(contex
 
     override fun onDraw(canvas: Canvas) {
         super.onDraw(canvas)
-        // 고정된 인디케이터 그리기
+        var indicatorX: Float
+        val indicatorWidth = 10f
+        val indicatorHeight = 10f
+        val indicatorOffset = 15f // 인디케이터의 y 축 오프셋 값
+
+        // 연재 탭일때만 고정 인디케이터 draw
         if (titleTabText == "연재") {
             val selectedTab = getTabAt(fixedTabIndex)
             selectedTab?.view?.let {

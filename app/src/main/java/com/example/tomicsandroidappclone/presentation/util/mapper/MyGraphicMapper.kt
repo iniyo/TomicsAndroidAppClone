@@ -4,13 +4,12 @@ import android.content.Context
 import android.content.res.Resources
 import android.util.DisplayMetrics
 import android.util.Log
-import com.example.tomicsandroidappclone.R
 
 
 class MyGraphicMapper {
     private fun convertDensity(value: Float, isPxToDp: Boolean): Float {
         val resources = Resources.getSystem()
-        val metrics = resources.displayMetrics
+        val metrics = resources.displayMetrics // 스마트폰 크기를 가져옮.
 
         return if (isPxToDp) {
             value / (metrics.densityDpi / DisplayMetrics.DENSITY_DEFAULT)
@@ -23,6 +22,7 @@ class MyGraphicMapper {
         val resourceId =
             context.resources.getIdentifier("navigation_bar_height", "dimen", "android")
         var navigationBarHeight = 0
+        // resource id 유효성 체크
         if (resourceId > 0) {
             navigationBarHeight = context.resources.getDimensionPixelSize(resourceId)
             Log.d("deviceSize", "navigation bar : ${px2dp(navigationBarHeight)}")
@@ -37,7 +37,7 @@ class MyGraphicMapper {
     fun dp2px(dp: Int): Int = convertDensity(dp.toFloat(), false).toInt()
     fun dp2px(dp: Float): Float = convertDensity(dp, false)
 
-    // offset
+    // offset - viewpager에서 간격으로 사용
     fun offsetPx(context: Context): Int {
         val displayMetrics = context.resources.displayMetrics
         val screenWidth = displayMetrics.widthPixels
@@ -46,6 +46,7 @@ class MyGraphicMapper {
         val offsetPx = screenWidth - pageMarginPx - pagerWidth
         return -offsetPx
     }
+
     // 화면 너비
     fun getScreenWidth(context: Context): Int {
         val displayMetrics = context.resources.displayMetrics

@@ -23,6 +23,7 @@ class RecyclerDefaultToonAdapter(
         R.drawable.ic_footer_ad_3,
         R.drawable.ic_footer_ad_4
     )
+
     init {
         setHasStableIds(true)
     }
@@ -34,28 +35,32 @@ class RecyclerDefaultToonAdapter(
         fun bind(webtoon: Webtoon, adImageRes: Int?) {
             mapper = MyGraphicMapper()
             Log.d("size TAG", "size: $toonType ")
-            var dpHeight = 800
-            var dpWidth = 600
+            var dpHeight: Int
+            var dpWidth: Int
             binding.apply {
                 when (toonType) {
                     1 -> {
                         dpHeight = 1100
                         dpWidth = 900
                     }
+
                     2 -> {
                         dpHeight = 900
                         dpWidth = 900
                     }
+
                     4 -> {
                         dpHeight = 900
                         dpWidth = 630
                     }
+
                     6 -> {
                         rlDefaultToonSize.removeView(tvToonTitle)
                         rlDefaultToonSize.removeView(tvEpisodes)
                         dpHeight = 800
                         dpWidth = 1300
                     }
+
                     else -> {
                         dpHeight = 800
                         dpWidth = 600
@@ -109,7 +114,7 @@ class RecyclerDefaultToonAdapter(
 
     class ItemCallback : DiffUtil.ItemCallback<Webtoon>() {
         override fun areContentsTheSame(oldItem: Webtoon, newItem: Webtoon): Boolean {
-            return oldItem._id == newItem._id
+            return oldItem.id == newItem.id
         }
 
         override fun areItemsTheSame(oldItem: Webtoon, newItem: Webtoon): Boolean {

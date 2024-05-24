@@ -1,20 +1,14 @@
 package com.example.tomicsandroidappclone.presentation.ui
 
-import android.graphics.Color
 import android.os.Bundle
-import android.text.SpannableString
-import android.text.style.ForegroundColorSpan
 import android.util.Log
 import android.view.View
 import android.widget.TextView
-import androidx.activity.viewModels
+import androidx.activity.OnBackPressedCallback
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.GravityCompat
-import androidx.lifecycle.ViewModelProvider
 import com.example.tomicsandroidappclone.R
 import com.example.tomicsandroidappclone.databinding.ActivityMainBinding
-import com.example.tomicsandroidappclone.presentation.ui.viewmodel.BaseViewModel
-import com.example.tomicsandroidappclone.presentation.util.mapper.MyStringMapper
 import com.example.tomicsandroidappclone.presentation.util.navigator.AppNavigator
 import com.example.tomicsandroidappclone.presentation.util.navigator.Fragments
 import dagger.hilt.android.AndroidEntryPoint
@@ -24,7 +18,6 @@ import javax.inject.Inject
 class MainActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityMainBinding
-    private val baseViewModel: BaseViewModel by viewModels()
 
     @Inject
     lateinit var navigator: AppNavigator
@@ -35,6 +28,7 @@ class MainActivity : AppCompatActivity() {
         setContentView(binding.root)
         setupDrawerActions()
         setupTabNavigation()
+        backPressed()
         setOnClick()
     }
 
@@ -44,7 +38,7 @@ class MainActivity : AppCompatActivity() {
                 if (dlMain.isDrawerOpen(GravityCompat.START)) dlMain.closeDrawer(GravityCompat.START)
                 else dlMain.openDrawer(GravityCompat.START)
             }
-            activityDrawer.ivCloseDrawer.setOnClickListener{
+            activityDrawer.ivCloseDrawer.setOnClickListener {
                 dlMain.closeDrawer(GravityCompat.START)
             }
         }
@@ -56,6 +50,7 @@ class MainActivity : AppCompatActivity() {
                 clMainContainer.removeView(ivAddClose)
                 clMainContainer.removeView(ivAdvertisement)
             }
+            /*  ivSearch.setOnClickListener { setSearchLayout() }*/
             ivTomicsLogo.setOnClickListener { navigateHome() }
         }
     }
@@ -80,10 +75,22 @@ class MainActivity : AppCompatActivity() {
         navigator.navigateTo(Fragments.WEBTOON_PAGE, textView.text.toString())
     }
 
-    override fun onBackPressed() {
-        super.onBackPressed()
-        navigateHome()
+    private fun backPressed() {
+        onBackPressedDispatcher.addCallback(this, object : OnBackPressedCallback(true) {
+            override fun handleOnBackPressed() {
+                navigateHome()
+            }
+        })
     }
+
+    /* private fun setSearchLayout() {
+         // SearchLayoutBinding을 초기화
+         val searchLayoutBinding = SearchLayoutBinding.bind(binding.root)
+
+         // SearchPageAnimator 초기화 및 애니메이션 실행
+         val searchPageAnimator = SearchPageAnimator(searchLayoutBinding)
+         searchPageAnimator.animateSearchLayout()
+     }*/
 
     private fun resetSelection(tabMap: Map<TextView, View>) {
         tabMap.keys.forEach { textView ->
@@ -95,6 +102,7 @@ class MainActivity : AppCompatActivity() {
     private fun setTabMap(): Map<TextView, View> {
         val textViewMap: Map<TextView, View>
         binding.apply {
+            // key to value
             textViewMap = mapOf(
                 tvFreeWebtoon to vFreeWebtoonUnderColorBar,
                 tvSerialize to vSerializeUnderColorBar,

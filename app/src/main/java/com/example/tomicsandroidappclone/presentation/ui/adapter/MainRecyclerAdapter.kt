@@ -16,12 +16,12 @@ import com.example.tomicsandroidappclone.R
 import com.example.tomicsandroidappclone.databinding.RecyclerItemNoticeBinding
 import com.example.tomicsandroidappclone.databinding.RecyclerMainItemRecyclerviewBinding
 import com.example.tomicsandroidappclone.domain.model.Webtoon
-import com.example.tomicsandroidappclone.presentation.util.mapper.MyDynamicViewAttacher
+import com.example.tomicsandroidappclone.presentation.util.easyutil.MyDynamicViewAttacher
 import com.example.tomicsandroidappclone.presentation.util.mapper.MyStringMapper
 import com.google.android.flexbox.FlexboxLayout
 
 class MainRecyclerAdapter(
-    private val webtoonData: ArrayList<Webtoon>,
+    private val webtoonData: ArrayList<Webtoon>
 ) : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
 
     private val viewTypes = listOf(
@@ -130,12 +130,13 @@ class MainRecyclerAdapter(
             val bannerItemsDetail =
                 root.context.resources.getStringArray(R.array.banner_items_detail)
             ivAd.visibility = View.GONE
-            val labelTags = root.context.resources.getStringArray(R.array.label_tags)
-            val bespokeTags = root.context.resources.getStringArray(R.array.bespoke_tags)
-            val genreTage = root.context.resources.getStringArray(R.array.free_webtoon_tab_items)
+            val labelTags = root.context.resources.getStringArray(R.array.label_tags) // tag앞 label
+            val bespokeTags = root.context.resources.getStringArray(R.array.bespoke_tags) // 맞춤 태그
+            val genreTage =
+                root.context.resources.getStringArray(R.array.free_webtoon_tab_items) // 장르 태그
             val paddingSet = 25
             val tagLayout = binding.root.findViewById<ConstraintLayout>(R.id.tag_layout)
-            val mIncludeLayoutBanner =
+            val layoutBanner =
                 binding.root.findViewById<ConstraintLayout>(R.id.inclued_layout_banner)
             val flexboxLayout = tagLayout.findViewById<FlexboxLayout>(R.id.flexbox_layout)
 
@@ -150,6 +151,7 @@ class MainRecyclerAdapter(
              */
             val adapterType = when (choose) {
 
+                // only ad
                 3 -> {
                     incluedLayoutBanner.clBannerContainer.removeView(incluedLayoutBanner.tvLabel)
                     ivAd.visibility = View.VISIBLE
@@ -161,7 +163,7 @@ class MainRecyclerAdapter(
                     incluedLayoutBanner.clBannerContainer.visibility = View.GONE
                     null
                 }
-
+                // sale toon list
                 4 -> {
                     constraintDfContainer.apply {
                         constraintDfContainer.removeView(incluedLayoutBanner.clBannerContainer)
@@ -200,7 +202,7 @@ class MainRecyclerAdapter(
                     }
                     RecyclerDefaultToonAdapter(webtoonData, choose)
                 }
-                // just set lebelTags
+                // long size ad banner
                 6 -> {
                     incluedLayoutBanner.clBannerContainer.removeView(incluedLayoutBanner.tvLabel)
                     incluedLayoutBanner.tvTag.text = bannerItems[count++]
@@ -270,9 +272,9 @@ class MainRecyclerAdapter(
                         // view attach
                         MyDynamicViewAttacher.addViewPosition(
                             constraintDfContainer,
-                            mIncludeLayoutBanner
+                            layoutBanner
                         )
-                        mIncludeLayoutBanner.setPadding(paddingSet, 0, paddingSet, 0)
+                        layoutBanner.setPadding(paddingSet, 0, paddingSet, 0)
                         MyDynamicViewAttacher.addViewPosition(constraintDfContainer, tagLayout)
                         MyDynamicViewAttacher.addViewPosition(
                             constraintDfContainer,
@@ -283,7 +285,7 @@ class MainRecyclerAdapter(
 
                     // TextView tag attach
                     if (count == 5) {
-                        val layoutBanner = binding.root.findViewById<ConstraintLayout>(R.id.inclued_layout_banner)
+
                         MyDynamicViewAttacher.addViewPosition(constraintDfContainer, layoutBanner)
                         layoutBanner.setPadding(paddingSet, 0, paddingSet, 0)
                         flexboxLayout.removeAllViews()
@@ -292,7 +294,8 @@ class MainRecyclerAdapter(
 
                         // 기본 색상과 선택된 색상 정의
                         val selectedTextColor = ContextCompat.getColor(root.context, R.color.black)
-                        val defaultTextColor = ContextCompat.getColor(root.context, R.color.dark_gray)
+                        val defaultTextColor =
+                            ContextCompat.getColor(root.context, R.color.dark_gray)
 
                         val genreTags = genreTage.slice(1..5) // genreTage 리스트에서 1부터 5까지 가져오기
 
@@ -350,7 +353,10 @@ class MainRecyclerAdapter(
                         }
 
                         MyDynamicViewAttacher.addViewPosition(constraintDfContainer, tagLayout)
-                        MyDynamicViewAttacher.addViewPosition(constraintDfContainer, rvMainDefaultList)
+                        MyDynamicViewAttacher.addViewPosition(
+                            constraintDfContainer,
+                            rvMainDefaultList
+                        )
                         rvMainDefaultList.setPadding(paddingSet, 0, paddingSet, 0)
                     }
 

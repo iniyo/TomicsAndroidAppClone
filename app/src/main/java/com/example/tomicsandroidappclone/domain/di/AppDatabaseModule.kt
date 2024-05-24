@@ -35,6 +35,7 @@ object DatabaseModule {
     ): WebtoonRepository {
         return WebtoonRepositoryImpl(webtoonDao, webtoonApi)
     }
+
     @Provides
     @Singleton
     fun provideDatabase(@ApplicationContext context: Context): AppDatabase {

@@ -2,7 +2,7 @@ package com.example.tomicsandroidappclone.data.database
 
 import com.example.tomicsandroidappclone.R
 
-object ImageData  {
+object ImageData {
     val categoryImagesMap = mapOf(
         "topAdImages" to listOf(
             R.drawable.tomics_main_img_1,

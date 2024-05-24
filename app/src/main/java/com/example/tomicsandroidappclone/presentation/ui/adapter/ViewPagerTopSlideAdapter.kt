@@ -77,7 +77,7 @@ class ViewPagerTopSlideAdapter(
     companion object {
         private val diffCallback = object : DiffUtil.ItemCallback<Webtoon>() {
             override fun areItemsTheSame(oldItem: Webtoon, newItem: Webtoon): Boolean {
-                return oldItem._id === newItem._id // Referential equality
+                return oldItem.id === newItem.id // Referential equality
             }
 
             override fun areContentsTheSame(oldItem: Webtoon, newItem: Webtoon): Boolean {

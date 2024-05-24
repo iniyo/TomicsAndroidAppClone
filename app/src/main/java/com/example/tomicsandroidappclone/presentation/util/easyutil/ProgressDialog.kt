@@ -1,4 +1,4 @@
-package com.example.tomicsandroidappclone.presentation.util.mapper
+package com.example.tomicsandroidappclone.presentation.util.easyutil
 import android.app.Dialog
 import android.content.Context
 import android.view.Window

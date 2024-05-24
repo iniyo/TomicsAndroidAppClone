@@ -1,29 +1,25 @@
 package com.example.tomicsandroidappclone.presentation.ui
 
-import android.content.Intent
+import android.annotation.SuppressLint
 import android.os.Bundle
 import android.os.Handler
 import android.os.Looper
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
-import androidx.lifecycle.Lifecycle
-import androidx.lifecycle.lifecycleScope
-import androidx.lifecycle.repeatOnLifecycle
 import com.example.tomicsandroidappclone.R
 import com.example.tomicsandroidappclone.databinding.ActivitySplashBinding
 import com.example.tomicsandroidappclone.presentation.ui.viewmodel.BaseViewModel
-import com.example.tomicsandroidappclone.presentation.util.mapper.MyCalendar
 import com.example.tomicsandroidappclone.presentation.util.navigator.Activitys
 import com.example.tomicsandroidappclone.presentation.util.navigator.AppNavigator
 import dagger.hilt.android.AndroidEntryPoint
-import kotlinx.coroutines.flow.collectLatest
-import kotlinx.coroutines.launch
 import javax.inject.Inject
 
+@SuppressLint("CustomSplashScreen")
 @AndroidEntryPoint
-class SplashActivity: AppCompatActivity() {
+class SplashActivity : AppCompatActivity() {
 
     lateinit var binding: ActivitySplashBinding
+
     @Inject
     lateinit var navigator: AppNavigator
     private val baseViewModel: BaseViewModel by viewModels()
@@ -38,10 +34,10 @@ class SplashActivity: AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_splash)
 
-        // 데이터 로딩 시작
-        baseViewModel.loadWebtoonData(MyCalendar.invoke())
+        // 오늘에 해당하는 데이터 로딩
+
         baseViewModel.webtoonsInfo.observe(this) {
-            if(it != null){
+            if (it != null) {
                 navigateToMainActivity()
             }
         }

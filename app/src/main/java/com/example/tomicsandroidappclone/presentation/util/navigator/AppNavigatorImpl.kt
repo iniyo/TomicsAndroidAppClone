@@ -41,6 +41,7 @@ class AppNavigatorImpl @Inject constructor(private val activity: FragmentActivit
             Fragments.MAIN_PAGE -> {
                 navController.navigate(R.id.mainPageFragment)
             }
+
             Fragments.WEBTOON_PAGE -> {
                 val bundle = Bundle().apply {
                     putString("tab", tab)
@@ -56,6 +57,7 @@ class AppNavigatorImpl @Inject constructor(private val activity: FragmentActivit
                 val intent = Intent(activity, MainActivity::class.java)
                 activity.startActivity(intent)
             }
+
             Activitys.SPLASH_ACTIVITY -> {
                 val intent = Intent(activity, SplashActivity::class.java)
                 activity.startActivity(intent)

@@ -32,7 +32,6 @@ class BaseViewModel @Inject constructor(
 
     private val _webtoonsInfo = MutableLiveData<ArrayList<Webtoon>>()
     val webtoonsInfo: LiveData<ArrayList<Webtoon>> = _webtoonsInfo
-    private var cachedPagingData: Flow<PagingData<Webtoon>>? = null
 
     init {
         Log.d("TAG", "BaseViewModel - init ")
@@ -51,9 +50,6 @@ class BaseViewModel @Inject constructor(
 
     private val _popularityToonImages = MutableLiveData<List<ToonImage>>()
     val popularityToonImages: LiveData<List<ToonImage>> = _popularityToonImages
-
-    private val _footerAdImages = MutableLiveData<List<ToonImage>>()
-    val footerAdImages: LiveData<List<ToonImage>> = _footerAdImages
 
     // 기존 데이터를 삭제하고, 새로운 데이터를 삽입하는 함수
     private fun clearAndInsertInitialAdImages() {
@@ -95,7 +91,6 @@ class BaseViewModel @Inject constructor(
                 when (category) {
                     "topAdImages" -> _topAdImages.postValue(images)
                     "popularityToonImages" -> _popularityToonImages.postValue(images)
-                    "footerAdImages" -> _footerAdImages.postValue(images)
                 }
             } catch (e: Exception) {
                 Log.e("TAG", "loadAdImages error: ${e.message}")
@@ -106,6 +101,9 @@ class BaseViewModel @Inject constructor(
     /**
      *
      */
+
+    // Main은 메인스레드에서 실행, UI 관련 작업에 사용 됨
+    // IO는 I/O관련 - 네트워크 서비스나 디스크 I/O작업
     fun getSelectDayWebtoon(today: String) {
         viewModelScope.launch {
             try {
@@ -115,24 +113,6 @@ class BaseViewModel @Inject constructor(
                 }
             } catch (e: Exception) {
                 Log.e("TAG", "getSelectDayWebtoon error: ${e.message}")
-            }
-        }
-    }
-
-    fun loadWebtoonData(today: String) {
-        viewModelScope.launch(Dispatchers.IO) {
-            try {
-                cachedPagingData = getToonByDayUseCase.getUserSelectDayToonData(today).cachedIn(viewModelScope)
-            } catch (e: Exception) {
-                Log.e("TAG", "loadWebtoonData error: ${e.message}")
-            }
-        }
-    }
-
-    fun applyLoadedData() {
-        cachedPagingData?.let {
-            viewModelScope.launch(Dispatchers.Main) {
-                _pagingData.value = it
             }
         }
     }
